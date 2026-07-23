@@ -1,0 +1,23 @@
+{
+  "name": "@ceo/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kiểu dữ liệu, schema Zod và hằng số dùng chung giữa backend và frontend",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}

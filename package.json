@@ -1,0 +1,35 @@
+{
+  "name": "ceo-quanly",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Web app quản lý và điều hành công việc cấp CEO",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run dev -w @ceo/api",
+    "dev:web": "npm run dev -w @ceo/web",
+    "build": "npm run build -w @ceo/shared && npm run build -w @ceo/api && npm run build -w @ceo/web",
+    "typecheck": "npm run typecheck -w @ceo/shared && npm run typecheck -w @ceo/api && npm run typecheck -w @ceo/web",
+    "db:migrate": "prisma migrate dev && prisma generate",
+    "db:generate": "prisma generate",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4",
+    "prisma": "^7.9.0",
+    "tsx": "^4.23.1",
+    "typescript": "~6.0.2"
+  },
+  "overrides": {
+    "typescript": "~6.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

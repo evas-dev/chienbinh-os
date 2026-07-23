@@ -1,0 +1,22 @@
+// Schema cơ sở dữ liệu — PostgreSQL
+//
+// LƯU Ý PRISMA 7 (khác hoàn toàn tài liệu Prisma 5/6 trên mạng):
+//  - provider phải là "prisma-client", KHÔNG phải "prisma-client-js"
+//  - trường `output` là BẮT BUỘC; client không còn sinh vào node_modules
+//  - `url` KHÔNG còn được phép khai báo ở đây nữa → chuyển sang prisma.config.ts
+//  - cấu hình CLI nằm ở prisma.config.ts tại thư mục gốc dự án
+//  - `prisma migrate` KHÔNG tự chạy `generate` nữa (đã gộp vào npm script db:migrate)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// Chuỗi kết nối nằm ở prisma.config.ts (cho CLI) và lib/prisma.ts (cho runtime).
+// Đây là thay đổi lớn của Prisma 7 — mọi ví dụ cũ có `url = env(...)` đều lỗi.
+datasource db {
+  provider = "postgresql"
+}
+
+// Các model nghiệp vụ (NhanSu, CongViec, HangMuc, ...) sẽ được thêm ở giai đoạn 1.
+// Giai đoạn 0 chỉ cần xác nhận kết nối database hoạt động.

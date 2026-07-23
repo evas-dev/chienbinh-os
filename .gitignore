@@ -1,0 +1,36 @@
+# Phụ thuộc
+node_modules/
+
+# Biến môi trường — TUYỆT ĐỐI KHÔNG commit
+# Chứa App Password Gmail (toàn quyền hộp thư) và khóa ký magic link
+.env
+.env.local
+.env.*.local
+
+# Prisma 7 sinh client vào thư mục này, không đưa lên git
+apps/api/src/generated/
+
+# Tệp người dùng tải lên
+apps/api/uploads/
+
+# Kết quả build
+dist/
+build/
+*.tsbuildinfo
+
+# Nhật ký
+*.log
+npm-debug.log*
+logs/
+
+# Bộ nhớ đệm
+.cache/
+.vite/
+coverage/
+
+# Hệ điều hành / trình soạn thảo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
