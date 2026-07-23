@@ -1,6 +1,71 @@
 # GĐ 1 — Database + Backend cơ bản
 
-**Ưu tiên:** Cao · **Trạng thái:** ⬜ Chưa bắt đầu · **Ước lượng:** 1.5–2 ngày · **Phụ thuộc:** GĐ 0
+**Ưu tiên:** Cao · **Trạng thái:** ✅ **HOÀN THÀNH** (2026-07-23) · **Phụ thuộc:** GĐ 0
+
+---
+
+## ✅ KẾT QUẢ THỰC HIỆN
+
+### Kiểm chứng đã chạy thật
+
+| Hạng mục | Kết quả |
+|---|---|
+| Test đơn vị (`packages/shared`) | **39/39 xanh** — gồm 2 ca bẫy múi giờ và 3 ca biên trọng số |
+| Test API đầu-cuối (`apps/api/kiem-thu-api.sh`) | **31/31 xanh**, chạy 2 lần liên tiếp đều đạt |
+| Seed idempotent | Chạy 3 lần → số liệu đứng yên |
+| Typecheck 3 workspace | Sạch |
+| Kích thước file | Lớn nhất 178 dòng (đúng quy tắc < 200) |
+
+### Kiểm chứng công thức trọng số trên dữ liệu thật
+
+```
+CV-0001 "Xây dựng nhà xưởng số 2"
+├── HM-0001 Phần móng        trọng số 30 · 100%
+│   ├── HM-0002 Khảo sát      30 · 100%
+│   └── HM-0003 Đổ bê tông    70 · 100%   → cha = (30×100+70×100)/100 = 100 ✓
+├── HM-0004 Phần thân        trọng số 50 ·  42%
+│   ├── HM-0005 Khung thép    60 ·  70%
+│   └── HM-0006 Lợp mái       40 ·   0%   → cha = (60×70+40×0)/100 = 42 ✓
+└── HM-0007 Hoàn thiện       trọng số 20 ·   0%
+
+Công việc = (30×100 + 50×42 + 20×0)/100 = 51% ✓
+```
+Lan truyền qua 3 cấp chính xác.
+
+### Khe hở nghiệp vụ phát hiện khi chạy thử (đã sửa)
+
+**Nhân viên cũ quay lại làm việc thì bị kẹt.** Xóa nhân sự là xóa mềm (tắt cờ
+`dangHoatDong`) để giữ lịch sử. Nhưng khi thêm lại đúng email đó, hệ thống báo
+"email đã tồn tại" → email bị khóa vĩnh viễn.
+
+→ Đã sửa: gặp email của người **đã nghỉ** thì **kích hoạt lại bản ghi cũ** và
+cập nhật thông tin, giữ nguyên `id`. Nhờ vậy toàn bộ lịch sử "ai đã hoàn thành
+việc gì" của người đó vẫn còn nguyên liên kết. Email của người **đang hoạt động**
+vẫn bị chặn như cũ.
+
+### Ba khác biệt kỹ thuật so với kế hoạch
+
+**1. Express 5 đổi kiểu route param** thành `string | string[] | undefined`
+(Express 4 là `string`). Thay vì ép kiểu ở hàng chục chỗ, thêm `lib/tham-so.ts`
+với hàm `layThamSo(req, 'id')` — thiếu tham số thì trả lỗi tiếng Việt rõ ràng
+thay vì để `undefined` trôi xuống tầng dưới.
+
+**2. Suy kiểu vòng trong calculator.** `capNhatTienDoVaLanLenTren` gán lại
+`idHienTai` từ chính kết quả `update` → TypeScript báo `TS7022`. Phải chú thích
+kiểu tường minh cho biến trung gian.
+
+**3. Multer đọc tên tệp theo latin1.** Tên tiếng Việt có dấu bị thành ký tự rác.
+Phải `Buffer.from(name, 'latin1').toString('utf8')` khi nhận, và dùng
+`filename*=UTF-8''` khi trả về.
+
+### Lệch nhỏ so với kế hoạch
+- `hang-muc.service.ts` ban đầu 280 dòng → tách thành 4 file theo trách nhiệm:
+  `hang-muc.service.ts` (CRUD) · `hang-muc.tien-do.service.ts` (tiến độ, phân công)
+  · `hang-muc.sap-xep.service.ts` (kéo thả, trọng số) · `hang-muc.chung.ts` (dùng chung)
+- Test dùng `node:test` có sẵn trong Node 24, không thêm phụ thuộc
+- `packages/shared` cần 2 tsconfig: bản build loại test, bản typecheck gồm test
+
+---
 
 Toàn bộ dữ liệu và API CRUD. Chưa có UI, chưa có email.
 

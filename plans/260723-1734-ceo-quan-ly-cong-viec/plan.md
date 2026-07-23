@@ -20,7 +20,7 @@ App chạy local trên Mac, giao diện 100% tiếng Việt, kiến trúc sạch
 | GĐ | File | Nội dung | Trạng thái |
 |---|---|---|---|
 | 0 | [phase-00-nen-mong.md](phase-00-nen-mong.md) | Monorepo, TS, Prisma kết nối, Vite+Tailwind+shadcn, AppShell | ✅ **Xong** 23/07 |
-| 1 | [phase-01-database-backend.md](phase-01-database-backend.md) | Schema 7 bảng, migration, seed, API CRUD, calculator trọng số | ⬜ Chưa bắt đầu |
+| 1 | [phase-01-database-backend.md](phase-01-database-backend.md) | Schema 7 bảng, migration, seed, API CRUD, calculator trọng số | ✅ **Xong** 23/07 |
 | 2 | [phase-02-frontend-quan-ly.md](phase-02-frontend-quan-ly.md) | Tổng quan, công việc, cây hạng mục, đính kèm, nhân sự | ⬜ Chưa bắt đầu |
 | 3 | [phase-03-bang-toi-han.md](phase-03-bang-toi-han.md) | Bảng tới hạn, 4 bộ lọc, tìm kiếm, badge cảnh báo | ⬜ Chưa bắt đầu |
 | 4 | [phase-04-tich-hop-gmail.md](phase-04-tich-hop-gmail.md) | SMTP+IMAP qua App Password, gửi giao việc, quét hộp thư, hàng chờ duyệt, magic link | ⬜ Chưa bắt đầu |

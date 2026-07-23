@@ -4,7 +4,6 @@
 //  - provider phải là "prisma-client", KHÔNG phải "prisma-client-js"
 //  - trường `output` là BẮT BUỘC; client không còn sinh vào node_modules
 //  - `url` KHÔNG còn được phép khai báo ở đây nữa → chuyển sang prisma.config.ts
-//  - cấu hình CLI nằm ở prisma.config.ts tại thư mục gốc dự án
 //  - `prisma migrate` KHÔNG tự chạy `generate` nữa (đã gộp vào npm script db:migrate)
 
 generator client {
@@ -12,11 +11,281 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
-// Chuỗi kết nối nằm ở prisma.config.ts (cho CLI) và lib/prisma.ts (cho runtime).
-// Đây là thay đổi lớn của Prisma 7 — mọi ví dụ cũ có `url = env(...)` đều lỗi.
 datasource db {
   provider = "postgresql"
 }
 
-// Các model nghiệp vụ (NhanSu, CongViec, HangMuc, ...) sẽ được thêm ở giai đoạn 1.
-// Giai đoạn 0 chỉ cần xác nhận kết nối database hoạt động.
+// ===========================================================================
+// ENUM
+// ===========================================================================
+
+enum MucDoUuTien {
+  CAO
+  TRUNG_BINH
+  THAP
+}
+
+enum TrangThaiCongViec {
+  CHUA_BAT_DAU
+  DANG_LAM
+  TAM_DUNG
+  HOAN_THANH
+  HUY
+}
+
+enum TrangThaiHangMuc {
+  CHUA_BAT_DAU
+  DANG_LAM
+  CHO_XAC_NHAN
+  HOAN_THANH
+}
+
+// CHECKBOX = xong/chưa xong · PHAN_TRAM = nhập % thủ công
+enum LoaiTienDo {
+  CHECKBOX
+  PHAN_TRAM
+}
+
+enum HuongEmail {
+  GUI_DI
+  NHAN_VE
+}
+
+enum TrangThaiEmail {
+  CHO_GUI
+  DA_GUI
+  LOI
+}
+
+enum NguonDeXuat {
+  EMAIL_REPLY
+  MAGIC_LINK
+}
+
+enum TrangThaiDeXuat {
+  CHO_DUYET
+  DA_DUYET
+  TU_CHOI
+}
+
+// ===========================================================================
+// DANH BẠ NHÂN SỰ
+// ===========================================================================
+
+model NhanSu {
+  id          String  @id @default(cuid())
+  hoTen       String
+  // Khóa đối chiếu khi quét hộp thư: email người gửi phải khớp ở đây
+  email       String  @unique
+  soDienThoai String?
+  chucVu      String?
+  ghiChu      String?
+
+  // Nghỉ việc thì tắt cờ chứ KHÔNG xóa, để giữ lịch sử "ai đã làm việc gì"
+  dangHoatDong Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hangMucPhuTrach HangMuc[] @relation("NguoiPhuTrach")
+  hangMucDaLam    HangMuc[] @relation("NguoiHoanThanh")
+
+  @@index([dangHoatDong])
+  @@map("nhan_su")
+}
+
+// ===========================================================================
+// CÔNG VIỆC (dự án lớn)
+// ===========================================================================
+
+model CongViec {
+  id  String @id @default(cuid())
+  // Mã người đọc được, dạng CV-0001 — để CEO gọi tên trong cuộc họp
+  ma  String @unique
+  ten String
+
+  moTa               String?
+  ngayBatDau         DateTime
+  ngayKetThucDuKien  DateTime
+
+  mucDoUuTien MucDoUuTien       @default(TRUNG_BINH)
+  trangThai   TrangThaiCongViec @default(CHUA_BAT_DAU)
+
+  // Giá trị đệm, tính từ các hạng mục gốc theo trọng số. Không sửa tay.
+  phanTramHoanThanh Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hangMucs HangMuc[]
+
+  @@index([trangThai])
+  @@index([mucDoUuTien])
+  @@map("cong_viec")
+}
+
+// ===========================================================================
+// HẠNG MỤC — cây phân cấp tự tham chiếu
+// ===========================================================================
+
+model HangMuc {
+  id  String @id @default(cuid())
+  // Mã này được NHÚNG VÀO TIÊU ĐỀ EMAIL, ví dụ "[HM-0042] Giao việc: ..."
+  // Nhờ vậy khi nhân viên bấm Trả lời, Gmail giữ nguyên mã và ta đối chiếu được.
+  ma  String @unique
+  ten String
+
+  congViecId String
+  congViec   CongViec @relation(fields: [congViecId], references: [id], onDelete: Cascade)
+
+  // Quan hệ tự tham chiếu → cây cha–con nhiều cấp.
+  // Rỗng nghĩa là hạng mục gốc (con trực tiếp của công việc).
+  hangMucChaId String?
+  hangMucCha   HangMuc?  @relation("CayHangMuc", fields: [hangMucChaId], references: [id], onDelete: Cascade)
+  hangMucCon   HangMuc[] @relation("CayHangMuc")
+
+  ghiChu       String?
+  hanHoanThanh DateTime?
+  thuTu        Int       @default(0)
+
+  // Trọng số trong nhóm anh em. MẶC ĐỊNH 1, KHÔNG PHẢI 0 —
+  // đây là chốt chặn khiến phép chia 0 không thể xảy ra khi tính % cha.
+  trongSo Int @default(1)
+
+  loaiTienDo        LoaiTienDo @default(CHECKBOX)
+  // Nút lá: nhập tay. Nút cha: tính tự động từ con, chỉ đọc trên giao diện.
+  phanTramHoanThanh Int        @default(0)
+
+  daHoanThanh   Boolean   @default(false)
+  hoanThanhLuc  DateTime?
+  trangThai     TrangThaiHangMuc @default(CHUA_BAT_DAU)
+
+  nguoiPhuTrachId String?
+  nguoiPhuTrach   NhanSu? @relation("NguoiPhuTrach", fields: [nguoiPhuTrachId], references: [id], onDelete: SetNull)
+
+  hoanThanhBoiId String?
+  hoanThanhBoi   NhanSu? @relation("NguoiHoanThanh", fields: [hoanThanhBoiId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tepDinhKem TepDinhKem[]
+  nhatKyEmail NhatKyEmail[]
+  deXuatHoanThanh DeXuatHoanThanh[]
+
+  // KHÔNG có cột QUA_HAN: đó là hàm của thời điểm hiện tại, lưu xuống
+  // là ôi thiu ngay sau một đêm. Luôn tính lúc đọc.
+
+  @@index([congViecId])
+  @@index([hangMucChaId])
+  @@index([nguoiPhuTrachId])
+  // Xương sống của bảng checklist tới hạn ở giai đoạn 3
+  @@index([hanHoanThanh])
+  @@index([congViecId, hangMucChaId, thuTu])
+  @@map("hang_muc")
+}
+
+// ===========================================================================
+// TỆP ĐÍNH KÈM
+// ===========================================================================
+
+model TepDinhKem {
+  id String @id @default(cuid())
+
+  hangMucId String
+  hangMuc   HangMuc @relation(fields: [hangMucId], references: [id], onDelete: Cascade)
+
+  // Tách đôi tên file là CỐ Ý:
+  //   tenGoc = tên người dùng thấy, có dấu tiếng Việt
+  //   tenLuu = uuid + phần mở rộng, tên thật trên đĩa
+  // Nhờ vậy tránh được cả trùng tên lẫn tấn công path traversal.
+  tenGoc String
+  tenLuu String
+
+  // Lưu đường dẫn TƯƠNG ĐỐI để copy dự án sang máy khác vẫn chạy
+  duongDan  String
+  kichThuoc Int
+  loaiMime  String
+
+  taiLenLuc DateTime @default(now())
+
+  @@index([hangMucId])
+  @@map("tep_dinh_kem")
+}
+
+// ===========================================================================
+// NHẬT KÝ EMAIL
+// ===========================================================================
+
+model NhatKyEmail {
+  id String @id @default(cuid())
+
+  hangMucId String?
+  hangMuc   HangMuc? @relation(fields: [hangMucId], references: [id], onDelete: Cascade)
+
+  huong       HuongEmail
+  diaChiEmail String
+  tieuDe      String
+  noiDung     String     @db.Text
+
+  // Ràng buộc duy nhất này là LỚP CHỐNG TRÙNG THỨ HAI khi quét hộp thư qua IMAP.
+  // Lớp thứ nhất là cửa sổ UID (rẻ hơn). Lớp này đảm bảo đúng đắn tuyệt đối:
+  // dù cron chạy chồng, app restart giữa chừng hay Gmail reset uidValidity,
+  // cũng không bao giờ xử lý lặp một email.
+  messageId String? @unique
+  threadId  String?
+
+  trangThai  TrangThaiEmail @default(CHO_GUI)
+  loiChiTiet String?
+
+  createdAt DateTime @default(now())
+
+  deXuat DeXuatHoanThanh[]
+
+  @@index([hangMucId])
+  @@index([diaChiEmail])
+  @@map("nhat_ky_email")
+}
+
+// ===========================================================================
+// ĐỀ XUẤT HOÀN THÀNH — hàng chờ CEO duyệt
+// ===========================================================================
+
+model DeXuatHoanThanh {
+  id String @id @default(cuid())
+
+  hangMucId String
+  hangMuc   HangMuc @relation(fields: [hangMucId], references: [id], onDelete: Cascade)
+
+  nguonGoc NguonDeXuat
+
+  nhatKyEmailId String?
+  nhatKyEmail   NhatKyEmail? @relation(fields: [nhatKyEmailId], references: [id], onDelete: SetNull)
+
+  nguoiDeXuatEmail String
+  // Đoạn văn nguyên văn làm bằng chứng để CEO tự đọc và tự quyết định
+  trichDan         String?
+  // Điểm 0..100 CHỈ dùng để sắp xếp thứ tự đọc, TUYỆT ĐỐI không dùng để tự tick
+  doTinCay         Int    @default(0)
+
+  trangThai TrangThaiDeXuat @default(CHO_DUYET)
+  duyetLuc  DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([hangMucId])
+  @@index([trangThai])
+  @@map("de_xuat_hoan_thanh")
+}
+
+// ===========================================================================
+// CẤU HÌNH — bảng khóa/giá trị
+// ===========================================================================
+
+model CauHinh {
+  khoa       String   @id
+  giaTri     String   @db.Text
+  capNhatLuc DateTime @updatedAt
+
+  @@map("cau_hinh")
+}

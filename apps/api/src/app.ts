@@ -3,6 +3,7 @@ import { authMiddleware } from './middleware/auth.middleware.js';
 import { errorHandler, khongTimThayRoute } from './middleware/error-handler.middleware.js';
 import { kiemTraKetNoiDatabase } from './lib/prisma.js';
 import { env } from './config/env.js';
+import { apiRouter } from './routes.js';
 
 /**
  * Dựng Express app.
@@ -29,9 +30,7 @@ export function taoApp() {
 
   // Từ đây trở xuống là các route nghiệp vụ, đều đi qua lớp xác thực.
   // Hiện authMiddleware chưa làm gì — xem giải thích trong auth.middleware.ts
-  app.use('/api', authMiddleware);
-
-  // Các module nghiệp vụ (nhan-su, cong-viec, hang-muc...) sẽ gắn vào đây ở giai đoạn 1.
+  app.use('/api', authMiddleware, apiRouter);
 
   app.use(khongTimThayRoute);
   app.use(errorHandler);
