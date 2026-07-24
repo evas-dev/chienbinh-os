@@ -1,26 +1,24 @@
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useLocation } from 'react-router';
 import { ThanhDieuHuong, CAC_MUC_DIEU_HUONG } from './ThanhDieuHuong';
 import { TrangThaiHeThong } from './TrangThaiHeThong';
 
-interface Props {
-  children?: ReactNode;
-}
-
 /**
  * Khung ngoài của toàn ứng dụng: thanh điều hướng trái + vùng nội dung phải.
- *
- * Bố cục theo đúng yêu cầu nghiệp vụ: phần TRÊN là quản lý công việc/hạng mục,
- * phần DƯỚI là bảng checklist tới hạn. Giai đoạn 0 mới dựng khung.
  */
-export function AppShell({ children }: Props) {
-  const [mucDangChon, setMucDangChon] = useState('tong-quan');
+export function AppShell({ children }: { children: ReactNode }) {
+  const viTri = useLocation();
 
-  const tenMuc =
-    CAC_MUC_DIEU_HUONG.find((m) => m.khoa === mucDangChon)?.nhan ?? 'Tổng quan';
+  // Trang chi tiết công việc không nằm trong menu; hiện tiêu đề riêng cho nó
+  const mucHienTai = CAC_MUC_DIEU_HUONG.find((m) =>
+    m.duongDan === '/' ? viTri.pathname === '/' : viTri.pathname.startsWith(m.duongDan),
+  );
+  const tieuDe = viTri.pathname.startsWith('/cong-viec/')
+    ? 'Chi tiết công việc'
+    : (mucHienTai?.nhan ?? 'Tổng quan');
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
-      {/* Cột điều hướng */}
       <aside className="hidden w-60 shrink-0 border-r bg-card md:flex md:flex-col">
         <div className="flex h-16 items-center gap-2.5 border-b px-5">
           <div className="flex size-8 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">
@@ -32,18 +30,17 @@ export function AppShell({ children }: Props) {
           </div>
         </div>
 
-        <ThanhDieuHuong mucDangChon={mucDangChon} onChonMuc={setMucDangChon} />
+        <ThanhDieuHuong />
 
         <div className="mt-auto border-t p-3">
           <TrangThaiHeThong />
         </div>
       </aside>
 
-      {/* Vùng nội dung */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-16 items-center justify-between border-b px-6">
-          <h1 className="text-lg font-semibold tracking-tight">{tenMuc}</h1>
-          <span className="text-sm text-muted-foreground">
+          <h1 className="text-lg font-semibold tracking-tight">{tieuDe}</h1>
+          <span className="hidden text-sm text-muted-foreground sm:block">
             {new Date().toLocaleDateString('vi-VN', {
               weekday: 'long',
               day: '2-digit',

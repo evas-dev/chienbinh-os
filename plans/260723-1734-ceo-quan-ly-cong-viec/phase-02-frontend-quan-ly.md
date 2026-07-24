@@ -1,6 +1,51 @@
 # GĐ 2 — Frontend quản lý công việc / hạng mục / nhân sự
 
-**Ưu tiên:** Cao · **Trạng thái:** ⬜ Chưa bắt đầu · **Ước lượng:** 2–2.5 ngày · **Phụ thuộc:** GĐ 1
+**Ưu tiên:** Cao · **Trạng thái:** ✅ **HOÀN THÀNH** (2026-07-24) · **Phụ thuộc:** GĐ 1
+
+---
+
+## ✅ KẾT QUẢ THỰC HIỆN
+
+### Kiểm chứng bằng trình duyệt thật (không phỏng đoán)
+
+| Hạng mục | Kết quả |
+|---|---|
+| Trang Tổng quan | 4 thẻ số liệu, thẻ "quá hạn = 2" tô đỏ, 3 công việc với % khớp DB (80/57/51%), badge "2 quá hạn" |
+| Cây hạng mục đệ quy | Thụt lề + đường kẻ dọc, 3 cấp, việc xong gạch ngang chữ |
+| Thanh trọng số | "Tổng trọng số 100% ✓" cho từng nhóm anh em, có nút "Chia đều" |
+| **Rollup qua UI** | Tick "Lợp mái tôn" (0→100%) → Phần thân 42→**82%**, công việc 51→**71%**, khớp phép tính, màn tự cập nhật không cần F5 |
+| Combobox tạo nhân sự tại chỗ | Gõ tên lạ → hiện "Tạo nhân sự '...'" điền sẵn tên |
+| Form thêm hạng mục | Đầy đủ, tiếng Việt, nút disabled khi tên trống |
+| Trang Nhân sự | Bảng đủ cột, "đang gánh" đếm đúng (An=3, Bình=3), nhãn "Ngừng hoạt động" mờ |
+| Console lỗi | **0 lỗi** ở mọi trang |
+| Typecheck + build | Sạch |
+
+### Ba khác biệt kỹ thuật so với kế hoạch
+
+**1. `erasableSyntaxOnly` của Vite cấm parameter properties.** Cấu hình
+create-vite bật cờ này nên `constructor(public readonly x)` trong `LoiApi`
+báo lỗi TS1294 — esbuild không xóa được cú pháp đó. Phải khai báo trường
+tường minh rồi gán trong thân constructor.
+
+**2. `shadcn` bị cài nhầm thành dependency runtime**, kéo theo
+`@modelcontextprotocol/sdk` → `@hono/node-server` có lỗ hổng. Chuyển sang
+devDependency → `npm audit --omit=dev` sạch (index.css vẫn `@import` được
+`shadcn/tailwind.css` vì đó là asset build-time).
+
+**3. shadcn 4.x đổi API tạo/thêm** — preset qua `-p nova`, thêm component
+cần `--overwrite` khi trùng.
+
+### Lệch nhỏ so với kế hoạch
+- Thêm **lazy-load các trang** (React.lazy + Suspense) → gói khởi tạo nhẹ,
+  hết cảnh báo chunk > 500kB; mỗi trang thành mảnh riêng (Tổng quan 5kB,
+  Nhân sự 9.5kB, chi tiết công việc 27kB gzip)
+- `NodeHangMuc` ban đầu 237 dòng → trích 3 handler vào hook `use-thao-tac-node.ts`,
+  còn 197 dòng
+- Combobox `ChonNhanSu` tách `FormTaoNhanh` ra file riêng
+- Ô nhập ngày dùng `<input type="date">` hiện định dạng theo locale hệ điều
+  hành (máy có locale VN sẽ ra dd/mm/yyyy) — hành vi native, không can thiệp
+
+---
 
 Phần "TRÊN" của app theo spec. Toàn bộ thao tác quản lý làm được trên UI, không cần curl nữa.
 
