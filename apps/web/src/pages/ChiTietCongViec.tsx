@@ -20,14 +20,15 @@ import {
   useXoaCongViec,
 } from '@/hooks/use-cong-viec';
 import { useAnhHuongKhiXoaHangMuc, useXoaHangMuc } from '@/hooks/use-hang-muc';
-
-const NGUONG_VANG_MAC_DINH = 3;
+import { useCauHinh } from '@/hooks/use-cau-hinh';
 
 export function ChiTietCongViec() {
   const { id } = useParams<{ id: string }>();
   const dieuHuong = useNavigate();
 
   const { data: congViec, isLoading, error, refetch } = useChiTietCongViec(id);
+  const { data: cauHinh } = useCauHinh();
+  const nguongVang = cauHinh?.NGUONG_CANH_BAO_VANG ?? 3;
 
   const [hangMucDangXem, setHangMucDangXem] = useState<string | null>(null);
   const [chaChoHangMucMoi, setChaChoHangMucMoi] = useState<string | null | undefined>(undefined);
@@ -154,7 +155,7 @@ export function ChiTietCongViec() {
                 <CayHangMuc
                   danhSach={congViec.cayHangMuc}
                   congViecId={congViec.id}
-                  nguongVang={NGUONG_VANG_MAC_DINH}
+                  nguongVang={nguongVang}
                   onMoChiTiet={setHangMucDangXem}
                   onThemCon={(chaId) => setChaChoHangMucMoi(chaId)}
                   onXoa={setHangMucSapXoa}

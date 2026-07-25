@@ -22,7 +22,7 @@ App chạy local trên Mac, giao diện 100% tiếng Việt, kiến trúc sạch
 | 0 | [phase-00-nen-mong.md](phase-00-nen-mong.md) | Monorepo, TS, Prisma kết nối, Vite+Tailwind+shadcn, AppShell | ✅ **Xong** 23/07 |
 | 1 | [phase-01-database-backend.md](phase-01-database-backend.md) | Schema 7 bảng, migration, seed, API CRUD, calculator trọng số | ✅ **Xong** 23/07 |
 | 2 | [phase-02-frontend-quan-ly.md](phase-02-frontend-quan-ly.md) | Tổng quan, công việc, cây hạng mục, đính kèm, nhân sự | ✅ **Xong** 24/07 |
-| 3 | [phase-03-bang-toi-han.md](phase-03-bang-toi-han.md) | Bảng tới hạn, 4 bộ lọc, tìm kiếm, badge cảnh báo | ⬜ Chưa bắt đầu |
+| 3 | [phase-03-bang-toi-han.md](phase-03-bang-toi-han.md) | Bảng tới hạn, 4 bộ lọc, tìm kiếm, badge cảnh báo | ✅ **Xong** 24/07 |
 | 4 | [phase-04-tich-hop-gmail.md](phase-04-tich-hop-gmail.md) | SMTP+IMAP qua App Password, gửi giao việc, quét hộp thư, hàng chờ duyệt, magic link | ⬜ Chưa bắt đầu |
 | 5 | [phase-05-dong-goi-ban-giao.md](phase-05-dong-goi-ban-giao.md) | Docker, README tiếng Việt, chạy thử đầu-cuối | ⬜ Chưa bắt đầu |
 | 6 | [phase-06-mo-rong.md](phase-06-mo-rong.md) | MCP server, xuất Excel, email nhắc hạn | ⬜ Chưa bắt đầu |

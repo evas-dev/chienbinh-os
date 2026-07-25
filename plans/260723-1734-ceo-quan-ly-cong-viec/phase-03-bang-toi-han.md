@@ -1,6 +1,36 @@
 # GĐ 3 — Bảng checklist theo tiến độ tới hạn
 
-**Ưu tiên:** Cao · **Trạng thái:** ⬜ Chưa bắt đầu · **Ước lượng:** 1 ngày · **Phụ thuộc:** GĐ 1, GĐ 2
+**Ưu tiên:** Cao · **Trạng thái:** ✅ **HOÀN THÀNH** (2026-07-24) · **Phụ thuộc:** GĐ 1, GĐ 2
+
+---
+
+## ✅ KẾT QUẢ THỰC HIỆN — kiểm chứng bằng trình duyệt thật
+
+| Hạng mục | Kết quả |
+|---|---|
+| Read-model riêng | Module `bang-toi-han` query phẳng dùng index `hanHoanThanh`, không dùng lại API cây |
+| Sắp xếp quy tắc kép | Chưa xong lên trước (quá hạn 4n→1n→gần hạn), việc đã xong đẩy xuống cuối dù hạn đã qua |
+| Badge màu | Quá hạn tô đỏ ("Quá hạn 4 ngày"), sắp tới vàng, chỉ 2 màu cảnh báo |
+| Thống kê | Tính trên toàn tập lọc: 2 quá hạn / 3 sắp tới / 14 tổng — khớp thẻ số liệu |
+| 4 bộ lọc + tìm kiếm | Nhân sự, công việc, trạng thái, khoảng ngày + ô tìm debounce 300ms |
+| **Đồng bộ URL** | Mở thẳng `?denNgay=...&chuaXong=true` → bảng lọc đúng 2 dòng quá hạn (bookmark/F5 giữ lọc) |
+| Ngưỡng cấu hình | Đổi ngưỡng ở Cài đặt (3→7) lưu qua API, ảnh hưởng phân loại cảnh báo tức thì |
+| Thẻ "quá hạn" bấm được | Áp lọc quá hạn + cuộn xuống bảng |
+| Console lỗi | **0 lỗi** |
+
+### Lệch có chủ đích so với kế hoạch
+- **Mặc định hiển thị TOÀN BỘ** (đã sắp quá hạn lên đầu + phân trang 50), thay
+  vì mặc định "7 ngày tới + quá hạn" như kế hoạch. Lý do: với sắp xếp đúng,
+  hiển thị hết ít gây bối rối hơn ("sao thiếu việc?"), và các nút nhanh
+  "7 ngày tới" / "Chỉ quá hạn" vẫn có sẵn để thu hẹp. Đổi lại dễ nếu CEO muốn.
+- Nối ngưỡng cấu hình vào CẢ cây hạng mục (GĐ 2 trước đó hardcode 3) để màu
+  cảnh báo nhất quán giữa hai màn hình.
+- Thêm module `cau-hinh` (chưa có ở GĐ 1) vì bảng tới hạn và trang Cài đặt
+  đều cần đọc/ghi ngưỡng.
+- Dấu tiếng Việt: tìm kiếm dùng `insensitive` của Postgres (không bỏ dấu) —
+  gõ có dấu mới khớp. Chấp nhận ở bản này; nếu vướng thì cài extension `unaccent`.
+
+---
 
 Phần "DƯỚI" của app theo spec. Đây là màn hình CEO nhìn nhiều nhất mỗi ngày.
 

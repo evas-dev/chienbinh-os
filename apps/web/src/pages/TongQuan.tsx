@@ -1,21 +1,23 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { AlertTriangle, CheckCircle2, FolderKanban, Plus, Timer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { TheSoLieu } from '@/components/chung/TheSoLieu';
 import { KhungDuLieu } from '@/components/chung/TrangThai';
 import { TheCongViec } from '@/components/cong-viec/TheCongViec';
 import { FormCongViec } from '@/components/cong-viec/FormCongViec';
+import { PhanBangToiHan } from '@/components/bang-toi-han/PhanBangToiHan';
 import { useDanhSachCongViec } from '@/hooks/use-cong-viec';
 
 /**
- * Trang chủ.
- *
- * Bố cục theo đúng yêu cầu nghiệp vụ: PHẦN TRÊN là quản lý công việc.
- * PHẦN DƯỚI (bảng checklist tới hạn) sẽ được lấp ở giai đoạn 3.
+ * Trang chủ, bố cục trên–dưới theo yêu cầu nghiệp vụ:
+ *   PHẦN TRÊN  — quản lý công việc (thẻ số liệu + danh sách)
+ *   PHẦN DƯỚI  — bảng checklist tới hạn
  */
 export function TongQuan() {
   const dieuHuong = useNavigate();
+  const [, setSp] = useSearchParams();
   const [moForm, setMoForm] = useState(false);
   const { data: danhSach, isLoading, error, refetch } = useDanhSachCongViec();
 
@@ -29,6 +31,15 @@ export function TongQuan() {
     };
   }, [danhSach]);
 
+  /** Bấm thẻ "quá hạn" → lọc bảng bên dưới chỉ còn việc quá hạn, rồi cuộn tới. */
+  const locQuaHan = () => {
+    const params = new URLSearchParams();
+    params.set('denNgay', new Date().toISOString());
+    params.set('chuaXong', 'true');
+    setSp(params, { replace: true });
+    document.getElementById('bang-toi-han')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -39,6 +50,7 @@ export function TongQuan() {
           giaTri={soLieu.quaHan}
           icon={AlertTriangle}
           kieu={soLieu.quaHan > 0 ? 'canh-bao' : 'binh-thuong'}
+          onBam={soLieu.quaHan > 0 ? locQuaHan : undefined}
         />
         <TheSoLieu
           nhan="Đã hoàn thành"
@@ -85,7 +97,12 @@ export function TongQuan() {
         </KhungDuLieu>
       </section>
 
-      {/* Giai đoạn 3 sẽ đặt bảng checklist tới hạn vào đây */}
+      <Separator />
+
+      {/* PHẦN DƯỚI — bảng checklist tới hạn */}
+      <div id="bang-toi-han" className="scroll-mt-20">
+        <PhanBangToiHan />
+      </div>
 
       <FormCongViec moKhong={moForm} onDong={() => setMoForm(false)} />
     </div>
