@@ -103,7 +103,53 @@ function renderSoldierHome() {
 
     ${incomingRequestsCard(w, false) ? `<div style="margin-top:16px">${incomingRequestsCard(w, false)}</div>` : ""}
 
-    <div style="margin-top:16px">${penaltyRecordCard(w.id)}</div>`;
+    <div style="margin-top:16px">${penaltyRecordCard(w.id)}</div>
+
+    <div id="completedWorkCard" style="margin-top:16px">
+      <div class="card"><div class="muted" style="padding:6px">Đang tải công việc hoàn thành...</div></div>
+    </div>`;
 
   bindSupportRequests();
+  _loadCompletedWork();
+}
+
+async function _loadCompletedWork() {
+  const w = me();
+  const localDone = state.missions.filter(m => m.assigneeId === w.id && m.status === "done");
+  let supabaseDone = [];
+  if (typeof loadMyApprovedSubmissions === "function") {
+    supabaseDone = await loadMyApprovedSubmissions();
+  }
+
+  const container = document.getElementById("completedWorkCard");
+  if (!container) return;
+
+  const missionRows = localDone.map(m => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line-soft)">
+      <div>
+        <div style="font-weight:600;font-size:14px">${m.title.replace(/^(CHINH PHỤC:|Hôm nay:)\s*/, "")}</div>
+        <div class="muted" style="font-size:12px">${fmtNum(m.current)} ${m.unit} · Hạn ${m.deadline}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="chip st-done">✔ Xong</span>
+        <div class="mission__reward" style="margin-top:2px">+${m.exp} EXP</div>
+      </div>
+    </div>`).join("");
+
+  const subRows = supabaseDone.map(s => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line-soft)">
+      <div>
+        <div style="font-weight:600;font-size:14px">${s.mission_title}</div>
+        <div class="muted" style="font-size:12px">Được duyệt · ${new Date(s.reviewed_at || s.created_at).toLocaleDateString("vi-VN")} · ${typeof subContentSummary === "function" ? subContentSummary(s.content) : ""}</div>
+      </div>
+      <span class="chip st-done">✅ Đã duyệt</span>
+    </div>`).join("");
+
+  const total = localDone.length + supabaseDone.length;
+  container.innerHTML = `
+    <div class="card">
+      <div class="card__title">🏆 Công việc hoàn thành (${total})</div>
+      ${missionRows}${subRows}
+      ${!total ? `<div class="muted">Chưa có công việc nào hoàn thành. Vào Bảng nhiệm vụ nhận và chinh phục ngay!</div>` : ""}
+    </div>`;
 }

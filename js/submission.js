@@ -194,31 +194,47 @@ function openRejectModal(sub) {
 }
 
 // ─── Render bảng duyệt cho quản lý ─────────────────────────────────────────
-function subContentSummary(content) {
-  return CONTENT_TYPES.filter(ct => content[ct.key] !== undefined)
-    .map(ct => `${ct.label}: <b>${content[ct.key]}</b>`)
-    .concat(content.note ? [`Ghi chú: ${content.note}`] : [])
-    .join(" · ") || "(không có dữ liệu)";
+function _linkify(text) {
+  return String(text).replace(/https?:\/\/[^\s<>"]+/g,
+    url => `<a href="${url}" target="_blank" rel="noopener" style="color:var(--gold-soft);word-break:break-all">${url}</a>`);
 }
 
-function renderSubmissionCard(sub, pending) {
+function subContentSummary(content) {
+  const parts = CONTENT_TYPES
+    .filter(ct => content[ct.key] !== undefined)
+    .map(ct => `${ct.label}: <b>${_linkify(String(content[ct.key]))}</b>`);
+  if (content.note) parts.push(`Ghi chú: ${_linkify(content.note)}`);
+  return parts.join(" · ") || "(không có dữ liệu)";
+}
+
+function _subKey(sub) { return `sub_${sub.id}`; }
+
+function renderSubmissionCard(sub, mode) {
+  // mode: "pending" | "reviewed"
   const submitter = state.warriors.find(w => w.phone === sub.submitter_phone);
   const name = submitter ? submitter.name : sub.submitter_phone;
-  const statusBadge = pending
+  const isPending = mode === "pending";
+  const isApproved = sub.status === "da_duyet";
+  const statusBadge = isPending
     ? `<span class="chip st-review">⏳ Chờ duyệt · Lần ${sub.round}</span>`
-    : sub.status === "da_duyet"
+    : isApproved
       ? `<span class="chip st-done">✅ Đã duyệt</span>`
       : `<span class="chip type-chien-dich">❌ Từ chối</span>`;
   const rejectNote = sub.reject_reason
     ? `<div style="color:var(--crimson);font-size:12px;margin-top:4px">Lý do: ${sub.reject_reason}</div>` : "";
-  const actions = pending ? `
-    <button class="btn btn--gold btn--sm" data-approve-sub="${sub.id}">Duyệt ✅</button>
-    <button class="btn btn--sm" style="margin-left:6px" data-reject-sub='${JSON.stringify(sub).replace(/'/g,"&#39;")}'>Từ chối</button>` : "";
+  const subJson = JSON.stringify(sub).replace(/'/g, "&#39;");
+  let actions = "";
+  if (isPending) {
+    actions = `
+      <button class="btn btn--gold btn--sm" data-approve-sub="${sub.id}">Duyệt ✅</button>
+      <button class="btn btn--sm" style="margin-left:6px" data-reject-sub='${subJson}'>Từ chối</button>`;
+  } else if (isApproved) {
+    actions = `<button class="btn btn--sm" style="font-size:11px;margin-top:4px" data-revert-sub='${subJson}'>Đổi sang từ chối</button>`;
+  }
   return `<div class="mission" style="padding:12px">
     <div class="mission__body">
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
-        ${statusBadge}
-        <b>${sub.mission_title}</b>
+        ${statusBadge} <b>${sub.mission_title}</b>
       </div>
       <div class="mission__sub">Nhân sự: <b>${name}</b> · ${new Date(sub.created_at).toLocaleDateString("vi-VN")}</div>
       <div class="mission__sub" style="margin-top:2px">${subContentSummary(sub.content)}</div>
@@ -228,19 +244,70 @@ function renderSubmissionCard(sub, pending) {
   </div>`;
 }
 
+// Manager đổi từ "đã duyệt" → "từ chối" (revert EXP)
+function openRevertRejectModal(sub) {
+  $("#modalRoot").innerHTML = `
+    <div class="modal-mask"><div class="modal">
+      <div class="modal__head"><h3>🔄 Đổi thành từ chối</h3><button class="iconbtn" id="rvClose">×</button></div>
+      <div class="modal__body">
+        <div class="hint" style="margin-bottom:10px">⚠️ Kết quả này đã được duyệt. Chuyển sang từ chối sẽ <b>thu hồi EXP</b> đã cộng và ghi log lại.</div>
+        <div class="muted" style="margin-bottom:8px">${sub.mission_title}</div>
+        <div class="field"><label>Lý do điều chỉnh (bắt buộc)</label>
+          <textarea id="rvReason" rows="3" placeholder="VD: Kết quả không đạt yêu cầu sau khi kiểm tra lại..."></textarea>
+        </div>
+      </div>
+      <div class="modal__foot">
+        <button class="btn" id="rvCancel">Hủy</button>
+        <button class="btn btn--crimson" id="rvSend">Xác nhận thu hồi</button>
+      </div>
+    </div></div>`;
+  $("#rvClose").onclick = closeModal; $("#rvCancel").onclick = closeModal;
+  $("#rvSend").onclick = async () => {
+    const reason = $("#rvReason").value.trim();
+    if (!reason) { toast("Thiếu lý do", "Phải nhập lý do điều chỉnh."); return; }
+
+    if (window._sb) await window._sb.from("submissions")
+      .update({ status: "tu_choi", reject_reason: reason, reviewed_at: new Date().toISOString() }).eq("id", sub.id);
+
+    // Revert EXP
+    const submitter = state.warriors.find(w => w.phone === sub.submitter_phone);
+    if (submitter) {
+      const mission = state.missions.find(m => m.id === sub.mission_ref);
+      const expDelta = (mission?.type === "ngay") ? 40 : (mission?.exp || 40);
+      submitter.exp = Math.max(0, submitter.exp - expDelta);
+      submitter.seasonPoints = Math.max(0, submitter.seasonPoints - Math.round(expDelta * 0.6));
+      if (mission && mission.status === "done") { mission.status = "doing"; }
+      addExpEntry(submitter.phone, submitter.name, -expDelta, `Thu hồi duyệt: ${sub.mission_title} — ${reason}`, sub.id);
+    }
+    logEvent("submission_revert_reject", { sub_id: sub.id, reason, submitter: sub.submitter_phone });
+    state.feed.unshift({ icon: "🔄", text: `Kết quả «${sub.mission_title}» bị thu hồi: ${reason}`, time: "Vừa xong" });
+    closeModal();
+    toast("Đã thu hồi", "EXP đã hoàn lại, nhân sự sẽ thấy lý do.", false);
+    state.tab = "missions"; render();
+  };
+}
+
+async function loadMyApprovedSubmissions() {
+  if (!window._sb) return [];
+  const { data } = await window._sb.from("submissions").select("*")
+    .eq("submitter_phone", me().phone).eq("status", "da_duyet")
+    .order("reviewed_at", { ascending: false }).limit(20);
+  return data || [];
+}
+
 async function renderReviewPanel(container) {
   container.innerHTML = `<div class="muted" style="padding:12px">Đang tải...</div>`;
-  const pending = await loadPendingSubmissions();
-  const recent = await loadRecentReviewed();
-  state._pendingSubs = pending; // cache for button handler lookup
+  const [pending, recent] = await Promise.all([loadPendingSubmissions(), loadRecentReviewed()]);
+  state._pendingSubs = pending;
+  state._recentSubs = recent;
   container.innerHTML = `
     <div class="card" style="margin-bottom:16px">
       <div class="card__title">🛡 Chờ anh/chị duyệt (${pending.length})</div>
-      ${pending.length ? pending.map(s => renderSubmissionCard(s, true)).join("") : `<div class="muted">Không có kết quả nào chờ duyệt.</div>`}
+      ${pending.length ? pending.map(s => renderSubmissionCard(s, "pending")).join("") : `<div class="muted">Không có kết quả nào chờ duyệt.</div>`}
     </div>
-    <div class="card">
-      <div class="card__title">📋 Kết quả đã xử lý gần đây</div>
-      ${recent.length ? recent.map(s => renderSubmissionCard(s, false)).join("") : `<div class="muted">Chưa có kết quả nào.</div>`}
+    <div class="card" style="margin-bottom:16px">
+      <div class="card__title">📋 Kết quả đã xử lý</div>
+      ${recent.length ? recent.map(s => renderSubmissionCard(s, "reviewed")).join("") : `<div class="muted">Chưa có kết quả nào.</div>`}
     </div>`;
 
   container.querySelectorAll("[data-approve-sub]").forEach(btn => {
@@ -250,8 +317,9 @@ async function renderReviewPanel(container) {
     };
   });
   container.querySelectorAll("[data-reject-sub]").forEach(btn => {
-    btn.onclick = () => {
-      try { openRejectModal(JSON.parse(btn.dataset.rejectSub)); } catch(e) { console.error(e); }
-    };
+    btn.onclick = () => { try { openRejectModal(JSON.parse(btn.dataset.rejectSub)); } catch(e) { console.error(e); } };
+  });
+  container.querySelectorAll("[data-revert-sub]").forEach(btn => {
+    btn.onclick = () => { try { openRevertRejectModal(JSON.parse(btn.dataset.revertSub)); } catch(e) { console.error(e); } };
   });
 }
