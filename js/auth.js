@@ -64,9 +64,6 @@ function renderAuthArea() {
 function renderLogin() {
   $("#tabs").innerHTML = "";
   $("#authArea").innerHTML = "";
-  const accounts = state.warriors
-    .map((w) => `<tr><td>${w.name}</td><td>${ROLE_LABEL[w.role]}</td><td><code>${w.phone}</code></td></tr>`).join("");
-
   $("#view").innerHTML = `
     <div class="login-wrap">
       <div class="card login-card">
@@ -82,14 +79,6 @@ function renderLogin() {
         <div id="loginErr" style="color:#ff8877;font-size:13px;min-height:18px;margin:4px 0"></div>
         <button class="btn btn--gold" id="btnLogin" style="width:100%">Vào trận ⚔</button>
 
-        <details class="login-hint">
-          <summary>🔑 Tài khoản demo (bấm để xem)</summary>
-          <p class="hint">Mật khẩu mặc định cho tất cả: <b>123456</b>. Bản thật mỗi người tự đặt mật khẩu riêng.</p>
-          <div style="max-height:200px;overflow:auto">
-            <table class="acc-table"><thead><tr><th>Tên</th><th>Vai</th><th>SĐT</th></tr></thead>
-            <tbody>${accounts}</tbody></table>
-          </div>
-        </details>
       </div>
     </div>`;
 
