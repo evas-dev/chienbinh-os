@@ -31,13 +31,25 @@ const BONUS = { pool: 600000000, months: 6 };
 
 // Huy hiệu: "tiền danh vọng", đổi ra phần thưởng
 const BADGES = {
-  first_blood:  { name: "Máu Lửa",        icon: "🔥", rarity: "rare",      desc: "Hoàn thành nhiệm vụ đầu tiên" },
-  big_deal:     { name: "Hợp Đồng Lớn",   icon: "💼", rarity: "epic",      desc: "Ký hợp đồng giá trị cao" },
-  viral:        { name: "Bùng Nổ View",   icon: "📈", rarity: "epic",      desc: "Bài đạt mốc view khủng" },
-  kaizen:       { name: "Cải Tiến",       icon: "💡", rarity: "rare",      desc: "Sáng kiến giúp tổ chức tốt hơn" },
-  guardian:     { name: "Hậu Phương Vững",icon: "🛡", rarity: "rare",      desc: "Không lỗi vận hành trong tháng" },
-  streak:       { name: "Bất Bại 7 Ngày", icon: "⚡", rarity: "rare",      desc: "7 ngày liên tiếp hoàn thành nhiệm vụ" },
-  general:      { name: "Danh Tướng",     icon: "👑", rarity: "legendary", desc: "Đứng #1 bảng xếp hạng mùa" },
+  // Thành tích chung
+  first_blood:  { name: "Máu Lửa",              icon: "🔥", rarity: "rare",      desc: "Hoàn thành nhiệm vụ đầu tiên" },
+  big_deal:     { name: "Hợp Đồng Lớn",         icon: "💼", rarity: "epic",      desc: "Ký hợp đồng giá trị cao" },
+  viral:        { name: "Bùng Nổ View",         icon: "📈", rarity: "epic",      desc: "Bài đạt mốc view khủng" },
+  kaizen:       { name: "Cải Tiến",             icon: "💡", rarity: "rare",      desc: "Sáng kiến giúp tổ chức tốt hơn" },
+  guardian:     { name: "Hậu Phương Vững",      icon: "🛡", rarity: "rare",      desc: "Không lỗi vận hành trong tháng" },
+  streak:       { name: "Bất Bại 7 Ngày",       icon: "⚡", rarity: "rare",      desc: "7 ngày liên tiếp hoàn thành nhiệm vụ" },
+  general:      { name: "Danh Tướng",           icon: "👑", rarity: "legendary", desc: "Đứng #1 bảng xếp hạng mùa" },
+  // Huy hiệu vũ khí (weapon-themed)
+  sung_truong:  { name: "Súng Trường",          icon: "🔫", rarity: "common",    desc: "Hoàn thành 10 nhiệm vụ ngày liên tiếp" },
+  luu_dan:      { name: "Lựu Đạn",              icon: "💣", rarity: "rare",      desc: "Hoàn thành nhiệm vụ KPI trước hạn" },
+  dao_gam:      { name: "Dao Găm",              icon: "🗡", rarity: "rare",      desc: "Chinh phục 5 nhiệm vụ bonus liên tiếp" },
+  rocket:       { name: "Rocket Launcher",      icon: "🚀", rarity: "epic",      desc: "Vượt KPI 200% trong tháng" },
+  khien_sat:    { name: "Khiên Sắt",            icon: "🛡", rarity: "epic",      desc: "Không bị phạt trong 30 ngày liên tiếp" },
+  thanh_kiem:   { name: "Thanh Kiếm",           icon: "⚔", rarity: "rare",      desc: "Chuỗi 14 ngày hoàn thành nhiệm vụ" },
+  sung_may:     { name: "Súng Máy",             icon: "🔥", rarity: "epic",      desc: "Top 3 bảng xếp hạng tháng" },
+  bom_tan:      { name: "Bom Tấn",              icon: "💥", rarity: "legendary", desc: "Đạt KPI trước 1/4 thời gian quy định" },
+  radar:        { name: "Radar",                icon: "📡", rarity: "rare",      desc: "Lead đạt 200% target tháng" },
+  dac_biet:     { name: "Binh Chủng Đặc Biệt",  icon: "🎖", rarity: "legendary", desc: "Đạt quân hàm Đại Tá" },
 };
 
 // Phần thưởng ĐỔI BẰNG HUÂN CHƯƠNG (huân chương = "tiền" tiêu được).

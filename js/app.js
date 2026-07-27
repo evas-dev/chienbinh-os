@@ -77,48 +77,8 @@ function toast(title, desc, gold = false) {
 
 /* ------------------------------ Modal ----------------------------------- */
 function closeModal() { $("#modalRoot").innerHTML = ""; }
-function openReportModal(mission) {
-  const root = $("#modalRoot");
-  root.innerHTML = `
-    <div class="modal-mask">
-      <div class="modal">
-        <div class="modal__head">
-          <h3>📋 Nộp báo cáo kết quả</h3>
-          <button class="iconbtn" id="mClose">×</button>
-        </div>
-        <div class="modal__body">
-          <div class="muted">${mission.title}</div>
-          <div class="field">
-            <label>Bằng chứng hoàn thành (mã KH, số hóa đơn, link bài đạt view, danh sách KH mới, số học viên Zoom…)</label>
-            <textarea id="proof" rows="4" placeholder="VD: KH#1043, HĐ-2208-17, https://tiktok.com/... đạt 42K view"></textarea>
-          </div>
-          <div class="field">
-            <label>Khối lượng đạt được (${mission.unit})</label>
-            <input id="qty" type="number" value="${mission.target}" />
-          </div>
-          <div class="hint">🛡 Báo cáo sẽ chuyển sang trạng thái <b>chờ duyệt</b>. Người duyệt xác nhận thì EXP &amp; huy hiệu mới được cộng (chống khai khống).</div>
-        </div>
-        <div class="modal__foot">
-          <button class="btn" id="mCancel">Hủy</button>
-          <button class="btn btn--gold" id="mSubmit">Nộp báo cáo ⚔</button>
-        </div>
-      </div>
-    </div>`;
-  $("#mClose").onclick = closeModal;
-  $("#mCancel").onclick = closeModal;
-  $("#mSubmit").onclick = () => {
-    const proof = $("#proof").value.trim();
-    if (!proof) { toast("Thiếu bằng chứng", "Chiến binh phải nộp bằng chứng thật."); return; }
-    mission.current = Number($("#qty").value) || mission.current;
-    mission.status = "review";
-    mission._proof = proof;
-    // Thông báo chung: có kết quả / đơn hàng / khách hàng mới gửi lên
-    state.feed.unshift({ icon: "🧾", text: `<b>${me().name}</b> gửi kết quả mới «${mission.title}» (${proof}) — chờ duyệt`, time: "Vừa xong" });
-    closeModal();
-    toast("Đã nộp báo cáo 🧾", "Kết quả đã lên bảng tin, chờ duyệt.");
-    render();
-  };
-}
+// openReportModal → delegates to openSubmitModal (defined in submission.js)
+function openReportModal(mission) { openSubmitModal(mission); }
 
 /* ------------------------------ Actions --------------------------------- */
 function acceptMission(m) { m.status = "doing"; toast("Nhận nhiệm vụ", "Ra trận thôi, chiến binh!"); render(); }
@@ -236,34 +196,38 @@ function adviceFor(w) {
 
 function renderMissions() {
   const w = me();
-  if (w.role === "chien_sy") return renderQuestBoard(); // Chiến sỹ: quest board kiểu game
+  if (w.role === "chien_sy") return renderQuestBoard();
   const iAmApprover = w.role === "tu_lenh" || w.role === "tong_tu_lenh";
-  // Nhiệm vụ của tôi
   const mine = state.missions.filter((m) => m.assigneeId === w.id);
-  // Nhiệm vụ cần tôi duyệt (tôi là người giao và đang chờ duyệt)
-  const toApprove = state.missions.filter((m) => m.assignerId === w.id && m.status === "review");
+  const toApproveLocal = state.missions.filter((m) => m.assignerId === w.id && m.status === "review");
 
   view().innerHTML = `
     <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px">
-      <div class="section-note" style="margin:0;flex:1;min-width:240px">💡 Luồng: <b>Tổng Tư Lệnh</b> mở chiến dịch → giao <b>Tư Lệnh</b> → Tư Lệnh chia nhỏ cho <b>Chiến Sỹ</b> → Chiến Sỹ nộp báo cáo → Tư Lệnh duyệt. Đổi vai ở góc phải để thử.</div>
+      <div class="section-note" style="margin:0;flex:1;min-width:240px">💡 Luồng: <b>Tổng Tư Lệnh</b> mở chiến dịch → giao <b>Tư Lệnh</b> → Tư Lệnh chia nhỏ cho <b>Chiến Sỹ</b> → Chiến Sỹ nộp → Tư Lệnh duyệt.</div>
       ${iAmApprover ? `<button class="btn btn--gold" id="btnCreate">➕ ${w.role === "tong_tu_lenh" ? "Mở chiến dịch" : "Tạo nhiệm vụ"}</button>` : ""}
     </div>
 
-    ${iAmApprover ? `<div class="card" style="margin-bottom:16px">
-      <div class="card__title">🛡 Chờ anh/chị duyệt (${toApprove.length})</div>
-      ${toApprove.length ? toApprove.map((m) => missionCard(m, "approve")).join("") : `<div class="muted">Không có báo cáo nào chờ duyệt.</div>`}
-    </div>` : ""}
+    <div class="qb-layout">
+      <div>
+        ${iAmApprover ? `<div id="reviewPanel"></div>` : ""}
 
-    <div class="card">
-      <div class="card__title">🎯 Nhiệm vụ của tôi (${mine.length})</div>
-      ${mine.length ? mine.map((m) => missionCard(m, "self")).join("") : `<div class="muted">Chưa có nhiệm vụ nào được giao.</div>`}
+        <div class="card" style="margin-top:${iAmApprover ? "0" : "0"}">
+          <div class="card__title">🎯 Nhiệm vụ của tôi (${mine.length})</div>
+          ${mine.length ? mine.map((m) => missionCard(m, "self")).join("") : `<div class="muted">Chưa có nhiệm vụ nào được giao.</div>`}
+        </div>
+      </div>
+      ${miniLeaderboard()}
     </div>`;
 
-  // gắn sự kiện
   const btnCreate = $("#btnCreate"); if (btnCreate) btnCreate.onclick = openCreateMissionModal;
   view().querySelectorAll("[data-accept]").forEach((b) => b.onclick = () => acceptMission(state.missions.find((m) => m.id === b.dataset.accept)));
   view().querySelectorAll("[data-report]").forEach((b) => b.onclick = () => openReportModal(state.missions.find((m) => m.id === b.dataset.report)));
   view().querySelectorAll("[data-approve]").forEach((b) => b.onclick = () => approveMission(state.missions.find((m) => m.id === b.dataset.approve)));
+
+  if (iAmApprover) {
+    const panel = $("#reviewPanel");
+    if (panel) renderReviewPanel(panel);
+  }
 }
 
 function missionCard(m, mode) {

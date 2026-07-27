@@ -108,12 +108,15 @@ function openCreateUserModal() {
           <div class="field" style="flex:1"><label>Số điện thoại (đăng nhập)</label><input id="cuPhone" placeholder="09xxxxxxxx" /></div>
           <div class="field" style="flex:1"><label>Mật khẩu</label><input id="cuPass" value="123456" /></div>
         </div>
-        <div style="display:flex;gap:10px">
-          <div class="field" style="flex:1"><label>Mặt trận</label>
-            <select id="cuFront" class="whoami__select" style="width:100%">
-              <option value="tien_tuyen">Tiền tuyến (Mkt/Sale)</option>
-              <option value="hau_phuong">Hậu phương (KT/Dev/CSKH)</option></select></div>
-          <div class="field" style="flex:1"><label>Phòng ban / vị trí</label><input id="cuDept" placeholder="VD: Sale" /></div>
+        <div class="field"><label>Phòng ban</label>
+          <select id="cuDept" class="whoami__select" style="width:100%">
+            <option value="Marketing">Marketing (Tiền tuyến)</option>
+            <option value="Sale">Sale (Tiền tuyến)</option>
+            <option value="Dev">Dev (Hậu phương)</option>
+            <option value="CSKH">CSKH (Hậu phương)</option>
+            <option value="Kế toán">Kế toán (Hậu phương)</option>
+            <option value="HR">HR (Hậu phương)</option>
+          </select>
         </div>
         <div class="field"><label>Cấp bậc hệ thống</label>
           <select id="cuRole" class="whoami__select" style="width:100%">
@@ -132,8 +135,10 @@ function openCreateUserModal() {
     if (!name || !phone) { toast("Thiếu thông tin", "Cần họ tên và số điện thoại."); return; }
     if (state.warriors.some((w) => w.phone === phone)) { toast("Trùng SĐT", "Số điện thoại này đã có tài khoản."); return; }
     const id = "u" + Date.now().toString().slice(-6);
+    const dept = $("#cuDept").value;
+    const front = ["Marketing", "Sale"].includes(dept) ? "tien_tuyen" : "hau_phuong";
     state.warriors.push({
-      id, name, front: $("#cuFront").value, dept: $("#cuDept").value.trim() || "—",
+      id, name, front, dept,
       squad: $("#cuSquad").value, role: $("#cuRole").value, exp: 0, seasonPoints: 0, badges: [],
       phone, password: $("#cuPass").value || "123456", active: true,
     });

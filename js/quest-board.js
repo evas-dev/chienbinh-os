@@ -15,10 +15,15 @@ function questSlot(m, kind) {
   if (m.status === "todo") {
     const cls = kind === "bonus" ? "qbtn--epic" : "qbtn--accept";
     action = `<button class="qbtn ${cls}" data-accept="${m.id}">${kind === "bonus" ? "Chinh phục ⚔" : "Nhận ⚔"}</button>`;
+  } else if (m.status === "doing" && m._rejected) {
+    const round = (m._round || 1) + 1;
+    const rejectHint = m._rejectReason ? `<div style="color:var(--crimson);font-size:11px;margin-bottom:2px">❌ ${m._rejectReason}</div>` : "";
+    action = `<div style="text-align:center">${rejectHint}<button class="qbtn qbtn--submit" data-report="${m.id}">Nộp lại (Lần ${round})</button></div>`;
   } else if (m.status === "doing") {
     action = `<button class="qbtn qbtn--submit" data-report="${m.id}">${kind === "kpi" ? "Nộp kết quả" : "Nộp"}</button>`;
   } else if (m.status === "review") {
-    action = `<span class="qbadge wait">⏳ Chờ duyệt</span>`;
+    const round = m._round || 1;
+    action = `<span class="qbadge wait">⏳ Chờ duyệt (Lần ${round})</span>`;
   } else {
     action = `<span class="qbadge ok">✔ Xong</span>`;
   }
