@@ -19,6 +19,7 @@ export * from './schemas/cong-viec.schema.js';
 export * from './schemas/hang-muc.schema.js';
 export * from './schemas/bang-toi-han.schema.js';
 export * from './schemas/cau-hinh.schema.js';
+export * from './schemas/email.schema.js';
 
 /** Dạng phản hồi thống nhất của mọi endpoint. */
 export interface PhanHoiThanhCong<T> {

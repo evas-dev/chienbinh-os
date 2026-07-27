@@ -18,6 +18,12 @@ dist/
 build/
 *.tsbuildinfo
 
+# Thư mục local Claude Code
+.claude/
+
+# Tài liệu nội bộ
+plans/
+
 # Nhật ký
 *.log
 npm-debug.log*

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHIẾN BINH OS — Hệ điều hành đội nhóm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Thanh trên: nhận diện + đổi vai (demo) -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand__mark">⚔</span>
+      <div>
+        <div class="brand__name">CHIẾN BINH<span class="brand__os"> OS</span></div>
+        <div class="brand__tag">Vận hành công ty như một cuộc chiến</div>
+      </div>
+    </div>
+
+    <div class="season">
+      <span class="season__label">MỤC TIÊU</span>
+      <span class="season__name" id="seasonName">—</span>
+      <span class="season__days" id="seasonDays">—</span>
+    </div>
+
+    <div id="authArea" class="whoami"></div>
+  </header>
+
+  <!-- Điều hướng (JS tự sinh theo cấp/vai) -->
+  <nav class="tabs" id="tabs"></nav>
+
+  <main id="view" class="view"></main>
+
+  <!-- Lớp phủ: modal + toast -->
+  <div id="modalRoot"></div>
+  <div id="toastRoot" class="toast-root"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/create-mission.js"></script>
+  <script src="js/objectives.js"></script>
+  <script src="js/ceo-home.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/commend.js"></script>
+  <script src="js/quest-board.js"></script>
+  <script src="js/support-request.js"></script>
+  <script src="js/soldier-home.js"></script>
+  <script src="js/penalty.js"></script>
+  <script src="js/squad.js"></script>
+  <script src="js/guide.js"></script>
+  <script src="js/app.js"></script>
+  <!-- Module load sau: khởi Supabase → kiểm session → gọi boot() -->
+  <script type="module" src="js/init.js"></script>
+</body>
+</html>

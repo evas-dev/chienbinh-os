@@ -54,6 +54,17 @@ const schemaEnv = z.object({
     .enum(['true', 'false', '1', '0'])
     .default('false')
     .transform((v) => v === 'true' || v === '1'),
+
+  // --- Email (TÙY CHỌN) ------------------------------------------------------
+  // Để trống thì app vẫn chạy bình thường, chỉ là tính năng email chưa bật.
+  // Không validate chặt ở đây (email/độ dài) vì để trống là hợp lệ; việc kiểm
+  // App Password đúng 16 ký tự được làm ở tầng email khi thực sự kết nối, kèm
+  // thông báo tiếng Việt rõ ràng.
+  GMAIL_DIA_CHI: z.string().optional(),
+  GMAIL_APP_PASSWORD: z.string().optional(),
+
+  // Khóa ký liên kết xác nhận hoàn thành. Sinh sẵn ở .env khi khởi tạo dự án.
+  MAGIC_LINK_SECRET: z.string().min(16).optional(),
 });
 
 const ketQua = schemaEnv.safeParse(process.env);
