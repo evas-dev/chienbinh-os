@@ -19,7 +19,7 @@ export function LoginForm() {
         <div className="bg-cb-crimson text-cb-ink mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full">
           <EmojiIcon glyph="⚔" className="size-8" />
         </div>
-        <h1 className="text-xl font-bold tracking-wide">ĐĂNG NHẬP CHIẾN TRƯỜNG</h1>
+        <h1 className="font-heading text-2xl tracking-wide">ĐĂNG NHẬP CHIẾN TRƯỜNG</h1>
         <p className="text-cb-ink-dim text-sm">Nhập số điện thoại &amp; mật khẩu để vào trận</p>
       </div>
 

@@ -14,7 +14,7 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
         <div className="flex items-center gap-3">
           <EmojiIcon glyph="⚔" className="text-cb-crimson size-7" />
           <div>
-            <div className="text-sm leading-tight font-bold">
+            <div className="font-heading text-base leading-tight tracking-wide">
               CHIẾN BINH<span className="text-cb-gold"> OS</span>
             </div>
             <div className="text-cb-ink-faint text-xs">Vận hành công ty như một cuộc chiến</div>

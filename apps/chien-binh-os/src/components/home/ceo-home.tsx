@@ -76,7 +76,7 @@ export async function CeoHome() {
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-1.5 text-xl font-bold">
+          <div className="font-heading flex items-center gap-1.5 text-xl tracking-wide">
             <EmojiIcon glyph="📊" /> BÁO CÁO TỔNG QUAN CÔNG TY
           </div>
           <div className="text-cb-ink-dim text-sm">Tổng hợp KPI cuối của cấp quản lý</div>
