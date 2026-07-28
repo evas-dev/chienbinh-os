@@ -1,33 +1,17 @@
 {
-  "name": "ceo-quanly",
+  "name": "chienbinh-os",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Web app quản lý và điều hành công việc cấp CEO",
+  "description": "CHIẾN BINH OS — vận hành đội nhóm theo hướng game hoá (Next.js + Supabase)",
   "workspaces": [
-    "packages/*",
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -n api,web -c cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",
-    "dev:api": "npm run dev -w @ceo/api",
-    "dev:web": "npm run dev -w @ceo/web",
-    "build": "npm run build -w @ceo/shared && npm run build -w @ceo/api && npm run build -w @ceo/web",
-    "typecheck": "npm run typecheck -w @ceo/shared && npm run typecheck -w @ceo/api && npm run typecheck -w @ceo/web",
-    "db:migrate": "prisma migrate dev && prisma generate",
-    "db:generate": "prisma generate",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset"
-  },
-  "devDependencies": {
-    "concurrently": "^9.2.4",
-    "prisma": "^7.9.0",
-    "tsx": "^4.23.1",
-    "typescript": "~6.0.2"
-  },
-  "overrides": {
-    "typescript": "~6.0.2"
+    "dev": "npm run dev -w chien-binh-os",
+    "build": "npm run build -w chien-binh-os",
+    "start": "npm run start -w chien-binh-os",
+    "lint": "npm run lint -w chien-binh-os"
   },
   "engines": {
     "node": ">=24"
