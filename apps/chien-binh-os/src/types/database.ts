@@ -1013,6 +1013,10 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["role_type"]
       }
+      health_check: {
+        Args: never
+        Returns: string
+      }
       log_auth_event: {
         Args: { p_event_type: string; p_payload?: Json }
         Returns: undefined

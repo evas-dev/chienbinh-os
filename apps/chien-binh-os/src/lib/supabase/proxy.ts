@@ -1,7 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
+// SEC-11: /api/health phải trả lời được khi CHƯA đăng nhập (đúng mục đích
+// một health check — nếu đòi đăng nhập, một Postgres/Auth service sập cũng
+// không kiểm tra được vì response luôn là redirect 307 về /login).
+const PUBLIC_PATHS = ["/login", "/api/health"];
 
 /**
  * Refresh session cookie + chặn route (app) khi chưa đăng nhập.
