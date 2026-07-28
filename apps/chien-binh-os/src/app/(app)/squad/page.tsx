@@ -52,13 +52,28 @@ export default async function SquadPage() {
   requireRole(profile, ["tong_tu_lenh"]);
 
   const supabase = await createClient();
-  const [{ data: squads }, { data: members }, { data: ranks }, { data: allProfiles }] =
-    await Promise.all([
-      supabase.from("squads").select("*").order("id"),
-      supabase.from("squad_members").select("squad_id, warrior_id"),
-      supabase.from("ranks").select("*"),
-      supabase.from("profiles").select("*"),
-    ]);
+  const [
+    { data: squads, error: squadsError },
+    { data: members, error: membersError },
+    { data: ranks },
+    { data: allProfiles, error: profilesError },
+  ] = await Promise.all([
+    supabase.from("squads").select("*").order("id"),
+    supabase.from("squad_members").select("squad_id, warrior_id"),
+    supabase.from("ranks").select("*"),
+    supabase.from("profiles").select("*"),
+  ]);
+
+  // SQU-11.2: lỗi tải dữ liệu tổ chức phải hiển thị rõ là lỗi, không được lặng
+  // lẽ coi như rỗng rồi vẫn tính quân số/tổng EXP = 0 như dữ liệu thật.
+  if (squadsError || membersError || profilesError) {
+    return (
+      <div className="bg-cb-panel-2 border-cb-line rounded-lg border p-4 text-sm">
+        <p className="text-cb-crimson font-medium">Không tải được dữ liệu tổ chức.</p>
+        <p className="text-cb-ink-dim mt-1">Vui lòng thử tải lại trang. Quân số hiển thị có thể sai nếu tiếp tục xem lúc này.</p>
+      </div>
+    );
+  }
 
   const profileById = new Map((allProfiles ?? []).map((p) => [p.id, p]));
   const membersBySquad = new Map<string, Warrior[]>();
@@ -78,12 +93,18 @@ export default async function SquadPage() {
 
       {FRONTS.map((front) => {
         const frontSquads = (squads ?? []).filter((s) => s.front === front.key);
-        if (frontSquads.length === 0) return null;
         return (
           <section key={front.key}>
             <h2 className="text-cb-gold-soft mb-3 flex items-center gap-1.5 font-semibold tracking-wide">
               <EmojiIcon glyph={front.icon} /> {front.label}
             </h2>
+            {frontSquads.length === 0 ? (
+              // SQU-11.1: mặt trận chưa có tiểu đội phải hiện trạng thái trống rõ
+              // ràng, không được lặng lẽ biến mất khỏi trang khiến hiểu nhầm là lỗi.
+              <p className="text-cb-ink-dim bg-cb-panel-2 border-cb-line rounded-lg border p-3 text-sm">
+                Mặt trận này chưa có tiểu đội nào.
+              </p>
+            ) : (
             <div className="grid items-start gap-4 md:grid-cols-2">
               {frontSquads.map((s) => {
                 const leader = s.leader_id ? profileById.get(s.leader_id) : undefined;
@@ -126,6 +147,7 @@ export default async function SquadPage() {
                 );
               })}
             </div>
+            )}
           </section>
         );
       })}

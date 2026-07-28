@@ -13,6 +13,11 @@ dist/
 build/
 *.tsbuildinfo
 
+# Kết quả chạy test (Playwright)
+test-results/
+playwright-report/
+blob-report/
+
 # Thư mục local Claude Code
 .claude/
 .playwright-mcp/

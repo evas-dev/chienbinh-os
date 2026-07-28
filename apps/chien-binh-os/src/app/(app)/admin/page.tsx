@@ -24,7 +24,7 @@ export default async function AdminPage({
   const scope = (await searchParams).dept ?? "Marketing"; // pilot Marketing mặc định, khớp bản gốc
 
   const supabase = await createClient();
-  const [{ data: allStaff }, { data: squads }] = await Promise.all([
+  const [{ data: allStaff, error: staffError }, { data: squads }] = await Promise.all([
     supabase.from("profiles").select("*").order("name"),
     supabase.from("squads").select("id, name"),
   ]);
@@ -77,7 +77,13 @@ export default async function AdminPage({
 
       <Card className="bg-cb-panel border-cb-line">
         <CardContent className="divide-cb-line-soft divide-y">
-          {list.length === 0 ? (
+          {staffError ? (
+            // ADM-02.3: lỗi tải dữ liệu phải khác trạng thái "chưa có nhân sự" —
+            // không được để trắng danh sách trông giống như phòng ban trống thật.
+            <p className="text-cb-crimson text-sm">
+              Không tải được danh sách nhân sự. Vui lòng thử tải lại trang.
+            </p>
+          ) : list.length === 0 ? (
             <p className="text-cb-ink-dim text-sm">Chưa có nhân sự ở phòng này.</p>
           ) : (
             list.map((w) => <StaffRow key={w.id} warrior={w} isSelf={w.id === profile.id} />)

@@ -32,5 +32,5 @@ export const NAV_ITEMS: { path: string; icon: string; label: string; roles: Role
   { path: "/requests", icon: "🤝", label: "Yêu cầu hỗ trợ", roles: ALL_ROLES },
   { path: "/ladder", icon: "🏅", label: "Quân hàm & Huân chương", roles: ALL_ROLES },
   { path: "/feed", icon: "📣", label: "Nhật ký chiến công", roles: ALL_ROLES },
-  { path: "/guide", icon: "📖", label: "Cẩm nang", roles: CEO_ONLY },
+  { path: "/guide", icon: "📖", label: "Cẩm nang", roles: ALL_ROLES },
 ];

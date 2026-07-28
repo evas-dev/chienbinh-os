@@ -24,6 +24,25 @@ export async function POST(request: Request) {
   }
   const { name, phone, password, dept, front, role, squadId } = parsed.data;
 
+  // ADM-04.2: chặn ngay tại đây nếu người gọi không phải CEO — tránh tạo rồi
+  // xoá một auth user "mồ côi" tạm thời một cách không cần thiết, và từ chối
+  // rõ ràng thay vì để lỗi cấu hình service-role che khuất nguyên nhân thật.
+  const callerClient = await createClient();
+  const {
+    data: { user: callerUser },
+  } = await callerClient.auth.getUser();
+  if (!callerUser) {
+    return NextResponse.json({ error: "Phải đăng nhập" }, { status: 401 });
+  }
+  const { data: callerProfile } = await callerClient
+    .from("profiles")
+    .select("role, active")
+    .eq("id", callerUser.id)
+    .single();
+  if (!callerProfile || !callerProfile.active || callerProfile.role !== "tong_tu_lenh") {
+    return NextResponse.json({ error: "Chỉ Tổng Tư Lệnh mới được tạo tài khoản nhân sự" }, { status: 403 });
+  }
+
   let serviceClient;
   try {
     serviceClient = createServiceRoleClient();
@@ -43,8 +62,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = await createClient();
-  const { error: rpcErr } = await supabase.rpc("admin_create_warrior", {
+  const { error: rpcErr } = await callerClient.rpc("admin_create_warrior", {
     p_user_id: created.user.id,
     p_name: name,
     p_phone: phone,

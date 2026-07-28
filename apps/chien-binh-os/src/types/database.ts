@@ -60,6 +60,9 @@ export type Database = {
           id: string
           proposed_by: string | null
           reason: string | null
+          revoke_reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
           staff_id: string | null
           status: Database["public"]["Enums"]["approval_status"] | null
         }
@@ -69,6 +72,9 @@ export type Database = {
           id?: string
           proposed_by?: string | null
           reason?: string | null
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
           staff_id?: string | null
           status?: Database["public"]["Enums"]["approval_status"] | null
         }
@@ -78,6 +84,9 @@ export type Database = {
           id?: string
           proposed_by?: string | null
           reason?: string | null
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
           staff_id?: string | null
           status?: Database["public"]["Enums"]["approval_status"] | null
         }
@@ -92,6 +101,13 @@ export type Database = {
           {
             foreignKeyName: "commendations_proposed_by_fkey"
             columns: ["proposed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commendations_revoked_by_fkey"
+            columns: ["revoked_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -668,6 +684,7 @@ export type Database = {
           created_at: string | null
           exp_granted: number | null
           id: string
+          kpi_deltas: Json | null
           mission_ref: string
           mission_title: string
           reject_reason: string | null
@@ -686,6 +703,7 @@ export type Database = {
           created_at?: string | null
           exp_granted?: number | null
           id?: string
+          kpi_deltas?: Json | null
           mission_ref: string
           mission_title: string
           reject_reason?: string | null
@@ -704,6 +722,7 @@ export type Database = {
           created_at?: string | null
           exp_granted?: number | null
           id?: string
+          kpi_deltas?: Json | null
           mission_ref?: string
           mission_title?: string
           reject_reason?: string | null
@@ -748,6 +767,7 @@ export type Database = {
       }
       support_requests: {
         Row: {
+          cancelled_at: string | null
           content: string | null
           created_at: string | null
           id: string
@@ -757,6 +777,7 @@ export type Database = {
           type: Database["public"]["Enums"]["support_type"]
         }
         Insert: {
+          cancelled_at?: string | null
           content?: string | null
           created_at?: string | null
           id?: string
@@ -766,6 +787,7 @@ export type Database = {
           type: Database["public"]["Enums"]["support_type"]
         }
         Update: {
+          cancelled_at?: string | null
           content?: string | null
           created_at?: string | null
           id?: string
@@ -833,16 +855,25 @@ export type Database = {
         Row: {
           awarded_at: string | null
           badge_code: string
+          revoke_reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
           warrior_id: string
         }
         Insert: {
           awarded_at?: string | null
           badge_code: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
           warrior_id: string
         }
         Update: {
           awarded_at?: string | null
           badge_code?: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
           warrior_id?: string
         }
         Relationships: [
@@ -852,6 +883,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "badges"
             referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "warrior_badges_revoked_by_fkey"
+            columns: ["revoked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "warrior_badges_warrior_id_fkey"
@@ -895,6 +933,7 @@ export type Database = {
       approve_submission: { Args: { p_submission_id: string }; Returns: Json }
       assign_objective_item: {
         Args: {
+          p_confirm?: boolean
           p_metric: string
           p_metric_key: string
           p_owner_id: string
@@ -974,6 +1013,10 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["role_type"]
       }
+      log_auth_event: {
+        Args: { p_event_type: string; p_payload?: Json }
+        Returns: undefined
+      }
       propose_commendation: {
         Args: { p_badge_code: string; p_reason: string; p_staff_id: string }
         Returns: string
@@ -992,6 +1035,10 @@ export type Database = {
       }
       revert_submission_to_rejected: {
         Args: { p_reason: string; p_submission_id: string }
+        Returns: undefined
+      }
+      revoke_commendation: {
+        Args: { p_commendation_id: string; p_reason: string }
         Returns: undefined
       }
       set_bonus_config: {

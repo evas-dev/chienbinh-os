@@ -25,6 +25,7 @@ export function RequestRow({
   otherPartyRole,
   content,
   createdAt,
+  cancelledAt,
   mode,
 }: {
   id: string;
@@ -34,12 +35,15 @@ export function RequestRow({
   otherPartyRole?: string;
   content: string | null;
   createdAt: string | null;
+  /** SUP-07: yêu cầu đã bị người gửi huỷ — vẫn giữ row (tính vào hạn mức
+   * tháng) nhưng ẩn khỏi luồng xử lý, hiển thị nhãn riêng. */
+  cancelledAt?: string | null;
   /** "mine" = tôi tạo (có thể huỷ) · "incoming" = gửi tới tôi (có thể duyệt/từ chối) */
   mode: "mine" | "incoming";
 }) {
   const [isPending, startTransition] = useTransition();
   const t = REQUEST_TYPES.find((x) => x.code === type);
-  const s = STATUS[status] ?? STATUS.cho_duyet;
+  const s = cancelledAt ? { label: "Đã hủy", cls: "bg-cb-panel-2 text-cb-ink-faint" } : (STATUS[status] ?? STATUS.cho_duyet);
 
   function respond(approve: boolean) {
     startTransition(async () => {
@@ -86,7 +90,7 @@ export function RequestRow({
       <div className="text-cb-ink-dim mt-1 flex items-center gap-1 text-xs">
         <EmojiIcon glyph="📝" /> {content}
       </div>
-      {status === "cho_duyet" ? (
+      {status === "cho_duyet" && !cancelledAt ? (
         <div className="mt-3 flex gap-2">
           {mode === "incoming" ? (
             <>

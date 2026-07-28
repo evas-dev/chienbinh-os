@@ -15,6 +15,7 @@ export async function assignObjectiveItemAction(input: {
   target: number;
   unit: string;
   weight: number;
+  confirm?: boolean;
 }): Promise<ActionResult<string>> {
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("assign_objective_item", {
@@ -24,6 +25,7 @@ export async function assignObjectiveItemAction(input: {
     p_target: input.target,
     p_unit: input.unit,
     p_weight: input.weight,
+    p_confirm: input.confirm ?? false,
   } as never);
   if (error) return fail(error);
   revalidatePath("/objectives");

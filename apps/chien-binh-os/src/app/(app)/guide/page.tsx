@@ -5,9 +5,13 @@ import { EmojiIcon } from "@/components/chung/emoji-icon";
 
 // Port nguyên nội dung tĩnh từ js/guide.js — không có mutation, chỉ đổi
 // template string sang JSX.
+// FEE-06: nội dung cẩm nang này áp dụng chung cho mọi vai trò (EXP, huy
+// hiệu, quân hàm, quỹ thưởng) — không có phần nào riêng cho CEO, nên phải
+// cho Tư Lệnh/Chiến Sỹ đọc được, chặn ở server theo tài khoản active thay
+// vì giới hạn CEO_ONLY như trước.
 export default async function GuidePage() {
   const profile = await getCurrentProfile();
-  requireRole(profile, ["tong_tu_lenh"]);
+  requireRole(profile, ["tong_tu_lenh", "tu_lenh", "chien_sy"]);
 
   return (
     <div className="space-y-4">

@@ -42,11 +42,12 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && request.nextUrl.pathname === "/login") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
-  }
+  // Cố tình KHÔNG bounce "user (có phiên) mở /login" về "/" ở đây: việc đó
+  // cần biết profiles.active (round-trip DB), để login/page.tsx (Server
+  // Component, đọc được getCurrentProfile()) lo. Nếu làm ở middleware chỉ
+  // dựa vào auth.getUser() (không biết active=false), tài khoản bị ngưng vẫn
+  // còn phiên Supabase Auth hợp lệ sẽ bị đẩy "/" -> layout redirect "/login"
+  // -> middleware đẩy lại "/" -> vòng lặp vô hạn (đã tái hiện được — AUTH-04).
 
   return supabaseResponse;
 }

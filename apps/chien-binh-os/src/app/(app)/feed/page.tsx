@@ -15,7 +15,7 @@ function timeAgo(iso: string) {
 
 export default async function FeedPage() {
   const supabase = await createClient();
-  const { data: feed } = await supabase
+  const { data: feed, error } = await supabase
     .from("feed")
     .select("id, icon, text, created_at")
     .order("created_at", { ascending: false })
@@ -29,17 +29,23 @@ export default async function FeedPage() {
           Nhật ký chiến công
         </TieuDeMuc>
         <div className="divide-cb-line-soft divide-y">
-          {(feed ?? []).length === 0 ? (
+          {error ? (
+            // FEE-01 AC3: lỗi tải dữ liệu phải khác trạng thái "chưa có hoạt động".
+            <p className="text-cb-crimson py-4 text-sm" role="alert">
+              Không tải được nhật ký chiến công. Vui lòng thử lại.
+            </p>
+          ) : (feed ?? []).length === 0 ? (
             <p className="text-cb-ink-dim py-4 text-sm">Chưa có hoạt động nào.</p>
           ) : (
             (feed ?? []).map((f) => (
               <div key={f.id} className="flex items-start gap-3 py-3">
                 <EmojiIcon glyph={f.icon} className="text-cb-gold-soft mt-0.5" />
                 <div className="min-w-0">
-                  <div
-                    className="text-sm leading-relaxed [&_b]:font-semibold"
-                    dangerouslySetInnerHTML={{ __html: f.text }}
-                  />
+                  {/* FEE-02: text feed có thể chứa lý do do người dùng nhập
+                      (VD: lý do từ chối/thu hồi kết quả) — không tin cậy
+                      HTML lưu sẵn trong DB. Render dạng text thuần để React
+                      tự escape, tránh stored XSS thay vì dangerouslySetInnerHTML. */}
+                  <div className="text-sm leading-relaxed">{f.text}</div>
                   <div className="text-cb-ink-faint mt-1 text-xs">
                     {f.created_at ? timeAgo(f.created_at) : ""}
                   </div>

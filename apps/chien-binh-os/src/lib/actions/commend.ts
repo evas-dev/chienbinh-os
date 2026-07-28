@@ -40,3 +40,15 @@ export async function rejectCommendationAction(id: string): Promise<ActionResult
   revalidatePath("/commend");
   return { ok: true, data: undefined };
 }
+
+export async function revokeCommendationAction(id: string, reason: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("revoke_commendation", {
+    p_commendation_id: id,
+    p_reason: reason,
+  });
+  if (error) return fail(error);
+  revalidatePath("/commend");
+  revalidatePath("/feed");
+  return { ok: true, data: undefined };
+}

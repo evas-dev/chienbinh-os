@@ -6,7 +6,7 @@ import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 // Hồ sơ kỷ luật của 1 nhân sự — hiện trong Sở chỉ huy của người đó.
 export async function PenaltyRecordCard({ warriorId }: { warriorId: string }) {
   const supabase = await createClient();
-  const { data: list } = await supabase
+  const { data: list, error } = await supabase
     .from("penalty_log")
     .select("id, reason, created_at, penalties(name, exp_delta, extra), profiles!penalty_log_applied_by_fkey(name)")
     .eq("warrior_id", warriorId)
@@ -29,7 +29,12 @@ export async function PenaltyRecordCard({ warriorId }: { warriorId: string }) {
         >
           Hồ sơ kỷ luật
         </TieuDeMuc>
-        {rows.length === 0 ? (
+        {error ? (
+          // PEN-11 AC2: lỗi tải dữ liệu phải khác với "hồ sơ sạch, không vi phạm".
+          <p className="text-cb-crimson flex items-center gap-1 text-sm">
+            <EmojiIcon glyph="⚠️" /> Không tải được hồ sơ kỷ luật. Vui lòng thử lại sau.
+          </p>
+        ) : rows.length === 0 ? (
           <p className="text-cb-ink-dim flex items-center gap-1 text-sm">
             Chưa có vi phạm nào — hồ sơ kỷ luật sạch <EmojiIcon glyph="🛡" />
           </p>

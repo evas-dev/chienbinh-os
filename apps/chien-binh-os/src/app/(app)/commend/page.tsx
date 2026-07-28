@@ -18,20 +18,26 @@ export default async function CommendPage() {
   let query = supabase
     .from("commendations")
     .select(
-      "id, status, reason, badge_code, staff:profiles!commendations_staff_id_fkey(name, dept), proposer:profiles!commendations_proposed_by_fkey(name), badges(name, icon)",
+      "id, status, reason, badge_code, revoked_at, revoke_reason, staff:profiles!commendations_staff_id_fkey(name, dept), proposer:profiles!commendations_proposed_by_fkey(name), badges(name, icon)",
     )
     .order("created_at", { ascending: false });
   if (!isCeo) query = query.eq("proposed_by", profile.id);
-  const { data: commendations } = await query;
+  const { data: commendations, error: commendationsError } = await query;
 
-  const { data: staff } = isCeo
-    ? { data: [] }
+  const { data: staff, error: staffError } = isCeo
+    ? { data: [], error: null }
     : await supabase
         .from("profiles")
         .select("id, name, dept")
         .eq("role", "chien_sy")
         .eq("front", profile.front ?? "tien_tuyen");
-  const { data: badges } = await supabase.from("badges").select("code, name, icon").order("code");
+  const { data: badges, error: badgesError } = await supabase
+    .from("badges")
+    .select("code, name, icon")
+    .order("code");
+
+  // REW-11 AC2: lỗi tải dữ liệu phải hiển thị khác với "chưa có dữ liệu".
+  const loadError = commendationsError || staffError || badgesError;
 
   return (
     <div>
@@ -55,7 +61,11 @@ export default async function CommendPage() {
           <TieuDeMuc icon="🏆">
             {isCeo ? "Danh sách đề xuất khen thưởng" : "Đề xuất của tôi"}
           </TieuDeMuc>
-          {(commendations ?? []).length === 0 ? (
+          {loadError ? (
+            <p className="text-cb-crimson flex items-center gap-1 text-sm">
+              <EmojiIcon glyph="⚠️" /> Không tải được dữ liệu khen thưởng. Vui lòng thử lại sau.
+            </p>
+          ) : (commendations ?? []).length === 0 ? (
             <p className="text-cb-ink-dim text-sm">
               {isCeo
                 ? "Chưa có đề xuất nào."
@@ -78,6 +88,8 @@ export default async function CommendPage() {
                   badgeName={badge?.name ?? "—"}
                   reason={c.reason}
                   canApprove={isCeo}
+                  revokedAt={c.revoked_at}
+                  revokeReason={c.revoke_reason}
                 />
               );
             })

@@ -13,12 +13,22 @@ export default async function RequestsPage() {
   if (!profile) return null;
 
   const supabase = await createClient();
+  // SUP-03: hạn mức tính theo tháng giờ Việt Nam (Asia/Ho_Chi_Minh), không
+  // phải giờ server (thường là UTC) — khớp cách RPC create_support_request
+  // tính ranh giới tháng, tránh lệch ~7 tiếng quanh nửa đêm 1 tây.
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const vnParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(now);
+  const vnYear = Number(vnParts.find((p) => p.type === "year")?.value);
+  const vnMonth = Number(vnParts.find((p) => p.type === "month")?.value);
+  const monthStart = new Date(Date.UTC(vnYear, vnMonth - 1, 1) - 7 * 60 * 60 * 1000).toISOString();
 
   const [
-    { data: mine },
-    { data: incoming },
+    { data: mine, error: mineError },
+    { data: incoming, error: incomingError },
     { data: managers },
     { data: peers },
     { count: usedThisMonth },
@@ -27,16 +37,29 @@ export default async function RequestsPage() {
   ] = await Promise.all([
     supabase
       .from("support_requests")
-      .select("id, type, status, content, created_at, target:profiles!support_requests_target_id_fkey(name, role)")
+      .select(
+        "id, type, status, content, created_at, cancelled_at, target:profiles!support_requests_target_id_fkey(name, role)",
+      )
       .eq("requester_id", profile.id)
       .order("created_at", { ascending: false }),
     supabase
       .from("support_requests")
-      .select("id, type, status, content, created_at, requester:profiles!support_requests_requester_id_fkey(name, role)")
+      .select(
+        "id, type, status, content, created_at, cancelled_at, requester:profiles!support_requests_requester_id_fkey(name, role)",
+      )
       .eq("target_id", profile.id)
       .order("created_at", { ascending: false }),
-    supabase.from("profiles").select("id, name, role, dept").in("role", ["tu_lenh", "tong_tu_lenh"]),
-    supabase.from("profiles").select("id, name, role, dept").eq("role", "chien_sy").neq("id", profile.id),
+    supabase
+      .from("profiles")
+      .select("id, name, role, dept")
+      .in("role", ["tu_lenh", "tong_tu_lenh"])
+      .eq("active", true),
+    supabase
+      .from("profiles")
+      .select("id, name, role, dept")
+      .eq("role", "chien_sy")
+      .eq("active", true)
+      .neq("id", profile.id),
     supabase
       .from("support_requests")
       .select("id", { count: "exact", head: true })
@@ -55,9 +78,19 @@ export default async function RequestsPage() {
       .maybeSingle();
     defaultTargetId = squad?.leader_id ?? "";
   }
-  if (!defaultTargetId) {
-    const { data: ceo } = await supabase.from("profiles").select("id").eq("role", "tong_tu_lenh").maybeSingle();
-    defaultTargetId = ceo?.id ?? "";
+  // SUP-02: người nhận mặc định (lãnh đạo tiểu đội) có thể đã bị khoá —
+  // trong trường hợp đó phải rơi về một quản lý đang hoạt động khác thay vì
+  // giữ nguyên id không hợp lệ (form sẽ không chọn được người không có
+  // trong danh sách quản lý active).
+  const activeManagerIds = new Set((managers ?? []).map((m) => m.id));
+  if (!defaultTargetId || !activeManagerIds.has(defaultTargetId)) {
+    const { data: ceo } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("role", "tong_tu_lenh")
+      .eq("active", true)
+      .maybeSingle();
+    defaultTargetId = ceo?.id ?? (managers ?? [])[0]?.id ?? "";
   }
 
   return (
@@ -78,7 +111,12 @@ export default async function RequestsPage() {
         <Card className="bg-cb-panel border-cb-line">
           <CardContent>
             <TieuDeMuc icon="🗂">Yêu cầu của tôi</TieuDeMuc>
-            {(mine ?? []).length === 0 ? (
+            {mineError ? (
+              // SUP-04 AC3: lỗi truy vấn phải khác trạng thái "chưa có yêu cầu".
+              <p className="text-cb-crimson text-sm" role="alert">
+                Không tải được danh sách yêu cầu. Vui lòng thử lại.
+              </p>
+            ) : (mine ?? []).length === 0 ? (
               <p className="text-cb-ink-dim text-sm">Chưa có yêu cầu nào trong tháng.</p>
             ) : (
               (mine ?? []).map((r) => {
@@ -93,6 +131,7 @@ export default async function RequestsPage() {
                     otherPartyRole={target ? ROLE_LABEL[target.role as Enums<"role_type">] : undefined}
                     content={r.content}
                     createdAt={r.created_at}
+                    cancelledAt={r.cancelled_at}
                     mode="mine"
                   />
                 );
@@ -104,7 +143,11 @@ export default async function RequestsPage() {
         <Card className="bg-cb-panel border-cb-line">
           <CardContent>
             <TieuDeMuc icon="📨">Yêu cầu cần tôi duyệt</TieuDeMuc>
-            {(incoming ?? []).length === 0 ? (
+            {incomingError ? (
+              <p className="text-cb-crimson text-sm" role="alert">
+                Không tải được danh sách yêu cầu. Vui lòng thử lại.
+              </p>
+            ) : (incoming ?? []).length === 0 ? (
               <p className="text-cb-ink-dim text-sm">Chưa có yêu cầu nào gửi tới bạn.</p>
             ) : (
               (incoming ?? []).map((r) => {
@@ -119,6 +162,7 @@ export default async function RequestsPage() {
                     otherPartyRole={requester ? ROLE_LABEL[requester.role as Enums<"role_type">] : undefined}
                     content={r.content}
                     createdAt={r.created_at}
+                    cancelledAt={r.cancelled_at}
                     mode="incoming"
                   />
                 );

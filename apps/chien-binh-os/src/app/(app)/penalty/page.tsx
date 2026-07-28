@@ -25,17 +25,50 @@ export default async function PenaltyPage() {
   if (!profile) return null;
 
   const supabase = await createClient();
-  const [{ data: penalties }, { data: targets }, { data: log }] = await Promise.all([
-    supabase.from("penalties").select("*"),
-    supabase.from("profiles").select("id, name, dept").neq("role", "tong_tu_lenh"),
-    supabase
-      .from("penalty_log")
-      .select(
-        "id, reason, created_at, penalties(name, exp_delta, extra, severity), profiles!penalty_log_warrior_id_fkey(name), applier:profiles!penalty_log_applied_by_fkey(name)",
-      )
-      .order("created_at", { ascending: false })
-      .limit(50),
-  ]);
+  const isCeo = profile.role === "tong_tu_lenh";
+
+  // PEN-02 AC2: Tư Lệnh chỉ được xử phạt (và thấy trong danh sách chọn) nhân
+  // sự cùng mặt trận quản lý — trước đây dropdown liệt kê TOÀN BỘ công ty.
+  let targetsQuery = supabase
+    .from("profiles")
+    .select("id, name, dept")
+    .neq("role", "tong_tu_lenh")
+    .neq("id", profile.id);
+  if (!isCeo) targetsQuery = targetsQuery.eq("front", profile.front ?? "tien_tuyen");
+
+  // PEN-08: Tư Lệnh chỉ xem sổ ghi án trong phạm vi quản lý của mình; CEO
+  // xem toàn công ty. RLS ("read penalty_log scoped") đã chặn ở tầng DB nên
+  // truy vấn này tự nhiên chỉ trả về đúng phạm vi cho mỗi vai trò.
+  const logQuery = supabase
+    .from("penalty_log")
+    .select(
+      "id, reason, created_at, penalties(name, exp_delta, extra, severity), profiles!penalty_log_warrior_id_fkey(name), applier:profiles!penalty_log_applied_by_fkey(name)",
+    )
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  const [
+    { data: penalties, error: penaltiesError },
+    { data: targets, error: targetsError },
+    { data: log, error: logError },
+  ] = await Promise.all([supabase.from("penalties").select("*"), targetsQuery, logQuery]);
+
+  // PEN-11 AC2: lỗi tải dữ liệu phải hiển thị khác với "chưa có dữ liệu".
+  const loadError = penaltiesError || targetsError || logError;
+
+  if (loadError) {
+    return (
+      <div>
+        <Card className="bg-cb-panel border-cb-line">
+          <CardContent>
+            <p className="text-cb-crimson flex items-center gap-1 text-sm">
+              <EmojiIcon glyph="⚠️" /> Không tải được dữ liệu xử phạt. Vui lòng thử lại sau.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { createClient } from "@/lib/supabase/server";
 import { ObjectiveCard } from "@/components/objectives/objective-card";
@@ -16,9 +17,21 @@ export default async function ObjectivesPage() {
   const supabase = await createClient();
 
   if (profile.role === "tong_tu_lenh") {
-    const { data: objectives } = await supabase
+    const { data: objectivesRaw } = await supabase
       .from("objectives")
-      .select("id, owner_id, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)");
+      .select("id, owner_id, year, month, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)")
+      .order("year", { ascending: false })
+      .order("month", { ascending: false });
+    // Mỗi chủ sở hữu chỉ hiển thị MỘT thẻ KPI — kỳ mới nhất. Tránh vỡ giao diện
+    // thành nhiều thẻ trùng khi đồng hồ thật trôi qua so với tháng gán lúc tạo
+    // (vd objectives tạo cho tháng 8 nhưng "Giao thêm KPI" bấm vào tháng 7 thật
+    // sẽ tạo objective mới cho tháng 7 nếu không gộp lại ở đây).
+    const seenOwners = new Set<string>();
+    const objectives = (objectivesRaw ?? []).filter((o) => {
+      if (!o.owner_id || seenOwners.has(o.owner_id)) return false;
+      seenOwners.add(o.owner_id);
+      return true;
+    });
     const { data: allStaff } = await supabase
       .from("profiles")
       .select("id, name, role, dept")
@@ -64,7 +77,7 @@ export default async function ObjectivesPage() {
   if (profile.role === "tu_lenh") {
     // Lấy mục tiêu MỚI NHẤT của mình, không khớp cứng tháng/năm hiện tại —
     // tránh lệch khi ngày thật trôi qua so với tháng gán lúc tạo mục tiêu.
-    const { data: objectiveRows } = await supabase
+    const { data: objectiveRows, error: objectiveError } = await supabase
       .from("objectives")
       .select("objective_items(*)")
       .eq("owner_id", profile.id)
@@ -85,7 +98,18 @@ export default async function ObjectivesPage() {
           <EmojiIcon glyph="🎖" /> <b>Cấp Quản lý:</b> đây là mục tiêu CEO giao cho anh/chị. Bấm mẫu bên dưới để giao chỉ
           tiêu cụ thể cho lính.
         </p>
-        {objective ? (
+        {objectiveError ? (
+          // KPI-12: lỗi tải dữ liệu phải khác trạng thái "chưa có KPI" — không
+          // được để CEO/quản lý hiểu nhầm là mình chưa được giao mục tiêu.
+          <Card className="border-cb-crimson/40 bg-cb-crimson/10">
+            <CardContent className="text-cb-crimson text-sm leading-relaxed">
+              Không tải được dữ liệu mục tiêu, vui lòng thử lại.{" "}
+              <Link href="/objectives" className="underline">
+                Thử lại
+              </Link>
+            </CardContent>
+          </Card>
+        ) : objective ? (
           <ObjectiveCard ownerName={profile.name} ownerDept={profile.dept} items={objective.objective_items} />
         ) : (
           <Card className="bg-cb-panel border-cb-line">
@@ -151,8 +175,9 @@ export default async function ObjectivesPage() {
   let objective: { objective_items: { id: string; current: number; target: number; weight: number; metric: string; unit: string | null; metric_key: string | null; objective_id: string | null }[] } | null = null;
   let leaderName = "";
   let leaderDept: string | null = null;
+  let objectiveError: unknown = null;
   if (leaderId) {
-    const [{ data: leader }, { data: objRows }] = await Promise.all([
+    const [{ data: leader }, { data: objRows, error }] = await Promise.all([
       supabase.from("profiles").select("name, dept").eq("id", leaderId).single(),
       supabase
         .from("objectives")
@@ -165,6 +190,7 @@ export default async function ObjectivesPage() {
     leaderName = leader?.name ?? "";
     leaderDept = leader?.dept ?? null;
     objective = objRows?.[0] ?? null;
+    objectiveError = error;
   }
 
   return (
@@ -173,7 +199,16 @@ export default async function ObjectivesPage() {
         <EmojiIcon glyph="⚔️" /> <b>Cấp Chiến sỹ:</b> đây là mục tiêu của quản lý trực tiếp — nhiệm vụ ngày của bạn góp
         phần hoàn thành nó.
       </p>
-      {objective ? (
+      {objectiveError ? (
+        <Card className="border-cb-crimson/40 bg-cb-crimson/10">
+          <CardContent className="text-cb-crimson text-sm leading-relaxed">
+            Không tải được dữ liệu mục tiêu, vui lòng thử lại.{" "}
+            <Link href="/objectives" className="underline">
+              Thử lại
+            </Link>
+          </CardContent>
+        </Card>
+      ) : objective ? (
         <ObjectiveCard ownerName={leaderName} ownerDept={leaderDept} items={objective.objective_items} />
       ) : (
         <Card className="bg-cb-panel border-cb-line">

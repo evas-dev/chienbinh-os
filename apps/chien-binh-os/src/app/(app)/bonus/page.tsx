@@ -16,13 +16,28 @@ export default async function BonusPage() {
   if (!profile) return null;
 
   const supabase = await createClient();
-  const [{ data: warriors }, { data: ranks }, { data: config }] = await Promise.all([
+  const [{ data: warriors }, { data: ranks }, { data: config, error: configError }] = await Promise.all([
     supabase.from("profiles").select("*"),
     supabase.from("ranks").select("*"),
     supabase.from("app_config").select("value").eq("key", "bonus_pool").single(),
   ]);
 
-  const bonus = (config?.value ?? { pool: 0, months: 6 }) as { pool: number; months: number };
+  // BON-01 AC3: cấu hình chưa tồn tại hoặc đọc lỗi phải báo lỗi rõ, không
+  // được âm thầm hiển thị quỹ = 0 như thể đó là số liệu thật.
+  if (configError || !config) {
+    return (
+      <Card className="bg-cb-panel border-cb-line max-w-xl">
+        <CardContent>
+          <p className="text-cb-crimson text-sm" role="alert">
+            Không tải được cấu hình quỹ thưởng. Vui lòng thử lại hoặc kiểm tra lại cấu hình
+            `bonus_pool`.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const bonus = config.value as { pool: number; months: number };
   const people = (warriors ?? []).filter((w) => w.role !== "tong_tu_lenh");
   const totalExp = people.reduce((sum, w) => sum + w.exp, 0);
 
@@ -72,6 +87,13 @@ export default async function BonusPage() {
             <TieuDeMuc icon="🏆" hint={`Chia theo tỷ lệ EXP tích luỹ trong kỳ ${bonus.months} tháng`}>
               Bảng chia thưởng cuối kỳ
             </TieuDeMuc>
+            {/* BON-04 AC3: nêu rõ quy tắc làm tròn — số tiền mỗi người được
+                làm tròn tới đồng để hiển thị, phần chênh lệch làm tròn cộng
+                dồn không vượt quá tổng quỹ. */}
+            <p className="text-cb-ink-faint mb-2 text-xs">
+              Số tiền mỗi người được làm tròn tới đồng gần nhất để hiển thị; tổng chênh lệch làm
+              tròn không vượt quá tổng quỹ.
+            </p>
             <div className="space-y-1">
               {rows.map(({ w, pct, money }) => (
                 <div

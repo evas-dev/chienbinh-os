@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { createClient } from "@/lib/supabase/server";
 import { rankOf, expProgress } from "@/lib/ranks";
@@ -21,16 +22,20 @@ export default async function HomePage() {
   }
 
   const supabase = await createClient();
-  const [{ data: ranks }, { count: badgeCount }, { data: todayMissions }] = await Promise.all([
-    supabase.from("ranks").select("*"),
-    supabase.from("warrior_badges").select("*", { count: "exact", head: true }).eq("warrior_id", profile.id),
-    supabase
-      .from("missions")
-      .select("*")
-      .eq("assignee_id", profile.id)
-      .eq("type", "ngay")
-      .neq("status", "done"),
-  ]);
+  const [{ data: ranks }, { count: badgeCount }, { data: todayMissions, error: missionsError }, { data: squad }] =
+    await Promise.all([
+      supabase.from("ranks").select("*"),
+      supabase.from("warrior_badges").select("*", { count: "exact", head: true }).eq("warrior_id", profile.id),
+      supabase
+        .from("missions")
+        .select("*")
+        .eq("assignee_id", profile.id)
+        .eq("type", "ngay")
+        .neq("status", "done"),
+      profile.squad_id
+        ? supabase.from("squads").select("name").eq("id", profile.squad_id).maybeSingle()
+        : Promise.resolve({ data: null, error: null }),
+    ]);
 
   const rank = rankOf(profile.exp, ranks ?? []);
   const progress = expProgress(profile.exp, ranks ?? []);
@@ -50,6 +55,9 @@ export default async function HomePage() {
                   {profile.front ? FRONT_LABEL[profile.front] : "—"} · {profile.dept} ·{" "}
                   {ROLE_LABEL[profile.role]}
                 </div>
+                <div className="text-cb-ink-faint mt-0.5 text-xs">
+                  Tiểu đội: {squad?.name ?? "Chưa cập nhật"}
+                </div>
                 <div className="text-cb-gold mt-1.5 flex items-center gap-1.5 text-sm font-semibold">
                   <EmojiIcon glyph={rank.insignia} /> {rank.name}
                 </div>
@@ -63,7 +71,13 @@ export default async function HomePage() {
                   Còn {fmtNum(progress.remaining)} → {progress.nextName}
                 </span>
               </div>
-              <ThanhTienDo pct={progress.pct} />
+              {progress.configIssue ? (
+                <p className="text-cb-crimson text-xs">
+                  <EmojiIcon glyph="⚠️" /> {progress.configIssue}
+                </p>
+              ) : (
+                <ThanhTienDo pct={progress.pct} />
+              )}
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3 text-center">
@@ -82,7 +96,16 @@ export default async function HomePage() {
         <Card className="bg-cb-panel border-cb-line">
           <CardContent>
             <TieuDeMuc icon="🎯">Nhiệm vụ hôm nay</TieuDeMuc>
-            {(todayMissions ?? []).length ? (
+            {missionsError ? (
+              // Lỗi truy vấn phải khác trạng thái "chưa có nhiệm vụ" (CMD-03.3,
+              // CMD-09) — không được mô tả lỗi thành trạng thái trống.
+              <p className="text-cb-crimson text-sm leading-relaxed">
+                Không tải được nhiệm vụ hôm nay, vui lòng thử lại.{" "}
+                <Link href="/" className="underline">
+                  Thử lại
+                </Link>
+              </p>
+            ) : (todayMissions ?? []).length ? (
               (todayMissions ?? []).map((m) => <MissionCard key={m.id} mission={m} />)
             ) : (
               <p className="text-cb-ink-dim text-sm leading-relaxed">
