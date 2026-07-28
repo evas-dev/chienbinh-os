@@ -8,6 +8,7 @@ import { CONTENT_TYPES } from "@/lib/missions";
 import { approveSubmissionAction, rejectSubmissionAction, revertSubmissionAction } from "@/lib/actions/missions";
 import { ReasonDialog } from "./reason-dialog";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import type { Tables } from "@/types/database";
 
 type Submission = Tables<"submissions"> & { submitter_name?: string };
@@ -58,21 +59,21 @@ function SubmissionCard({ sub, pending }: { sub: Submission; pending: boolean })
 
   const statusChip =
     sub.status === "cho_duyet" ? (
-      <span className="bg-cb-panel-2 text-cb-ink-dim inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px]">
+      <span className="bg-cb-panel-2 text-cb-ink-dim inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs">
         <EmojiIcon glyph="⏳" /> Chờ duyệt · Lần {sub.round}
       </span>
     ) : sub.status === "da_duyet" ? (
-      <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-[11px] text-green-400">
+      <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-xs text-green-400">
         <EmojiIcon glyph="✅" /> Đã duyệt
       </span>
     ) : (
-      <span className="bg-cb-crimson/10 text-cb-crimson inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px]">
+      <span className="bg-cb-crimson/10 text-cb-crimson inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs">
         <EmojiIcon glyph="❌" /> Từ chối
       </span>
     );
 
   return (
-    <div className="border-cb-line-soft border-b py-3 last:border-none">
+    <div className="border-cb-line-soft border-b py-3.5 last:border-none">
       <div className="mb-1 flex flex-wrap items-center gap-2">
         {statusChip}
         <b className="text-sm">{sub.mission_title}</b>
@@ -154,10 +155,8 @@ export function ReviewPanel({
   return (
     <>
       <Card className="bg-cb-panel border-cb-line mb-4">
-        <CardContent className="pt-6">
-          <div className="mb-2 flex items-center gap-1.5 font-semibold">
-            <EmojiIcon glyph="🛡" /> Chờ anh/chị duyệt ({pending.length})
-          </div>
+        <CardContent>
+          <TieuDeMuc icon="🛡">Chờ anh/chị duyệt ({pending.length})</TieuDeMuc>
           {pending.length ? (
             pending.map((s) => <SubmissionCard key={s.id} sub={s} pending />)
           ) : (
@@ -166,10 +165,8 @@ export function ReviewPanel({
         </CardContent>
       </Card>
       <Card className="bg-cb-panel border-cb-line mb-4">
-        <CardContent className="pt-6">
-          <div className="mb-2 flex items-center gap-1.5 font-semibold">
-            <EmojiIcon glyph="📋" /> Kết quả đã xử lý
-          </div>
+        <CardContent>
+          <TieuDeMuc icon="📋">Kết quả đã xử lý</TieuDeMuc>
           {recent.length ? (
             recent.map((s) => <SubmissionCard key={s.id} sub={s} pending={false} />)
           ) : (

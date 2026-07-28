@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ROLE_LABEL } from "@/lib/nav";
 import type { Enums } from "@/types/database";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 export default async function RequestsPage() {
   const profile = await getCurrentProfile();
@@ -61,8 +62,8 @@ export default async function RequestsPage() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="bg-cb-panel-2 border-cb-line flex-1 rounded-lg border p-3 text-sm">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <p className="bg-cb-panel-2 border-cb-line min-w-0 flex-1 rounded-lg border p-3.5 text-sm">
           <EmojiIcon glyph="🤝" /> Xin hỗ trợ từ quản lý/đồng đội, xin nghỉ phép, hoặc gửi đề xuất cần duyệt.
         </p>
         <CreateRequestButton
@@ -73,12 +74,10 @@ export default async function RequestsPage() {
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid items-start gap-4 md:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🗂" /> Yêu cầu của tôi
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="🗂">Yêu cầu của tôi</TieuDeMuc>
             {(mine ?? []).length === 0 ? (
               <p className="text-cb-ink-dim text-sm">Chưa có yêu cầu nào trong tháng.</p>
             ) : (
@@ -103,10 +102,8 @@ export default async function RequestsPage() {
         </Card>
 
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="📨" /> Yêu cầu cần tôi duyệt
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="📨">Yêu cầu cần tôi duyệt</TieuDeMuc>
             {(incoming ?? []).length === 0 ? (
               <p className="text-cb-ink-dim text-sm">Chưa có yêu cầu nào gửi tới bạn.</p>
             ) : (

@@ -7,6 +7,7 @@ import { CreateMissionButton } from "@/components/missions/create-mission-button
 import { Card, CardContent } from "@/components/ui/card";
 import { FIXED_TASKS } from "@/lib/objectives";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 export default async function ObjectivesPage() {
   const profile = await getCurrentProfile();
@@ -25,8 +26,8 @@ export default async function ObjectivesPage() {
 
     return (
       <div>
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="bg-cb-panel-2 border-cb-line flex-1 rounded-lg border p-3 text-sm">
+        <div className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="bg-cb-panel-2 border-cb-line sm:flex-1 rounded-lg border p-3.5 text-sm leading-relaxed">
             <EmojiIcon glyph="👑" /> <b>Cấp CEO:</b> giao mục tiêu KPI cho trưởng phòng, hoặc <b>giao việc thẳng cho nhân sự</b>{" "}
             không qua quản lý.
           </p>
@@ -42,7 +43,7 @@ export default async function ObjectivesPage() {
             campaigns={[]}
           />
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid items-start gap-4 md:grid-cols-2">
           {(objectives ?? []).map((o) => {
             const owner = Array.isArray(o.profiles) ? o.profiles[0] : o.profiles;
             return (
@@ -80,7 +81,7 @@ export default async function ObjectivesPage() {
 
     return (
       <div>
-        <p className="bg-cb-panel-2 border-cb-line mb-4 rounded-lg border p-3 text-sm">
+        <p className="bg-cb-panel-2 border-cb-line mb-5 rounded-lg border p-3.5 text-sm leading-relaxed">
           <EmojiIcon glyph="🎖" /> <b>Cấp Quản lý:</b> đây là mục tiêu CEO giao cho anh/chị. Bấm mẫu bên dưới để giao chỉ
           tiêu cụ thể cho lính.
         </p>
@@ -88,20 +89,17 @@ export default async function ObjectivesPage() {
           <ObjectiveCard ownerName={profile.name} ownerDept={profile.dept} items={objective.objective_items} />
         ) : (
           <Card className="bg-cb-panel border-cb-line">
-            <CardContent className="text-cb-ink-dim pt-6 text-sm">
+            <CardContent className="text-cb-ink-dim text-sm">
               Chưa được CEO giao mục tiêu nào.
             </CardContent>
           </Card>
         )}
 
         <Card className="bg-cb-panel border-cb-line mt-4">
-          <CardContent className="pt-6">
-            <div className="mb-1 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="⚡" /> Bẻ mục tiêu thành nhiệm vụ ngày
-            </div>
-            <p className="text-cb-ink-dim mb-3 text-sm">
-              Chọn mẫu nhiệm vụ để giao nhanh cho lính, hoặc tạo tùy chỉnh.
-            </p>
+          <CardContent>
+            <TieuDeMuc icon="⚡" hint="Chọn mẫu nhiệm vụ để giao nhanh cho lính, hoặc tạo tùy chỉnh.">
+              Bẻ mục tiêu thành nhiệm vụ ngày
+            </TieuDeMuc>
             <div className="flex flex-wrap gap-2">
               {FIXED_TASKS.map((t) => (
                 <FixedTaskButton
@@ -171,7 +169,7 @@ export default async function ObjectivesPage() {
 
   return (
     <div>
-      <p className="bg-cb-panel-2 border-cb-line mb-4 rounded-lg border p-3 text-sm">
+      <p className="bg-cb-panel-2 border-cb-line mb-5 rounded-lg border p-3.5 text-sm leading-relaxed">
         <EmojiIcon glyph="⚔️" /> <b>Cấp Chiến sỹ:</b> đây là mục tiêu của quản lý trực tiếp — nhiệm vụ ngày của bạn góp
         phần hoàn thành nó.
       </p>
@@ -179,7 +177,7 @@ export default async function ObjectivesPage() {
         <ObjectiveCard ownerName={leaderName} ownerDept={leaderDept} items={objective.objective_items} />
       ) : (
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="text-cb-ink-dim pt-6 text-sm">Đội chưa có mục tiêu.</CardContent>
+          <CardContent className="text-cb-ink-dim text-sm">Đội chưa có mục tiêu.</CardContent>
         </Card>
       )}
     </div>

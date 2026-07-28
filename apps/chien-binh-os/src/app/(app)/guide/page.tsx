@@ -20,7 +20,7 @@ export default async function GuidePage() {
       </p>
 
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="overflow-x-auto pt-6">
+        <CardContent className="overflow-x-auto">
           <div className="mb-3 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="📏" />
             Đơn vị đo &amp; ý nghĩa
@@ -93,7 +93,7 @@ export default async function GuidePage() {
       </Card>
 
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="mb-3 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="🧭" />
             Sơ đồ khối: từ mục tiêu công ty xuống nhân sự
@@ -156,7 +156,7 @@ export default async function GuidePage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="space-y-2 pt-6 text-sm">
+          <CardContent className="space-y-2 text-sm">
             <div className="mb-1 flex items-center gap-1.5 font-semibold">
               <EmojiIcon glyph="📈" />
               Ví dụ: Phòng Marketing
@@ -168,14 +168,14 @@ export default async function GuidePage() {
               200 lead mới → <b className="text-cb-purple">Huy hiệu</b>
             </EgLine>
             <EgLine k="Chia đều / 30">≈ 33.333 view/ngày · ≈ 3–4 video/ngày</EgLine>
-            <EgLine k="Nhân sự">Leader giao "X video/tuần" = EXP; cuối tháng báo cáo điểm TB</EgLine>
+            <EgLine k="Nhân sự">Leader giao «X video/tuần» = EXP; cuối tháng báo cáo điểm TB</EgLine>
             <EgLine k="Được huy hiệu khi">
               Đạt mốc view/lead sớm; đạt trong ½ thời gian → huy hiệu đột phá
             </EgLine>
           </CardContent>
         </Card>
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="space-y-2 pt-6 text-sm">
+          <CardContent className="space-y-2 text-sm">
             <div className="mb-1 flex items-center gap-1.5 font-semibold">
               <EmojiIcon glyph="💼" />
               Ví dụ: Phòng Sale
@@ -196,7 +196,7 @@ export default async function GuidePage() {
       </div>
 
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="space-y-2 pt-6 text-sm">
+        <CardContent className="space-y-2 text-sm">
           <div className="mb-1 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="🔗" />
             Gắn với tính năng trong app

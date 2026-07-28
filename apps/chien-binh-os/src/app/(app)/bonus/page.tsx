@@ -7,6 +7,7 @@ import { FRONT_LABEL } from "@/lib/nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { BonusConfigForm } from "@/components/home/bonus-config-form";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import { cn } from "@/lib/utils";
 
 export default async function BonusPage() {
@@ -42,64 +43,66 @@ export default async function BonusPage() {
           tích trong kỳ {bonus.months} tháng; cấp bậc là danh vọng riêng, không ảnh hưởng số tiền.
         </span>
       </p>
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* Cột cấu hình hẹp bên trái, bảng chia thưởng rộng bên phải — items-start để
+          thẻ cấu hình (ngắn) không bị kéo cao bằng bảng 11 người. */}
+      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,340px)_1fr]">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-3 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="⚙️" />
-              Thiết lập quỹ (Tổng Tư Lệnh)
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="⚙️">Thiết lập quỹ (Tổng Tư Lệnh)</TieuDeMuc>
             <BonusConfigForm pool={bonus.pool} months={bonus.months} />
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="bg-cb-panel-2 rounded-lg p-3">
+              <div className="bg-cb-panel-2 rounded-xl p-3">
                 <div className="font-bold">{fmtNum(totalExp)}</div>
-                <div className="text-cb-ink-faint text-[11px]">TỔNG EXP</div>
+                <div className="text-cb-ink-faint mt-1 text-xs">TỔNG EXP</div>
               </div>
-              <div className="bg-cb-panel-2 rounded-lg p-3">
+              <div className="bg-cb-panel-2 rounded-xl p-3">
                 <div className="font-bold">{people.length}</div>
-                <div className="text-cb-ink-faint text-[11px]">CHIẾN BINH</div>
+                <div className="text-cb-ink-faint mt-1 text-xs">CHIẾN BINH</div>
               </div>
-              <div className="bg-cb-panel-2 rounded-lg p-3">
+              <div className="bg-cb-panel-2 rounded-xl p-3">
                 <div className="text-sm font-bold">{fmtVnd(bonus.pool)}</div>
-                <div className="text-cb-ink-faint text-[11px]">QUỸ</div>
+                <div className="text-cb-ink-faint mt-1 text-xs">QUỸ</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="space-y-1 pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🏆" />
-              Bảng chia thưởng cuối kỳ ({bonus.months} tháng)
+          <CardContent>
+            <TieuDeMuc icon="🏆" hint={`Chia theo tỷ lệ EXP tích luỹ trong kỳ ${bonus.months} tháng`}>
+              Bảng chia thưởng cuối kỳ
+            </TieuDeMuc>
+            <div className="space-y-1">
+              {rows.map(({ w, pct, money }) => (
+                <div
+                  key={w.id}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5",
+                    w.id === profile.id && "bg-cb-gold/10 border-cb-gold/40 border",
+                  )}
+                >
+                  <div className="text-cb-gold w-14 shrink-0 text-center text-sm leading-none whitespace-nowrap">
+                    {rankOf(w.exp, ranks ?? []).insignia}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium">
+                      {w.name}
+                      {w.id === profile.id ? (
+                        <span className="text-cb-gold-soft ml-1.5 text-xs">· Bạn</span>
+                      ) : null}
+                    </div>
+                    <div className="text-cb-ink-faint truncate text-xs">
+                      {w.front ? FRONT_LABEL[w.front] : "—"} · {w.dept} ·{" "}
+                      {rankOf(w.exp, ranks ?? []).name} · {fmtNum(w.exp)} EXP
+                    </div>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <div className="text-cb-gold font-semibold">{fmtVnd(money)}</div>
+                    <div className="text-cb-ink-faint text-xs">{pct.toFixed(1)}% QUỸ</div>
+                  </div>
+                </div>
+              ))}
             </div>
-            {rows.map(({ w, pct, money }) => (
-              <div
-                key={w.id}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2",
-                  w.id === profile.id && "bg-cb-gold/10 border-cb-gold/40 border",
-                )}
-              >
-                <div className="w-8 text-center">{rankOf(w.exp, ranks ?? []).insignia}</div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium">
-                    {w.name}
-                    {w.id === profile.id ? (
-                      <span className="text-cb-gold-soft ml-1.5 text-xs">· Bạn</span>
-                    ) : null}
-                  </div>
-                  <div className="text-cb-ink-faint text-xs">
-                    {w.front ? FRONT_LABEL[w.front] : "—"} · {w.dept} ·{" "}
-                    {rankOf(w.exp, ranks ?? []).name} · {fmtNum(w.exp)} EXP
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-cb-gold font-semibold">{fmtVnd(money)}</div>
-                  <div className="text-cb-ink-faint text-[10px]">{pct.toFixed(1)}% QUỸ</div>
-                </div>
-              </div>
-            ))}
           </CardContent>
         </Card>
       </div>

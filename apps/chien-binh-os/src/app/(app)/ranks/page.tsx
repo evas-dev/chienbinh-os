@@ -43,19 +43,19 @@ function Row({
         rank <= 3 && !isMe && "bg-cb-panel-2",
       )}
     >
-      <div className="w-8 text-center text-lg">
+      <div className="flex w-8 shrink-0 items-center justify-center text-sm font-semibold">
         <EmojiIcon glyph={medal(rank)} />
       </div>
-      <div className="flex-1">
-        <div className="text-sm font-medium">
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-medium">
           {name}
           {isMe ? <span className="text-cb-gold-soft ml-1.5 text-xs">· Bạn</span> : null}
         </div>
-        <div className="text-cb-ink-faint text-xs">{sub}</div>
+        <div className="text-cb-ink-faint truncate text-xs">{sub}</div>
       </div>
-      <div className="text-right">
+      <div className="shrink-0 text-right">
         <div className="text-cb-gold font-semibold">{fmtNum(pts)}</div>
-        <div className="text-cb-ink-faint text-[10px]">ĐIỂM MÙA</div>
+        <div className="text-cb-ink-faint text-xs">ĐIỂM MÙA</div>
       </div>
     </div>
   );
@@ -133,30 +133,34 @@ export default async function RanksPage({
   }
 
   return (
-    <div>
-      <div className="mb-3 flex gap-2">
+    // Bảng xếp hạng chỉ có hạng · tên · điểm — giới hạn bề rộng cho dễ đọc.
+    <div className="max-w-3xl">
+      <div className="mb-4 flex flex-wrap gap-2">
         {SCOPES.map((s) => (
           <Link
             key={s.key}
             href={`/ranks?scope=${s.key}`}
+            aria-current={scope === s.key ? "page" : undefined}
             className={cn(
-              "rounded-full px-3 py-1.5 text-sm",
-              scope === s.key ? "bg-cb-gold text-cb-bg font-semibold" : "bg-cb-panel-2 text-cb-ink-dim",
+              "rounded-full px-3.5 py-1.5 text-sm transition-colors",
+              scope === s.key
+                ? "bg-cb-gold text-cb-bg font-semibold"
+                : "bg-cb-panel-2 text-cb-ink-dim hover:text-cb-ink",
             )}
           >
             {s.label}
           </Link>
         ))}
       </div>
-      <p className="bg-cb-panel-2 border-cb-line mb-3 flex items-start gap-1.5 rounded-lg border p-3 text-sm">
-        <EmojiIcon glyph="🔁" className="mt-0.5" />
+      <p className="bg-cb-panel-2 border-cb-line mb-4 flex items-start gap-2 rounded-lg border p-3.5 text-sm leading-relaxed">
+        <EmojiIcon glyph="🔁" className="text-cb-gold-soft mt-0.5" />
         <span>
           <b>Điểm mùa</b> reset mỗi chiến dịch để ai cũng có cơ hội lật ngược. <b>EXP/Quân hàm</b>{" "}
           tích lũy trọn đời, không reset.
         </span>
       </p>
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="space-y-1 pt-6">
+        <CardContent className="space-y-1">
           {rows.map((r, i) => (
             <Row key={r.name} rank={i + 1} name={r.name} sub={r.sub} pts={r.pts} isMe={r.isMe} />
           ))}

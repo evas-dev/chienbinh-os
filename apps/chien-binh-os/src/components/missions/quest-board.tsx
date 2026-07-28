@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { MissionCard } from "./mission-card";
 import { CompletedHistory } from "./completed-history";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import { fmtNum } from "@/lib/format";
 import type { Tables } from "@/types/database";
 
@@ -10,12 +10,14 @@ type Mission = Tables<"missions">;
 type Submission = Tables<"submissions">;
 
 function Category({
+  icon,
   title,
   desc,
   missions,
   rejectReasonByMission,
 }: {
-  title: ReactNode;
+  icon: string;
+  title: string;
   desc: string;
   missions: Mission[];
   rejectReasonByMission: Map<string, string>;
@@ -23,9 +25,10 @@ function Category({
   if (!missions.length) return null;
   return (
     <Card className="bg-cb-panel border-cb-line mb-4">
-      <CardContent className="pt-6">
-        <div className="mb-1 flex items-center gap-1.5 font-semibold">{title}</div>
-        <p className="text-cb-ink-faint mb-2 text-xs">{desc}</p>
+      <CardContent>
+        <TieuDeMuc icon={icon} hint={desc}>
+          {title}
+        </TieuDeMuc>
         {missions.map((m) => (
           <MissionCard
             key={m.id}
@@ -56,41 +59,32 @@ export function QuestBoard({
   const bonus = missions.filter((m) => m.type === "ngay" && !m.fixed);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
+    <div className="grid items-start gap-4 lg:grid-cols-[1fr_320px]">
       <div>
         <Category
-          title={
-            <>
-              <EmojiIcon glyph="🎖" /> Nhiệm vụ tháng — KPI
-            </>
-          }
+          icon="🎖"
+          title="Nhiệm vụ tháng — KPI"
           desc="Chỉ tiêu giao cứng, tính trên kết quả cuối tháng"
           missions={kpi}
           rejectReasonByMission={rejectReasonByMission}
         />
         <Category
-          title={
-            <>
-              <EmojiIcon glyph="📌" /> Nhiệm vụ cố định
-            </>
-          }
+          icon="📌"
+          title="Nhiệm vụ cố định"
           desc="Lặp lại mỗi ngày — nhận & hoàn thành trước cuối ngày"
           missions={fixed}
           rejectReasonByMission={rejectReasonByMission}
         />
         <Category
-          title={
-            <>
-              <EmojiIcon glyph="⚔️" /> Nhiệm vụ ngày — Chinh phục
-            </>
-          }
+          icon="⚔️"
+          title="Nhiệm vụ ngày — Chinh phục"
           desc="Nhiệm vụ bổ sung để bứt phá, thưởng lớn hơn"
           missions={bonus}
           rejectReasonByMission={rejectReasonByMission}
         />
         {!missions.length ? (
           <Card className="bg-cb-panel border-cb-line">
-            <CardContent className="text-cb-ink-dim pt-6 text-sm">
+            <CardContent className="text-cb-ink-dim text-sm">
               Chưa có nhiệm vụ nào. Chờ quản lý giao xuống nhé, chiến binh!
             </CardContent>
           </Card>
@@ -99,14 +93,12 @@ export function QuestBoard({
       </div>
 
       <Card className="bg-cb-panel border-cb-line h-fit">
-        <CardContent className="pt-6">
-          <div className="mb-2 flex items-center gap-1.5 font-semibold">
-            <EmojiIcon glyph="📊" /> Bảng xếp hạng mùa
-          </div>
+        <CardContent>
+          <TieuDeMuc icon="📊">Bảng xếp hạng mùa</TieuDeMuc>
           {leaderboard.map((w, i) => (
             <div
               key={w.id}
-              className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
+              className={`flex items-center gap-2 rounded-lg px-2 py-3 text-sm ${
                 w.id === meId ? "bg-cb-gold/10 border-cb-gold/40 border" : ""
               }`}
             >

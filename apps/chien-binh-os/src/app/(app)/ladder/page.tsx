@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { HuyHieu } from "@/components/chung/huy-hieu";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import type { BadgeRarity } from "@/components/chung/huy-hieu";
 
 export default async function LadderPage() {
@@ -22,14 +23,15 @@ export default async function LadderPage() {
     [...(ranks ?? [])].reverse().find((r) => profile.exp >= r.min_exp)?.ord ?? 0;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="space-y-4">
+      {/* Thang quân hàm trải ngang + chia cột để 18 bậc không tạo cột quá cao,
+          để lại khoảng trắng lớn bên cạnh như layout 2 cột trước đây. */}
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="pt-6">
-          <div className="mb-3 flex items-center gap-1.5 font-semibold">
-            <EmojiIcon glyph="🎖" />
+        <CardContent>
+          <TieuDeMuc icon="🎖" hint={`Bậc hiện tại của bạn: ${fmtNum(profile.exp)} EXP`}>
             Thang quân hàm
-          </div>
-          <div className="space-y-1">
+          </TieuDeMuc>
+          <div className="gap-x-6 sm:columns-2 xl:columns-3">
             {[...(ranks ?? [])].reverse().map((r) => {
               const passed = r.ord < currentOrd;
               const current = r.ord === currentOrd;
@@ -37,19 +39,23 @@ export default async function LadderPage() {
                 <div
                   key={r.id}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2",
-                    current && "bg-cb-gold/10 border-cb-gold/40 border",
+                    "mb-1 flex break-inside-avoid items-center gap-3 rounded-lg px-3 py-2",
+                    current
+                      ? "bg-cb-gold/10 border-cb-gold/40 border"
+                      : passed && "opacity-60",
                   )}
                 >
-                  <span className="text-cb-gold w-10 text-center text-lg">{r.insignia}</span>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium">{r.name}</div>
+                  <span className="text-cb-gold w-14 shrink-0 text-center text-sm leading-none whitespace-nowrap">
+                    {r.insignia}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium">{r.name}</div>
                     <div className="text-cb-ink-faint text-xs">{fmtNum(r.min_exp)} EXP</div>
                   </div>
                   {current ? (
-                    <span className="text-cb-gold text-xs font-semibold">Đang ở đây</span>
+                    <span className="text-cb-gold shrink-0 text-xs font-semibold">Đang ở đây</span>
                   ) : passed ? (
-                    <span className="text-cb-ink-faint text-xs">Đã qua</span>
+                    <span className="text-cb-ink-faint shrink-0 text-xs">Đã qua</span>
                   ) : null}
                 </div>
               );
@@ -58,13 +64,12 @@ export default async function LadderPage() {
         </CardContent>
       </Card>
 
-      <div className="space-y-4">
+      <div className="grid items-start gap-4 lg:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-3 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🎖" />
+          <CardContent>
+            <TieuDeMuc icon="🏅" hint="Thưởng theo kết quả — đổi ra tiền đào tạo, quà, nghỉ phép">
               Hệ thống huân chương
-            </div>
+            </TieuDeMuc>
             <div className="flex flex-wrap gap-2">
               {(badges ?? []).map((b) => (
                 <HuyHieu
@@ -80,24 +85,21 @@ export default async function LadderPage() {
         </Card>
 
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-3 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🎁" />
-              Đổi huân chương lấy thưởng
-            </div>
-            <div className="flex flex-wrap gap-2">
+          <CardContent>
+            <TieuDeMuc icon="🎁">Đổi huân chương lấy thưởng</TieuDeMuc>
+            <div className="space-y-1.5">
               {(rewards ?? []).map((r) => (
-                <span
+                <div
                   key={r.id}
-                  className="border-cb-line bg-cb-panel-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs"
+                  className="border-cb-line-soft flex items-center gap-2 border-b py-2 text-sm last:border-none"
                 >
-                  <EmojiIcon glyph={r.icon} />
-                  {r.name}
-                  <span className="text-cb-ink-faint">· {r.cost}</span>
-                </span>
+                  <EmojiIcon glyph={r.icon} className="text-cb-gold-soft" />
+                  <span className="flex-1">{r.name}</span>
+                  <span className="text-cb-ink-faint text-xs">{r.cost}</span>
+                </div>
               ))}
             </div>
-            <p className="text-cb-ink-dim mt-3 text-xs">
+            <p className="text-cb-ink-dim border-cb-line mt-4 border-t pt-3 text-xs leading-relaxed">
               <b>Cấp bậc</b> = danh vọng (không tiêu được). <b>Huân chương</b> = đổi tiền đào
               tạo/quà/nghỉ phép. <b>EXP</b> = chia quỹ thưởng lớn cuối kỳ.
             </p>

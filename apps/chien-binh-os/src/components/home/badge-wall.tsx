@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { HuyHieu, type BadgeRarity } from "@/components/chung/huy-hieu";
 import { Card, CardContent } from "@/components/ui/card";
-import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 export async function BadgeWall({ warriorId }: { warriorId: string }) {
   const supabase = await createClient();
@@ -13,11 +13,13 @@ export async function BadgeWall({ warriorId }: { warriorId: string }) {
 
   return (
     <Card className="bg-cb-panel border-cb-line">
-      <CardContent className="pt-6">
-        <div className="mb-3 flex items-center gap-1.5 font-semibold">
-          <EmojiIcon glyph="🏅" />
-          Kho huân chương (đổi ra tiền đào tạo / phần thưởng)
-        </div>
+      <CardContent>
+        <TieuDeMuc
+          icon="🏅"
+          hint={`Đã đạt ${ownedCodes.size}/${(badges ?? []).length} — đổi ra tiền đào tạo / phần thưởng`}
+        >
+          Kho huân chương
+        </TieuDeMuc>
         <div className="flex flex-wrap gap-2">
           {(badges ?? []).map((b) => (
             <HuyHieu

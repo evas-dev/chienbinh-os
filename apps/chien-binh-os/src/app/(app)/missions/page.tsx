@@ -6,6 +6,7 @@ import { ReviewPanel } from "@/components/missions/review-panel";
 import { CreateMissionButton } from "@/components/missions/create-mission-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 export default async function MissionsPage() {
   const profile = await getCurrentProfile();
@@ -103,8 +104,8 @@ export default async function MissionsPage() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="bg-cb-panel-2 border-cb-line flex-1 rounded-lg border p-3 text-sm">
+      <div className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="bg-cb-panel-2 border-cb-line sm:flex-1 rounded-lg border p-3.5 text-sm leading-relaxed">
           <EmojiIcon glyph="💡" /> Luồng: <b>Tổng Tư Lệnh</b> mở chiến dịch → giao <b>Tư Lệnh</b> → Tư Lệnh chia nhỏ cho{" "}
           <b>Chiến Sỹ</b> → Chiến Sỹ nộp → Tư Lệnh duyệt.
         </p>
@@ -127,15 +128,13 @@ export default async function MissionsPage() {
         />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid items-start gap-4 lg:grid-cols-2">
         <div>
           <ReviewPanel pending={withNames(pendingSubs)} recent={withNames(recentSubs)} />
         </div>
         <Card className="bg-cb-panel border-cb-line h-fit">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🎯" /> Nhiệm vụ của tôi ({(myMissions ?? []).length})
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="🎯">Nhiệm vụ của tôi ({(myMissions ?? []).length})</TieuDeMuc>
             {(myMissions ?? []).length ? (
               (myMissions ?? []).map((m) => <MissionCard key={m.id} mission={m} />)
             ) : (

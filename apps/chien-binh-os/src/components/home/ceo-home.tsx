@@ -5,16 +5,8 @@ import { CreateStaffButton } from "@/components/admin/create-staff-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
-
-function deltaTag(cur: number, prev: number) {
-  const d = prev ? Math.round(((cur - prev) / prev) * 100) : 0;
-  const up = d >= 0;
-  return (
-    <span className={up ? "font-bold text-green-400" : "font-bold text-red-400"}>
-      {up ? "▲" : "▼"} {Math.abs(d)}%
-    </span>
-  );
-}
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { cn } from "@/lib/utils";
 
 function deptStatus(raw: number) {
   if (raw >= 100) return { label: "Vượt/Đạt", cls: "bg-green-500/10 text-green-400" };
@@ -84,46 +76,45 @@ export async function CeoHome() {
         <CreateStaffButton squads={squads ?? []} />
       </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div className="bg-cb-panel border-cb-line rounded-lg border p-3 text-center">
-          <div className="text-lg font-bold">{doanhSo ? fmtVnd(doanhSo.current) : "—"}</div>
-          <div className="text-cb-ink-faint text-[11px]">
+      <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+          <div className="text-xl font-bold">{doanhSo ? fmtVnd(doanhSo.current) : "—"}</div>
+          <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">
             DOANH SỐ {doanhSo ? `(${Math.round((doanhSo.current / doanhSo.target) * 100)}%)` : ""}
           </div>
         </div>
-        <div className="bg-cb-panel border-cb-line rounded-lg border p-3 text-center">
-          <div className="text-lg font-bold">{khMoi ? fmtNum(khMoi.current) : "—"}</div>
-          <div className="text-cb-ink-faint text-[11px]">KHÁCH HÀNG MỚI</div>
+        <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+          <div className="text-xl font-bold">{khMoi ? fmtNum(khMoi.current) : "—"}</div>
+          <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">KHÁCH HÀNG MỚI</div>
         </div>
-        <div className="bg-cb-panel border-cb-line rounded-lg border p-3 text-center">
-          <div className="text-lg font-bold">{completion}%</div>
-          <div className="text-cb-ink-faint text-[11px]">HOÀN THÀNH MỤC TIÊU CTY</div>
+        <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+          <div className="text-xl font-bold">{completion}%</div>
+          <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">HOÀN THÀNH MỤC TIÊU</div>
         </div>
-        <div className="bg-cb-panel border-cb-line rounded-lg border p-3 text-center">
-          <div className={`text-lg font-bold ${warnCount ? "text-red-400" : "text-green-400"}`}>
+        <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+          <div className={`text-xl font-bold ${warnCount ? "text-red-400" : "text-green-400"}`}>
             {warnCount}
           </div>
-          <div className="text-cb-ink-faint text-[11px]">CẢNH BÁO</div>
+          <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">CẢNH BÁO</div>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* items-start: thẻ ngắn không bị kéo cao bằng cột đối diện (tránh khoảng trắng chết). */}
+      <div className="grid items-start gap-4 md:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🎖" /> Tiến độ trọng số theo phòng ban
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="🎖">Tiến độ trọng số theo phòng ban</TieuDeMuc>
             {objs.map((o) => {
               const owner = Array.isArray(o.profiles) ? o.profiles[0] : o.profiles;
               const raw = weightedRaw(o.objective_items);
               const st = deptStatus(raw);
               return (
-                <div key={o.id} className="border-cb-line-soft border-b py-2 last:border-none">
-                  <div className="mb-1 flex items-center justify-between gap-2">
+                <div key={o.id} className="border-cb-line-soft border-b py-3 last:border-none">
+                  <div className="mb-2 flex items-center justify-between gap-2">
                     <b className="text-sm">
                       {owner?.name} · {owner?.dept}
                     </b>
-                    <span className={`rounded-full px-2 py-0.5 text-[11px] ${st.cls}`}>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${st.cls}`}>
                       {st.label} · {raw}%
                     </span>
                   </div>
@@ -136,10 +127,8 @@ export async function CeoHome() {
 
         <div className="space-y-4">
           <Card className="bg-cb-panel border-cb-line">
-            <CardContent className="pt-6">
-              <div className="mb-2 flex items-center gap-1.5 font-semibold">
-                <EmojiIcon glyph="📈" /> Chỉ số khách hàng & tài chính
-              </div>
+            <CardContent>
+              <TieuDeMuc icon="📈">Chỉ số khách hàng &amp; tài chính</TieuDeMuc>
               {[
                 ["Doanh số tháng", doanhSo],
                 ["Khách hàng mới", khMoi],
@@ -150,7 +139,7 @@ export async function CeoHome() {
                 m ? (
                   <div
                     key={label as string}
-                    className="border-cb-line-soft flex justify-between border-b py-1.5 text-sm last:border-none"
+                    className="border-cb-line-soft flex justify-between gap-3 border-b py-2.5 text-sm last:border-none"
                   >
                     <span className="text-cb-ink-dim">{label as string}</span>
                     <b>
@@ -165,13 +154,14 @@ export async function CeoHome() {
             </CardContent>
           </Card>
           <Card className="bg-cb-panel border-cb-line">
-            <CardContent className="pt-6">
-              <div className="mb-2 flex items-center gap-1.5 font-semibold">
-                <EmojiIcon glyph="🚨" /> Cảnh báo so với cùng kỳ
-              </div>
+            <CardContent>
+              <TieuDeMuc icon="🚨">Cảnh báo so với cùng kỳ</TieuDeMuc>
               {alerts.map((a, i) => (
-                <div key={i} className="flex items-start gap-2 py-1.5 text-sm">
-                  <EmojiIcon glyph={a.ok ? "✅" : "⚠️"} />
+                <div key={i} className="flex items-start gap-2 py-2 text-sm">
+                  <EmojiIcon
+                    glyph={a.ok ? "✅" : "⚠️"}
+                    className={cn("mt-0.5", a.ok ? "text-green-400" : "text-cb-crimson")}
+                  />
                   <span>{a.text}</span>
                 </div>
               ))}

@@ -171,3 +171,12 @@
     @apply font-sans;
   }
 }
+
+/* Ẩn scrollbar cho vùng cuộn ngang (nav tabs trên mobile) mà vẫn cuộn được. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

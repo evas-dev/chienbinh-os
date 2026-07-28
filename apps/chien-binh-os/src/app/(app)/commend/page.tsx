@@ -5,6 +5,7 @@ import { CommendRow } from "@/components/commend/commend-row";
 import { ProposeCommendButton } from "@/components/commend/propose-commend-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 export default async function CommendPage() {
   const profile = await getCurrentProfile();
@@ -34,8 +35,8 @@ export default async function CommendPage() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="bg-cb-panel-2 border-cb-line flex-1 rounded-lg border p-3 text-sm">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <p className="bg-cb-panel-2 border-cb-line min-w-0 flex-1 rounded-lg border p-3.5 text-sm">
           {isCeo ? (
             <>
               <EmojiIcon glyph="🏆" /> CEO duyệt đề xuất khen thưởng cuối tháng — trao huân chương cho nhân sự xuất sắc.
@@ -50,10 +51,10 @@ export default async function CommendPage() {
       </div>
 
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="pt-6">
-          <div className="mb-2 flex items-center gap-1.5 font-semibold">
-            <EmojiIcon glyph="🏆" /> {isCeo ? "Danh sách đề xuất khen thưởng" : "Đề xuất của tôi"}
-          </div>
+        <CardContent>
+          <TieuDeMuc icon="🏆">
+            {isCeo ? "Danh sách đề xuất khen thưởng" : "Đề xuất của tôi"}
+          </TieuDeMuc>
           {(commendations ?? []).length === 0 ? (
             <p className="text-cb-ink-dim text-sm">
               {isCeo

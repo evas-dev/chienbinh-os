@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { applyPenaltyAction } from "@/lib/actions/penalty";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import type { Tables } from "@/types/database";
 
 export function PenaltyForm({
@@ -52,11 +53,9 @@ export function PenaltyForm({
 
   return (
     <Card className="bg-cb-panel border-cb-line mb-4">
-      <CardContent className="pt-6">
-        <div className="mb-3 flex items-center gap-1 font-semibold">
-          <EmojiIcon glyph="⚖️" /> Áp phạt (chịu trách nhiệm: {actorName})
-        </div>
-        <div className="mb-3 grid gap-3 sm:grid-cols-2">
+      <CardContent>
+        <TieuDeMuc icon="⚖️">Áp phạt (chịu trách nhiệm: {actorName})</TieuDeMuc>
+        <div className="mb-4 grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
             <Label>Chiến binh vi phạm</Label>
             <Select value={who} onValueChange={setWho}>
@@ -88,7 +87,7 @@ export function PenaltyForm({
             </Select>
           </div>
         </div>
-        <div className="mb-3 space-y-1.5">
+        <div className="mb-4 space-y-1.5">
           <Label>Lý do / bằng chứng</Label>
           <Input
             placeholder="Mô tả ngắn gọn vi phạm"

@@ -5,8 +5,12 @@ import { createClient } from "@/lib/supabase/server";
 import { StaffRow } from "@/components/admin/staff-row";
 import { CreateStaffButton } from "@/components/admin/create-staff-button";
 import { Card, CardContent } from "@/components/ui/card";
-import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import { cn } from "@/lib/utils";
+
+const PILL_BASE = "rounded-full border px-3.5 py-2 text-sm transition-colors";
+const PILL_ON = "bg-cb-gold text-cb-bg border-cb-gold font-semibold";
+const PILL_OFF = "bg-cb-panel-2 text-cb-ink-dim border-cb-line hover:text-cb-ink";
 
 export default async function AdminPage({
   searchParams,
@@ -36,47 +40,43 @@ export default async function AdminPage({
   ];
 
   return (
-    <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-1.5 text-lg font-bold">
-            <EmojiIcon glyph="👤" />
-            Quản trị nhân sự
-          </div>
-          <div className="text-cb-ink-dim text-sm">
+    // Danh sách nhân sự khá thưa (tên · vai trò · SĐT · trạng thái) — giới hạn bề rộng
+    // để trên màn hình lớn không bị kéo dài cả 1200px với khoảng trống ở giữa.
+    <div className="max-w-4xl">
+      <TieuDeMuc
+        icon="👤"
+        className="mb-5 text-lg"
+        hint={
+          <>
             Đang xem: <b>{scope === "__all__" ? "Toàn công ty" : scope}</b> · {activeCount}/{list.length}{" "}
             tài khoản hoạt động
-          </div>
-        </div>
-        <CreateStaffButton squads={squads ?? []} />
-      </div>
+          </>
+        }
+        action={<CreateStaffButton squads={squads ?? []} />}
+      >
+        Quản trị nhân sự
+      </TieuDeMuc>
 
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-5 flex flex-wrap gap-2">
         {tabDepts.map((d) => (
           <Link
             key={d}
             href={`/admin?dept=${encodeURIComponent(d)}`}
-            className={cn(
-              "rounded-full px-3 py-1.5 text-sm",
-              scope === d ? "bg-cb-gold text-cb-bg font-semibold" : "bg-cb-panel-2 text-cb-ink-dim",
-            )}
+            className={cn(PILL_BASE, scope === d ? PILL_ON : PILL_OFF)}
           >
             {d}
           </Link>
         ))}
         <Link
           href="/admin?dept=__all__"
-          className={cn(
-            "rounded-full px-3 py-1.5 text-sm",
-            scope === "__all__" ? "bg-cb-gold text-cb-bg font-semibold" : "bg-cb-panel-2 text-cb-ink-dim",
-          )}
+          className={cn(PILL_BASE, scope === "__all__" ? PILL_ON : PILL_OFF)}
         >
           Tất cả
         </Link>
       </div>
 
       <Card className="bg-cb-panel border-cb-line">
-        <CardContent className="divide-cb-line-soft divide-y pt-6">
+        <CardContent className="divide-cb-line-soft divide-y">
           {list.length === 0 ? (
             <p className="text-cb-ink-dim text-sm">Chưa có nhân sự ở phòng này.</p>
           ) : (

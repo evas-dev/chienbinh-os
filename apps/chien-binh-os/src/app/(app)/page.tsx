@@ -9,6 +9,8 @@ import { BadgeWall } from "@/components/home/badge-wall";
 import { PenaltyRecordCard } from "@/components/penalty/penalty-record-card";
 import { CeoHome } from "@/components/home/ceo-home";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 
 export default async function HomePage() {
   const profile = await getCurrentProfile();
@@ -35,67 +37,63 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid items-start gap-4 md:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
+          <CardContent>
             <div className="flex items-center gap-4">
-              <div className="bg-cb-crimson text-cb-ink flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
+              <div className="bg-cb-crimson text-cb-ink flex size-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold">
                 {initials(profile.name)}
               </div>
-              <div>
-                <div className="text-lg font-bold">{profile.name}</div>
-                <div className="text-cb-ink-dim text-sm">
+              <div className="min-w-0">
+                <div className="text-lg leading-tight font-bold">{profile.name}</div>
+                <div className="text-cb-ink-dim mt-0.5 text-sm">
                   {profile.front ? FRONT_LABEL[profile.front] : "—"} · {profile.dept} ·{" "}
                   {ROLE_LABEL[profile.role]}
                 </div>
-                <div className="text-cb-gold mt-1 flex items-center gap-1 text-sm font-semibold">
+                <div className="text-cb-gold mt-1.5 flex items-center gap-1.5 text-sm font-semibold">
                   <EmojiIcon glyph={rank.insignia} /> {rank.name}
                 </div>
               </div>
             </div>
 
-            <div className="mt-4">
-              <div className="text-cb-ink-dim mb-1 flex justify-between text-xs">
+            <div className="mt-5">
+              <div className="text-cb-ink-dim mb-2 flex flex-wrap justify-between gap-2 text-xs">
                 <span>EXP: {fmtNum(profile.exp)}</span>
                 <span>
                   Còn {fmtNum(progress.remaining)} → {progress.nextName}
                 </span>
               </div>
-              <div className="bg-cb-panel-2 h-2 overflow-hidden rounded-full">
-                <div className="bg-cb-gold h-full" style={{ width: `${progress.pct}%` }} />
-              </div>
+              <ThanhTienDo pct={progress.pct} />
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3 text-center">
-              <div className="bg-cb-panel-2 rounded-lg p-3">
+            <div className="mt-5 grid grid-cols-2 gap-3 text-center">
+              <div className="bg-cb-panel-2 rounded-xl p-4">
                 <div className="text-cb-gold text-xl font-bold">{badgeCount ?? 0}</div>
-                <div className="text-cb-ink-faint text-xs">HUÂN CHƯƠNG</div>
+                <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">HUÂN CHƯƠNG</div>
               </div>
-              <div className="bg-cb-panel-2 rounded-lg p-3">
+              <div className="bg-cb-panel-2 rounded-xl p-4">
                 <div className="text-cb-gold text-xl font-bold">{fmtNum(profile.season_points)}</div>
-                <div className="text-cb-ink-faint text-xs">ĐIỂM MÙA</div>
+                <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">ĐIỂM MÙA</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🎯" /> Nhiệm vụ hôm nay
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="🎯">Nhiệm vụ hôm nay</TieuDeMuc>
             {(todayMissions ?? []).length ? (
               (todayMissions ?? []).map((m) => <MissionCard key={m.id} mission={m} />)
             ) : (
-              <p className="text-cb-ink-dim text-sm">
-                Hôm nay chưa có nhiệm vụ ngày. Vào "Bảng nhiệm vụ" nhận thêm.
+              <p className="text-cb-ink-dim text-sm leading-relaxed">
+                Hôm nay chưa có nhiệm vụ ngày. Vào «Bảng nhiệm vụ» nhận thêm.
               </p>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid items-start gap-4 md:grid-cols-2">
         <BadgeWall warriorId={profile.id} />
         <PenaltyRecordCard warriorId={profile.id} />
       </div>

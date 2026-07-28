@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PenaltyForm } from "@/components/penalty/penalty-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 
 const SEVERITY_COLOR: Record<string, string> = {
   nhe: "#8fc0f5",
@@ -44,14 +45,12 @@ export default async function PenaltyPage() {
         penalties={penalties ?? []}
       />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid items-start gap-4 md:grid-cols-2">
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="📕" /> Danh mục xử phạt
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="📕">Danh mục xử phạt</TieuDeMuc>
             {(penalties ?? []).map((p) => (
-              <div key={p.code} className="border-cb-line-soft border-b py-2 last:border-none">
+              <div key={p.code} className="border-cb-line-soft border-b py-3.5 last:border-none">
                 <div className="text-sm font-medium">{p.name}</div>
                 <div className="text-cb-ink-faint mt-1 flex items-center gap-3 text-xs">
                   <span style={{ color: SEVERITY_COLOR[p.severity ?? "nhe"] }} className="font-semibold">
@@ -68,10 +67,8 @@ export default async function PenaltyPage() {
         </Card>
 
         <Card className="bg-cb-panel border-cb-line">
-          <CardContent className="pt-6">
-            <div className="mb-2 flex items-center gap-1.5 font-semibold">
-              <EmojiIcon glyph="🗂" /> Sổ ghi án phạt
-            </div>
+          <CardContent>
+            <TieuDeMuc icon="🗂">Sổ ghi án phạt</TieuDeMuc>
             {(log ?? []).length === 0 ? (
               <p className="text-cb-ink-dim text-sm">
                 Chưa có án phạt nào. Giữ vững kỷ luật chiến trường <EmojiIcon glyph="🛡" />
@@ -82,9 +79,12 @@ export default async function PenaltyPage() {
                 const warrior = Array.isArray(l.profiles) ? l.profiles[0] : l.profiles;
                 const applier = Array.isArray(l.applier) ? l.applier[0] : l.applier;
                 return (
-                  <div key={l.id} className="flex items-start gap-2 py-2 text-sm">
+                  <div
+                    key={l.id}
+                    className="border-cb-line-soft flex items-start gap-2 border-b py-3.5 text-sm last:border-none"
+                  >
                     <EmojiIcon glyph="⚖️" />
-                    <div>
+                    <div className="min-w-0">
                       <div>
                         <b>{warrior?.name}</b> — {penalty?.name}{" "}
                         <span className="text-cb-crimson">({penalty?.exp_delta} EXP)</span>

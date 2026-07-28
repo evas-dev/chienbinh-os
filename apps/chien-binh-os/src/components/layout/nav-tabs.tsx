@@ -12,25 +12,29 @@ export function NavTabs({ role }: { role: Enums<"role_type"> }) {
   const items = NAV_ITEMS.filter((item) => item.roles.includes(role));
 
   return (
-    <nav className="border-cb-line flex flex-wrap gap-1 border-b px-4 py-2">
-      {items.map((item) => {
-        const active = item.path === "/" ? pathname === "/" : pathname.startsWith(item.path);
-        return (
-          <Link
-            key={item.path}
-            href={item.path}
-            className={cn(
-              "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm whitespace-nowrap transition-colors",
-              active
-                ? "bg-cb-gold text-cb-bg font-semibold"
-                : "text-cb-ink-dim hover:bg-cb-panel-2 hover:text-cb-ink",
-            )}
-          >
-            <EmojiIcon glyph={item.icon} />
-            {item.label}
-          </Link>
-        );
-      })}
+    <nav className="border-cb-line border-b">
+      {/* Mobile: cuộn ngang 1 hàng (tránh nav cao 7 hàng). Desktop: xuống hàng bình thường. */}
+      <div className="scrollbar-none mx-auto flex max-w-7xl gap-1.5 overflow-x-auto px-4 py-2.5 sm:px-6 lg:flex-wrap lg:overflow-x-visible lg:px-8">
+        {items.map((item) => {
+          const active = item.path === "/" ? pathname === "/" : pathname.startsWith(item.path);
+          return (
+            <Link
+              key={item.path}
+              href={item.path}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-sm whitespace-nowrap transition-colors",
+                active
+                  ? "bg-cb-gold text-cb-bg font-semibold"
+                  : "text-cb-ink-dim hover:bg-cb-panel-2 hover:text-cb-ink",
+              )}
+            >
+              <EmojiIcon glyph={item.icon} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

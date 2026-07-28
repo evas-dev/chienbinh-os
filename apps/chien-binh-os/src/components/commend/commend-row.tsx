@@ -63,9 +63,9 @@ export function CommendRow({
   }
 
   return (
-    <div className="border-cb-line-soft border-b py-3 last:border-none">
-      <div className="mb-1 flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2 py-0.5 text-[11px] ${s.cls}`}>{s.label}</span>
+    <div className="border-cb-line-soft border-b py-3.5 last:border-none">
+      <div className="mb-1.5 flex flex-wrap items-center gap-2">
+        <span className={`rounded-full px-2 py-0.5 text-xs ${s.cls}`}>{s.label}</span>
         <b className="inline-flex items-center gap-1 text-sm">
           <EmojiIcon glyph={badgeIcon} /> {badgeName}
         </b>
@@ -73,11 +73,11 @@ export function CommendRow({
       <div className="text-cb-ink-faint flex items-center gap-1 text-xs">
         <EmojiIcon glyph="👤" /> Khen: <b>{staffName}</b> ({staffDept}) · Do {proposedByName ?? "—"} đề xuất
       </div>
-      <div className="text-cb-ink-dim mt-0.5 flex items-center gap-1 text-xs">
+      <div className="text-cb-ink-dim mt-1 flex items-center gap-1 text-xs">
         <EmojiIcon glyph="📝" /> {reason}
       </div>
       {canApprove && status === "cho_duyet" ? (
-        <div className="mt-2 flex gap-2">
+        <div className="mt-3 flex gap-2">
           <Button
             size="sm"
             disabled={isPending}

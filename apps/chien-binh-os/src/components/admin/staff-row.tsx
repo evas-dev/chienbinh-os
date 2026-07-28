@@ -31,15 +31,15 @@ export function StaffRow({
   }
 
   return (
-    <div className={`flex items-center gap-3 py-2.5 ${warrior.active ? "" : "opacity-60"}`}>
-      <div className="bg-cb-panel-2 flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold">
+    <div className={`flex items-center gap-3 py-3.5 ${warrior.active ? "" : "opacity-60"}`}>
+      <div className="bg-cb-panel-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-semibold">
         {initials(warrior.name)}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-sm font-medium">
+        <div className="truncate text-sm font-medium">
           {warrior.name} {isSelf ? <span className="text-cb-ink-faint">· Bạn</span> : null}
         </div>
-        <div className="text-cb-ink-faint text-xs">
+        <div className="text-cb-ink-faint truncate text-xs">
           {ROLE_LABEL[warrior.role]} · {warrior.dept} ·{" "}
           <span className="inline-flex items-center gap-1">
             <EmojiIcon glyph="📱" />
@@ -48,16 +48,24 @@ export function StaffRow({
         </div>
       </div>
       <span
-        className={`rounded-full px-2 py-0.5 text-[11px] ${
+        className={`rounded-full px-2 py-0.5 text-center text-xs ${
           warrior.active ? "bg-green-500/10 text-green-400" : "bg-cb-crimson/10 text-cb-crimson"
         }`}
       >
         {warrior.active ? "Đang hoạt động" : "Đã ngưng"}
       </span>
       {isCeo || isSelf ? (
-        <span className="text-cb-ink-faint w-20 text-right text-xs">{isCeo ? "CEO" : "Bạn"}</span>
+        <span className="text-cb-ink-faint w-20 shrink-0 text-right text-xs">
+          {isCeo ? "CEO" : "Bạn"}
+        </span>
       ) : (
-        <Button size="sm" variant="outline" disabled={isPending} onClick={toggle} className="w-20">
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={isPending}
+          onClick={toggle}
+          className="w-20 shrink-0"
+        >
           {warrior.active ? "Ngưng" : "Kích hoạt"}
         </Button>
       )}

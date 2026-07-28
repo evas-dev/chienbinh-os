@@ -43,13 +43,13 @@ export function MissionCard({
   }
 
   return (
-    <div className="border-cb-line-soft flex items-center justify-between gap-4 border-b py-3 last:border-none">
+    <div className="border-cb-line-soft flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b py-3.5 last:border-none">
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-2">
-          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-[11px]">
+          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
             {TYPE_LABEL[mission.type]}
           </span>
-          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-[11px]">
+          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
             {STATUS_LABEL[mission.status ?? "todo"]}
           </span>
           <span className="text-sm font-medium">{mission.title}</span>
@@ -61,8 +61,10 @@ export function MissionCard({
             Hạn: {mission.deadline}
           </div>
         ) : null}
-        <ThanhTienDo pct={pct} />
-        <div className="text-cb-ink-faint mt-1 flex justify-between text-xs">
+        <div className="mt-2">
+          <ThanhTienDo pct={pct} />
+        </div>
+        <div className="text-cb-ink-faint mt-1.5 flex justify-between text-xs">
           <span>
             {fmtNum(mission.current ?? 0)}/{fmtNum(mission.target ?? 0)} {mission.unit} ({pct}%)
           </span>
