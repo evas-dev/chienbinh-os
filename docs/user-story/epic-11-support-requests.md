@@ -192,3 +192,27 @@ Giúp mọi nhân sự gửi, theo dõi và xử lý yêu cầu hỗ trợ đún
 
 - Lỗi hệ thống phải khác trạng thái không có dữ liệu.
 - Khôi phục thao tác không được làm tăng sai hạn mức tháng.
+
+## SUP-11 — Không tính điểm trong ngày nghỉ đã được duyệt
+
+**Vai trò:** Nhân sự nghỉ phép, Tổng Tư Lệnh, Tư Lệnh  
+**Ưu tiên:** P0  
+**Trạng thái:** Cần hoàn thiện
+
+> Là một nhân sự đang nghỉ hợp lệ, tôi muốn hệ thống không cộng hoặc trừ điểm trong ngày nghỉ, để thành tích không bị ảnh hưởng trong ngày tôi không làm việc.
+
+### Tiêu chí chấp nhận
+
+1. **Given** yêu cầu nghỉ đã được duyệt và bao gồm ngày nghiệp vụ hiện tại, **when** phát sinh thao tác cộng EXP, điểm mùa hoặc điểm KPI cho nhân sự, **then** hệ thống bỏ hoàn toàn phần điểm phát sinh đó.
+2. **Given** nhân sự đang trong ngày nghỉ được duyệt, **when** phát sinh thao tác xử phạt hoặc điều chỉnh giảm điểm, **then** hệ thống bỏ hoàn toàn phần điểm bị trừ.
+3. **Given** thao tác nghiệp vụ có nội dung khác ngoài điểm, **when** được xử lý trong ngày nghỉ, **then** hệ thống vẫn có thể hoàn tất nội dung nghiệp vụ nhưng không tạo bút toán cộng hoặc trừ điểm cho nhân sự.
+4. **Given** một biến động điểm bị bỏ do ngày nghỉ, **when** ngày nghỉ kết thúc, **then** hệ thống không cộng bù, không trừ bù và không chuyển biến động sang ngày làm việc tiếp theo.
+5. **Given** biến động điểm bị bỏ, **when** người có quyền kiểm tra lịch sử, **then** audit ghi nguồn nghiệp vụ, nhân sự, ngày nghỉ và lý do “Không tính điểm do nghỉ đã được duyệt”.
+
+### Quy tắc nghiệp vụ
+
+- Chỉ ngày nghỉ đã được duyệt mới kích hoạt quy tắc không tính điểm.
+- Ngày nghiệp vụ xác định theo múi giờ `Asia/Ho_Chi_Minh`.
+- Điểm bị bỏ là vĩnh viễn: không lưu hàng chờ, không dời ngày và không tự động tính hồi tố.
+- Không tạo bút toán trong `exp_log` cho phần điểm bị bỏ; audit log vẫn phải lưu quyết định bỏ điểm.
+- Nếu quyết định nghỉ bị thay đổi sau đó, hệ thống không tự động khôi phục điểm; điều chỉnh ngoại lệ phải qua quy trình có thẩm quyền và audit riêng.

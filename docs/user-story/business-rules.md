@@ -47,6 +47,27 @@
 - Chỉ người nhận hoặc cấp có thẩm quyền được phản hồi.
 - Yêu cầu đã xử lý không được xử lý lại.
 
+## Nghỉ phép và điểm
+
+- Chỉ yêu cầu nghỉ đã được duyệt mới được coi là ngày nghỉ hợp lệ.
+- Trong ngày nghỉ hợp lệ, mọi khoản cộng hoặc trừ EXP, điểm mùa và điểm KPI của nhân sự đều bị bỏ hoàn toàn.
+- Nghiệp vụ khác vẫn có thể hoàn tất nhưng không được tạo bút toán điểm cho nhân sự đang nghỉ.
+- Điểm bị bỏ không được cộng bù, trừ bù, chuyển sang ngày khác hoặc tự động tính hồi tố.
+- Audit phải ghi lại biến động bị bỏ và lý do nghỉ đã được duyệt.
+- Ngày nghỉ được xác định theo `Asia/Ho_Chi_Minh`.
+
+## Loại hình và lịch làm việc
+
+- Nhân sự được phân loại `full-time` hoặc `part-time`.
+- Full-time áp dụng lịch cố định và không đăng ký lại hằng tuần.
+- Part-time phải đăng ký lịch cho tuần kế tiếp trước `18:00 Chủ Nhật`.
+- Tư Lệnh kiểm tra lịch part-time trong phạm vi quản lý; hệ thống tự khóa lịch khi hết hạn.
+- Part-time được sửa lịch trước hạn chốt.
+- Sau khi khóa, thay đổi phải qua yêu cầu và được Tư Lệnh duyệt.
+- Ngày part-time không có trong lịch đã chốt được xem là ngày nghỉ đối với giao nhiệm vụ và tính điểm.
+- Mọi khoản cộng hoặc trừ điểm trong ngày không có lịch làm bị bỏ hoàn toàn, không dời hoặc cộng bù.
+- Mọi thời điểm dùng `Asia/Ho_Chi_Minh`.
+
 ## Tiểu đội
 
 - Một người chỉ thuộc một tiểu đội tại một thời điểm.
@@ -67,4 +88,3 @@
 - Thao tác quan trọng phải idempotent.
 - Audit log không được cho người dùng thường sửa hoặc xóa.
 - Không để lộ SQL, stack trace, khóa bí mật hoặc thông tin nội bộ.
-

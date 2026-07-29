@@ -2,10 +2,10 @@
 
 ## Quy mô
 
-- **16 epic nghiệp vụ**.
-- **186 user stories**.
-- **122 story P0** — bắt buộc hoặc rủi ro cao.
-- **59 story P1** — quan trọng sau luồng lõi.
+- **17 epic nghiệp vụ**.
+- **202 user stories**.
+- **136 story P0** — bắt buộc hoặc rủi ro cao.
+- **61 story P1** — quan trọng sau luồng lõi.
 - **5 story P2** — mở rộng trải nghiệm.
 
 ## Phân loại trạng thái
@@ -13,8 +13,8 @@
 | Trạng thái | Số story | Ý nghĩa |
 |---|---:|---|
 | Hiện có | 60 | Luồng đã có trong ứng dụng, vẫn cần kiểm thử và đối chiếu nghiệp vụ |
-| Cần hoàn thiện | 70 | Chức năng có một phần hoặc còn thiếu điều kiện an toàn |
-| Đề xuất | 56 | Năng lực nên bổ sung để hệ thống vận hành đầy đủ hơn |
+| Cần hoàn thiện | 83 | Chức năng có một phần hoặc còn thiếu điều kiện an toàn |
+| Đề xuất | 59 | Năng lực nên bổ sung để hệ thống vận hành đầy đủ hơn |
 
 ## Độ phủ theo Epic
 
@@ -30,12 +30,13 @@
 | EXP, quân hàm và xếp hạng | 12 | Ledger, điểm mùa, rank, leaderboard, điều chỉnh |
 | Khen thưởng và phần thưởng | 11 | Đề xuất, duyệt, huy hiệu, thu hồi, công bằng |
 | Kỷ luật và xử phạt | 11 | Vi phạm, EXP âm, bằng chứng, khiếu nại, thu hồi |
-| Yêu cầu hỗ trợ | 10 | Tạo, giới hạn tháng, phản hồi, hủy, chuyển cấp |
+| Yêu cầu hỗ trợ | 11 | Tạo, giới hạn tháng, phản hồi, nghỉ phép, đóng băng điểm |
 | Quỹ thưởng | 10 | Cấu hình, mô phỏng, phân bổ, khóa kỳ, lịch sử |
 | Feed và minh bạch | 10 | Nhật ký, nội dung an toàn, cẩm nang, quyền riêng tư |
 | Thông báo và nhắc việc | 10 | In-app, deadline, review, hỗ trợ, tùy chọn nhận tin |
 | Bảo mật và độ tin cậy | 14 | RLS, quyền, XSS, audit, backup, recovery, concurrency |
 | Báo cáo và vận hành | 10 | Báo cáo, export, health, migration, giám sát |
+| Lịch làm việc và chấm công | 15 | Full-time, part-time, đăng ký tuần, khóa lịch, ngày nghỉ và điểm |
 
 ## Thứ tự triển khai đề xuất
 
@@ -79,11 +80,11 @@
 
 ## Kiểm tra chất lượng đã thực hiện
 
-- 186/186 story có vai trò.
-- 186/186 story có ưu tiên.
-- 186/186 story có trạng thái.
-- 186/186 story có câu “Là một… tôi muốn… để…”.
-- 186/186 story có ít nhất 3 tiêu chí Given–When–Then.
+- 202/202 story có vai trò.
+- 202/202 story có ưu tiên.
+- 202/202 story có trạng thái.
+- 202/202 story có câu “Là một… tôi muốn… để…”.
+- 202/202 story có ít nhất 3 tiêu chí Given–When–Then.
 - Không có ID story trùng.
 - Không có liên kết tài liệu bị thiếu.
 - Mọi file epic dưới 800 dòng.
@@ -97,4 +98,3 @@
 - Quỹ thưởng phân bổ theo EXP tổng, điểm mùa hay công thức kết hợp?
 - Người dùng có được khiếu nại xử phạt trực tiếp trên hệ thống không?
 - Có cho phép nhiều Tổng Tư Lệnh hay chỉ một tài khoản duy nhất?
-

@@ -21,6 +21,7 @@ Người quản lý nhóm, phòng ban hoặc mặt trận.
 - Đề xuất khen thưởng.
 - Áp dụng kỷ luật trong phạm vi được phép.
 - Tiếp nhận yêu cầu hỗ trợ từ cấp dưới.
+- Kiểm tra và xử lý lịch part-time thuộc phạm vi quản lý.
 
 ## Chiến Sỹ
 
@@ -30,6 +31,8 @@ Nhân sự thực hiện công việc.
 - Nộp báo cáo kết quả.
 - Xem KPI, EXP, quân hàm và huy hiệu của mình.
 - Gửi và theo dõi yêu cầu hỗ trợ.
+- Part-time đăng ký lịch làm cho tuần kế tiếp trước hạn chốt.
+- Full-time xem lịch cố định và ngày nghỉ đã được duyệt.
 - Xem feed thành tích và cẩm nang được phép.
 
 ## Quản Trị Vận Hành
@@ -76,4 +79,3 @@ Tác nhân tự động.
 - Không ai được tự duyệt, tự khen hoặc tự xử phạt chính mình.
 - Tư Lệnh chỉ thao tác trong phạm vi tổ chức đã được giao.
 - Service role không được xuất hiện ở trình duyệt.
-

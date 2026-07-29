@@ -4,7 +4,7 @@
 
 Bộ tài liệu mô tả nhu cầu người dùng cho ứng dụng **Chiến Binh OS** tại `apps/chien-binh-os`. Nội dung dùng tiếng Việt dễ hiểu, tập trung giá trị nghiệp vụ, có tiêu chí chấp nhận để BA, PO, developer và tester cùng sử dụng.
 
-Backlog hiện gồm **16 epic và 186 user stories**.
+Backlog hiện gồm **17 epic và 202 user stories**.
 
 ## Phạm vi
 
@@ -51,6 +51,7 @@ Mỗi story có:
 | [Epic 14](epic-14-notifications-and-reminders.md) | Thông báo và nhắc việc |
 | [Epic 15](epic-15-security-audit-and-reliability.md) | Bảo mật, audit và độ tin cậy |
 | [Epic 16](epic-16-reporting-and-operations.md) | Báo cáo và vận hành |
+| [Epic 17](epic-17-work-schedule-and-attendance.md) | Lịch làm việc và chấm công |
 
 ## Definition of Ready
 
