@@ -255,6 +255,13 @@ export function MucTongTuLenh() {
         Tạo xong, thông báo hiện lại <b>tên · số điện thoại · mật khẩu</b> để bạn đọc cho nhân sự.
         Họ đăng nhập được ngay.
       </P>
+      <P>
+        Nếu có gì chưa đúng, hệ thống báo rõ bằng tiếng Việt — ví dụ{" "}
+        <em>“Số điện thoại này đã có tài khoản, hãy dùng số khác”</em>,{" "}
+        <em>“Số điện thoại phải có ít nhất 8 số”</em>, <em>“Phải nhập họ tên”</em>,{" "}
+        <em>“Mật khẩu phải có ít nhất 4 ký tự”</em>. Sửa theo thông báo rồi bấm lại;{" "}
+        <b>không có tài khoản nào bị tạo dở</b> khi báo lỗi.
+      </P>
 
       <TieuDePhu>7.5. Quỹ thưởng</TieuDePhu>
       <P>
