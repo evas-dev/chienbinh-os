@@ -32,8 +32,8 @@ export function MucChienSy() {
             EXP nữa thì lên cấp, số huân chương, điểm mùa.
           </>,
           <>
-            <b>Nhiệm vụ hôm nay</b> — các nhiệm vụ ngày chưa xong. Làm ngay tại đây được, không cần
-            vào trang khác.
+            <b>Nhiệm vụ hôm nay</b> — các nhiệm vụ Daily/Bonus chưa xong. Làm ngay tại đây được,
+            không cần vào trang khác.
           </>,
           <>
             <b>Kho huân chương</b> — huân chương nào bạn đã có (sáng) và chưa có (mờ).
@@ -55,10 +55,10 @@ export function MucChienSy() {
             <b>Nhiệm vụ tháng — KPI</b>: chỉ tiêu giao cứng, tính cuối tháng
           </>,
           <>
-            <b>Nhiệm vụ cố định</b>: lặp lại mỗi ngày
+            <b>Nhiệm vụ Daily</b>: lặp lại mỗi ngày
           </>,
           <>
-            <b>Nhiệm vụ ngày — Chinh phục</b>: nhiệm vụ bổ sung để bứt phá
+            <b>Nhiệm vụ Bonus</b>: nhiệm vụ bổ sung để bứt phá
           </>,
         ]}
       />
@@ -161,9 +161,9 @@ export function MucChienSy() {
       />
       <Luu kieu="tin" nhan="Điều nhiều người thắc mắc">
         <P>
-          Với <b>Nhiệm vụ ngày</b>, dù thẻ ghi <em>+60 EXP</em> hay <em>+80 EXP</em>, khi được duyệt
-          bạn <b>luôn nhận đúng 40 EXP</b>. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng
-          đúng số ghi trên thẻ.
+          Với <b>Nhiệm vụ Daily</b> và <b>Nhiệm vụ Bonus</b>, dù thẻ ghi <em>+60 EXP</em> hay{" "}
+          <em>+80 EXP</em>, khi được duyệt bạn <b>luôn nhận đúng 40 EXP</b>. Con số trên thẻ chỉ là
+          hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
         </P>
       </Luu>
 
@@ -238,7 +238,8 @@ export function MucChienSy() {
             <em>“Đang ở đây”</em>), 7 loại huân chương, và bảng giá đổi thưởng.
           </>,
           <>
-            <b>Nhật ký chiến công</b> — 50 hoạt động gần nhất của <b>toàn công ty</b>.
+            <b>Nhật ký chiến công</b> — các hoạt động gần nhất <b>liên quan tới bạn</b> (bạn nộp gì,
+            được duyệt gì, bị phạt gì).
           </>,
           <>
             <b>Cẩm nang</b> — giải thích cách công ty tính EXP / huân chương, kèm ví dụ cho phòng
@@ -246,11 +247,11 @@ export function MucChienSy() {
           </>,
         ]}
       />
-      <Luu kieu="canh_bao" nhan="Nhật ký là công khai">
+      <Luu kieu="canh_bao" nhan="Nhật ký không riêng tư hoàn toàn">
         <P>
-          <b>Nhật ký chiến công là công khai với toàn công ty.</b> Nếu kết quả của bạn bị từ chối,
-          hoặc bạn bị xử phạt, thì <b>lý do sẽ hiện cho mọi người đọc được</b>. Quản lý cũng cần
-          biết điều này khi viết lý do.
+          Bạn chỉ thấy việc của chính mình, nhưng{" "}
+          <b>quản lý phòng bạn và Tổng Tư Lệnh đều đọc được</b> — kể cả lý do bị từ chối hay bị xử
+          phạt.
         </P>
       </Luu>
     </Muc>

@@ -84,7 +84,7 @@ export function CreateMissionDialog({
       toast.success(
         <span className="inline-flex items-center gap-1">
           Đã bàn giao <EmojiIcon glyph="⚔" />
-        </span>
+        </span>,
       );
       onOpenChange(false);
       setMissionTitle("");
@@ -114,7 +114,9 @@ export function CreateMissionDialog({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="thang">Nhiệm vụ tháng (KPI khối lượng)</SelectItem>
-                  <SelectItem value="ngay">Nhiệm vụ ngày</SelectItem>
+                  {/* Hộp thoại này luôn gửi fixed:false nên nhiệm vụ tạo ra là
+                      loại Bonus — nhãn phải nói đúng thứ người dùng sẽ thấy. */}
+                  <SelectItem value="ngay">Nhiệm vụ Bonus</SelectItem>
                 </SelectContent>
               </Select>
             </div>

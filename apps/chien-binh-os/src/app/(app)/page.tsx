@@ -22,20 +22,27 @@ export default async function HomePage() {
   }
 
   const supabase = await createClient();
-  const [{ data: ranks }, { count: badgeCount }, { data: todayMissions, error: missionsError }, { data: squad }] =
-    await Promise.all([
-      supabase.from("ranks").select("*"),
-      supabase.from("warrior_badges").select("*", { count: "exact", head: true }).eq("warrior_id", profile.id),
-      supabase
-        .from("missions")
-        .select("*")
-        .eq("assignee_id", profile.id)
-        .eq("type", "ngay")
-        .neq("status", "done"),
-      profile.squad_id
-        ? supabase.from("squads").select("name").eq("id", profile.squad_id).maybeSingle()
-        : Promise.resolve({ data: null, error: null }),
-    ]);
+  const [
+    { data: ranks },
+    { count: badgeCount },
+    { data: todayMissions, error: missionsError },
+    { data: squad },
+  ] = await Promise.all([
+    supabase.from("ranks").select("*"),
+    supabase
+      .from("warrior_badges")
+      .select("*", { count: "exact", head: true })
+      .eq("warrior_id", profile.id),
+    supabase
+      .from("missions")
+      .select("*")
+      .eq("assignee_id", profile.id)
+      .eq("type", "ngay")
+      .neq("status", "done"),
+    profile.squad_id
+      ? supabase.from("squads").select("name").eq("id", profile.squad_id).maybeSingle()
+      : Promise.resolve({ data: null, error: null }),
+  ]);
 
   const rank = rankOf(profile.exp, ranks ?? []);
   const progress = expProgress(profile.exp, ranks ?? []);
@@ -86,7 +93,9 @@ export default async function HomePage() {
                 <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">HUÂN CHƯƠNG</div>
               </div>
               <div className="bg-cb-panel-2 rounded-xl p-4">
-                <div className="text-cb-gold text-xl font-bold">{fmtNum(profile.season_points)}</div>
+                <div className="text-cb-gold text-xl font-bold">
+                  {fmtNum(profile.season_points)}
+                </div>
                 <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">ĐIỂM MÙA</div>
               </div>
             </div>
@@ -109,7 +118,9 @@ export default async function HomePage() {
               (todayMissions ?? []).map((m) => <MissionCard key={m.id} mission={m} />)
             ) : (
               <p className="text-cb-ink-dim text-sm leading-relaxed">
-                Hôm nay chưa có nhiệm vụ ngày. Vào «Bảng nhiệm vụ» nhận thêm.
+                {/* Khối này gom cả Daily lẫn Bonus (đều là type `ngay`) nên
+                    nói chung chung, không gọi tên riêng một loại. */}
+                Hôm nay chưa có nhiệm vụ nào. Vào «Bảng nhiệm vụ» nhận thêm.
               </p>
             )}
           </CardContent>

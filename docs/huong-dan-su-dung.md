@@ -104,7 +104,7 @@ Tiền của bạn = (EXP của bạn ÷ Tổng EXP toàn đội) × Quỹ thư�
 Vào app là thấy ngay 4 khối:
 
 1. **Hồ sơ của bạn** — tên, phòng ban, tiểu đội, quân hàm hiện tại, EXP, còn bao nhiêu EXP nữa thì lên cấp, số huân chương, điểm mùa.
-2. **🎯 Nhiệm vụ hôm nay** — các nhiệm vụ ngày chưa xong. Làm ngay tại đây được, không cần vào trang khác.
+2. **🎯 Nhiệm vụ hôm nay** — các nhiệm vụ Daily/Bonus chưa xong. Làm ngay tại đây được, không cần vào trang khác.
 3. **🏅 Kho huân chương** — huân chương nào bạn đã có (sáng) và chưa có (mờ).
 4. **⚖️ Hồ sơ kỷ luật** — các án phạt của bạn. Sạch thì hiện *"Chưa có vi phạm nào — hồ sơ kỷ luật sạch 🛡"*.
 
@@ -113,8 +113,8 @@ Vào app là thấy ngay 4 khối:
 Vào **🎯 Bảng nhiệm vụ**. Nhiệm vụ được chia 3 nhóm:
 
 - **🎖 Nhiệm vụ tháng — KPI**: chỉ tiêu giao cứng, tính cuối tháng
-- **📌 Nhiệm vụ cố định**: lặp lại mỗi ngày
-- **⚔️ Nhiệm vụ ngày — Chinh phục**: nhiệm vụ bổ sung để bứt phá
+- **📌 Nhiệm vụ Daily**: lặp lại mỗi ngày
+- **⚔️ Nhiệm vụ Bonus**: nhiệm vụ bổ sung để bứt phá
 
 Mỗi nhiệm vụ có **4 trạng thái**, và nút bấm đổi theo trạng thái:
 
@@ -151,7 +151,7 @@ Bấm **Nộp cho quản lý ⚔**. Nhiệm vụ chuyển sang *Chờ duyệt*.
 - **Được duyệt** → cộng EXP ngay, nhiệm vụ thành *Hoàn thành*, có thông báo *"+X EXP"*. Nếu đủ điểm lên cấp, hiện thêm *"Thăng quân hàm! 🎖"*.
 - **Bị từ chối** → nhiệm vụ **quay lại *Đang làm***, và bạn thấy băng đỏ **"❌ Bị từ chối: <lý do>"** ngay trên thẻ nhiệm vụ. Sửa theo lý do rồi **nộp lại** — hệ thống đếm *Lần 2*, *Lần 3*... Nộp lại bao nhiêu lần cũng được.
 
-> 💡 **Điều nhiều người thắc mắc:** với **Nhiệm vụ ngày**, dù thẻ ghi *+60 EXP* hay *+80 EXP*, khi được duyệt bạn **luôn nhận đúng 40 EXP**. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+> 💡 **Điều nhiều người thắc mắc:** với **Nhiệm vụ Daily** và **Nhiệm vụ Bonus**, dù thẻ ghi *+60 EXP* hay *+80 EXP*, khi được duyệt bạn **luôn nhận đúng 40 EXP**. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
 
 ### 5.3. Xem lại việc đã xong
 
@@ -181,10 +181,10 @@ Yêu cầu có 4 trạng thái: **Chờ duyệt** → **Đã duyệt** / **Từ 
 ### 5.5. Những trang chỉ để xem
 
 - **🏅 Quân hàm & Huân chương** — xem toàn bộ 18 bậc quân hàm (bậc của bạn có nhãn *"Đang ở đây"*), 7 loại huân chương, và bảng giá đổi thưởng.
-- **📣 Nhật ký chiến công** — 50 hoạt động gần nhất của **toàn công ty**.
+- **📣 Nhật ký chiến công** — các hoạt động gần nhất **liên quan tới bạn** (bạn nộp gì, được duyệt gì, bị phạt gì).
 - **📖 Cẩm nang** — giải thích cách công ty tính EXP / huân chương, kèm ví dụ cho phòng Marketing và phòng Sale.
 
-> ⚠️ **Nhật ký chiến công là công khai với toàn công ty.** Nếu kết quả của bạn bị từ chối, hoặc bạn bị xử phạt, thì **lý do sẽ hiện cho mọi người đọc được**. Quản lý cũng cần biết điều này khi viết lý do.
+> ⚠️ **Nhật ký của bạn không riêng tư hoàn toàn.** Bạn chỉ thấy việc của chính mình, nhưng **quản lý phòng bạn và Tổng Tư Lệnh đều đọc được** — kể cả lý do bị từ chối hay bị xử phạt.
 
 ---
 
@@ -208,13 +208,13 @@ Mỗi phiếu hiện: tên nhiệm vụ, tên nhân sự, ngày nộp, và **s�
 | **Đổi sang từ chối** | Phiếu **đã duyệt** | Thu hồi lại EXP đã cộng. **Bắt buộc nhập lý do** |
 
 **Khi bấm Duyệt ✅:**
-- Nhân sự được cộng EXP (nhiệm vụ ngày = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)
+- Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)
 - Điểm mùa của họ cộng thêm 60% số EXP đó
 - Nhiệm vụ nhảy lên 100% tiến độ
 - **KPI của chính bạn tự động tăng** (xem mục 6.2)
-- Cả công ty thấy trên Nhật ký chiến công
+- Hiện trên Nhật ký chiến công của nhân sự đó (bạn và CEO cũng thấy)
 
-**Khi bấm Từ chối:** phải nhập **Lý do (bắt buộc)**. Lý do này nhân sự sẽ đọc được, và **cả công ty cũng đọc được trên Nhật ký** — nên viết gọn, khách quan, nói rõ cần sửa gì.
+**Khi bấm Từ chối:** phải nhập **Lý do (bắt buộc)**. Lý do này nhân sự đọc được, và **Tổng Tư Lệnh cũng đọc được trên Nhật ký** — nên viết gọn, khách quan, nói rõ cần sửa gì.
 
 **Khi bấm Đổi sang từ chối** (= thu hồi): dùng khi **đã duyệt rồi mới phát hiện sai** (số liệu gian, duyệt nhầm người). Hệ thống sẽ **trừ lại đúng số EXP, đúng điểm mùa và đúng phần KPI** đã cộng. Chỉ thu hồi được **1 lần**; sau đó muốn duyệt lại thì nhân sự phải nộp phiếu mới.
 
@@ -228,7 +228,7 @@ Vào **🧭 Mục tiêu tháng**. Bạn thấy:
 
 **a) Thẻ KPI của chính bạn** — mục tiêu mà CEO giao cho bạn, kèm % hoàn thành có trọng số. Bạn **chỉ xem, không sửa được** (chỉ CEO giao KPI).
 
-**b) Khối ⚡ Bẻ mục tiêu thành nhiệm vụ ngày** — 6 nút mẫu bấm-là-giao:
+**b) Khối ⚡ Bẻ mục tiêu thành nhiệm vụ Daily** — 6 nút mẫu bấm-là-giao:
 
 | Nút mẫu | Chỉ tiêu mặc định |
 |---|---|
@@ -252,12 +252,12 @@ Ngoài 6 nút mẫu ở trên, bạn có thể vào **🎯 Bảng nhiệm vụ**
 | Ô cần điền | Ghi chú |
 |---|---|
 | **Tên nhiệm vụ** | Bắt buộc |
-| **Loại** | *Nhiệm vụ tháng (KPI khối lượng)* hoặc *Nhiệm vụ ngày* |
+| **Loại** | *Nhiệm vụ tháng (KPI khối lượng)* hoặc *Nhiệm vụ Bonus* |
 | **Thuộc chiến dịch (cha)** | Chọn chiến dịch CEO đã giao cho bạn, hoặc để *— Không gắn —* |
 | **Giao cho** | Chỉ hiện Chiến Sỹ cùng mặt trận |
 | **Chỉ tiêu** | Phải lớn hơn 0 |
 | **Đơn vị** | Ví dụ: khách hàng, video, view |
-| **EXP thưởng** | Nhiệm vụ ngày luôn cộng 40 EXP bất kể số này |
+| **EXP thưởng** | Nhiệm vụ Daily/Bonus luôn cộng 40 EXP bất kể số này |
 | **Hạn** | Ô chữ tự do, ví dụ *31/08* |
 
 Bấm **Bàn giao ⚔**. Nhiệm vụ xuất hiện trong danh sách của nhân sự ở trạng thái *Chưa nhận*.
@@ -297,7 +297,7 @@ Vào **⚖️ Xử phạt**. Chọn **Chiến binh vi phạm** (cùng mặt tr�
 - **Trừ EXP ngay** (nhưng EXP không bao giờ xuống dưới 0)
 - **Không trừ điểm mùa**, và **quân hàm đã đạt không bị tụt**
 - Hiện trong *Hồ sơ kỷ luật* của người bị phạt
-- Đăng lên Nhật ký chiến công cho **cả công ty thấy**
+- Đăng lên Nhật ký chiến công — **người bị phạt, bạn, và Tổng Tư Lệnh** đều thấy
 
 **Xử lý tái phạm:** nếu bạn nhập cùng án phạt + cùng lý do như lần trước cho cùng người, hệ thống chặn và báo:
 > *"Cảnh báo: đã có án phạt trùng mã vi phạm và lý do cho người này — nếu đây là vụ tái phạm, hãy bổ sung chi tiết vụ việc mới vào lý do"*
@@ -460,8 +460,8 @@ Cơ cấu: **1 đội trưởng + 1 đội phó + tối đa 3 thành viên** (t�
 **Tôi quên mật khẩu, làm sao?**
 Hệ thống chưa có "Quên mật khẩu" và bạn không tự đổi được. Liên hệ người quản trị hệ thống để đặt lại.
 
-**Tôi được duyệt nhiệm vụ ngày ghi +60 EXP nhưng chỉ nhận 40?**
-Đúng, không phải lỗi. Mọi nhiệm vụ ngày đều cộng đúng 40 EXP; con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+**Tôi được duyệt nhiệm vụ Daily ghi +60 EXP nhưng chỉ nhận 40?**
+Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
 
 **Tôi bị phạt trừ EXP, quân hàm có tụt không?**
 Không. Quân hàm đã đạt là **vĩnh viễn**. Điểm mùa cũng không bị trừ. Chỉ EXP giảm (và không xuống dưới 0).
@@ -499,7 +499,7 @@ Ghi lại để không mất thời gian đi tìm chức năng không tồn tạ
 | Không xoá / hoàn tác được án phạt | Cân nhắc kỹ trước khi bấm phạt |
 | Không có nút đổi huân chương lấy thưởng | Làm việc trực tiếp với quản lý |
 | Chưa có thông báo (email / tin nhắn) khi có việc mới | Chủ động mở app kiểm tra hàng ngày |
-| Nhật ký chiến công công khai toàn công ty, kể cả lý do từ chối và án phạt | Viết lý do khách quan, gọn |
+| Nhật ký hiện lý do từ chối / án phạt cho quản lý phòng và Tổng Tư Lệnh đọc | Viết lý do khách quan, gọn |
 
 ---
 

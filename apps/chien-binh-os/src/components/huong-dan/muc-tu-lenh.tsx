@@ -81,19 +81,20 @@ export function MucTuLenh() {
       </P>
       <DanhSach
         items={[
-          <>Nhân sự được cộng EXP (nhiệm vụ ngày = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)</>,
+          <>Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)</>,
           <>Điểm mùa của họ cộng thêm 60% số EXP đó</>,
           <>Nhiệm vụ nhảy lên 100% tiến độ</>,
           <>
             <b>KPI của chính bạn tự động tăng</b> (xem mục 6.2)
           </>,
-          <>Cả công ty thấy trên Nhật ký chiến công</>,
+          <>Hiện trên Nhật ký chiến công của nhân sự đó (bạn và CEO cũng thấy)</>,
         ]}
       />
 
       <P>
         <b>Khi bấm Từ chối:</b> phải nhập <b>Lý do (bắt buộc)</b>. Lý do này nhân sự sẽ đọc được, và{" "}
-        <b>cả công ty cũng đọc được trên Nhật ký</b> — nên viết gọn, khách quan, nói rõ cần sửa gì.
+        <b>Tổng Tư Lệnh cũng đọc được trên Nhật ký</b> — nên viết gọn, khách quan, nói rõ cần sửa
+        gì.
       </P>
 
       <P>
@@ -123,7 +124,7 @@ export function MucTuLenh() {
       </P>
 
       <P>
-        <b>b) Khối Bẻ mục tiêu thành nhiệm vụ ngày</b> — 6 nút mẫu bấm-là-giao:
+        <b>b) Khối Bẻ mục tiêu thành nhiệm vụ Daily</b> — 6 nút mẫu bấm-là-giao:
       </P>
 
       <Bang>
@@ -213,7 +214,7 @@ export function MucTuLenh() {
           <tr>
             <Td dam>Loại</Td>
             <Td>
-              <em>Nhiệm vụ tháng (KPI khối lượng)</em> hoặc <em>Nhiệm vụ ngày</em>
+              <em>Nhiệm vụ tháng (KPI khối lượng)</em> hoặc <em>Nhiệm vụ Bonus</em>
             </Td>
           </tr>
           <tr>
@@ -236,7 +237,7 @@ export function MucTuLenh() {
           </tr>
           <tr>
             <Td dam>EXP thưởng</Td>
-            <Td>Nhiệm vụ ngày luôn cộng 40 EXP bất kể số này</Td>
+            <Td>Nhiệm vụ Daily/Bonus luôn cộng 40 EXP bất kể số này</Td>
           </tr>
           <tr>
             <Td dam>Hạn</Td>
@@ -369,7 +370,7 @@ export function MucTuLenh() {
             Hiện trong <em>Hồ sơ kỷ luật</em> của người bị phạt
           </>,
           <>
-            Đăng lên Nhật ký chiến công cho <b>cả công ty thấy</b>
+            Đăng lên Nhật ký chiến công — <b>người bị phạt, bạn và Tổng Tư Lệnh</b> đều thấy
           </>,
         ]}
       />

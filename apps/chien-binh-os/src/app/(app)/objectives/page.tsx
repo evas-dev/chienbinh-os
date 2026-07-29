@@ -19,7 +19,9 @@ export default async function ObjectivesPage() {
   if (profile.role === "tong_tu_lenh") {
     const { data: objectivesRaw } = await supabase
       .from("objectives")
-      .select("id, owner_id, year, month, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)")
+      .select(
+        "id, owner_id, year, month, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)",
+      )
       .order("year", { ascending: false })
       .order("month", { ascending: false });
     // Mỗi chủ sở hữu chỉ hiển thị MỘT thẻ KPI — kỳ mới nhất. Tránh vỡ giao diện
@@ -41,8 +43,8 @@ export default async function ObjectivesPage() {
       <div>
         <div className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="bg-cb-panel-2 border-cb-line sm:flex-1 rounded-lg border p-3.5 text-sm leading-relaxed">
-            <EmojiIcon glyph="👑" /> <b>Cấp CEO:</b> giao mục tiêu KPI cho trưởng phòng, hoặc <b>giao việc thẳng cho nhân sự</b>{" "}
-            không qua quản lý.
+            <EmojiIcon glyph="👑" /> <b>Cấp CEO:</b> giao mục tiêu KPI cho trưởng phòng, hoặc{" "}
+            <b>giao việc thẳng cho nhân sự</b> không qua quản lý.
           </p>
           <CreateMissionButton
             label={
@@ -52,7 +54,12 @@ export default async function ObjectivesPage() {
             }
             dialogTitle="Giao việc trực tiếp cho nhân sự"
             isCampaign={false}
-            targets={(allStaff ?? []).map((s) => ({ id: s.id, name: s.name, role: s.role, dept: s.dept }))}
+            targets={(allStaff ?? []).map((s) => ({
+              id: s.id,
+              name: s.name,
+              role: s.role,
+              dept: s.dept,
+            }))}
             campaigns={[]}
           />
         </div>
@@ -65,7 +72,9 @@ export default async function ObjectivesPage() {
                 ownerName={owner?.name ?? "—"}
                 ownerDept={owner?.dept ?? null}
                 items={o.objective_items}
-                actions={<AssignObjectiveButton ownerId={o.owner_id!} ownerName={owner?.name ?? "—"} />}
+                actions={
+                  <AssignObjectiveButton ownerId={o.owner_id!} ownerName={owner?.name ?? "—"} />
+                }
               />
             );
           })}
@@ -95,8 +104,8 @@ export default async function ObjectivesPage() {
     return (
       <div>
         <p className="bg-cb-panel-2 border-cb-line mb-5 rounded-lg border p-3.5 text-sm leading-relaxed">
-          <EmojiIcon glyph="🎖" /> <b>Cấp Quản lý:</b> đây là mục tiêu CEO giao cho anh/chị. Bấm mẫu bên dưới để giao chỉ
-          tiêu cụ thể cho lính.
+          <EmojiIcon glyph="🎖" /> <b>Cấp Quản lý:</b> đây là mục tiêu CEO giao cho anh/chị. Bấm mẫu
+          bên dưới để giao chỉ tiêu cụ thể cho lính.
         </p>
         {objectiveError ? (
           // KPI-12: lỗi tải dữ liệu phải khác trạng thái "chưa có KPI" — không
@@ -110,7 +119,11 @@ export default async function ObjectivesPage() {
             </CardContent>
           </Card>
         ) : objective ? (
-          <ObjectiveCard ownerName={profile.name} ownerDept={profile.dept} items={objective.objective_items} />
+          <ObjectiveCard
+            ownerName={profile.name}
+            ownerDept={profile.dept}
+            items={objective.objective_items}
+          />
         ) : (
           <Card className="bg-cb-panel border-cb-line">
             <CardContent className="text-cb-ink-dim text-sm">
@@ -121,8 +134,11 @@ export default async function ObjectivesPage() {
 
         <Card className="bg-cb-panel border-cb-line mt-4">
           <CardContent>
-            <TieuDeMuc icon="⚡" hint="Chọn mẫu nhiệm vụ để giao nhanh cho lính, hoặc tạo tùy chỉnh.">
-              Bẻ mục tiêu thành nhiệm vụ ngày
+            <TieuDeMuc
+              icon="⚡"
+              hint="Chọn mẫu nhiệm vụ để giao nhanh cho lính, hoặc tạo tùy chỉnh."
+            >
+              Bẻ mục tiêu thành nhiệm vụ Daily
             </TieuDeMuc>
             <div className="flex flex-wrap gap-2">
               {FIXED_TASKS.map((t) => (
@@ -140,7 +156,12 @@ export default async function ObjectivesPage() {
                 }
                 dialogTitle="Tạo nhiệm vụ cho lính"
                 isCampaign={false}
-                targets={(soldiers ?? []).map((s) => ({ id: s.id, name: s.name, role: s.role, dept: s.dept }))}
+                targets={(soldiers ?? []).map((s) => ({
+                  id: s.id,
+                  name: s.name,
+                  role: s.role,
+                  dept: s.dept,
+                }))}
                 campaigns={[]}
               />
             </div>
@@ -172,7 +193,18 @@ export default async function ObjectivesPage() {
     leaderId = squad?.leader_id ?? null;
   }
 
-  let objective: { objective_items: { id: string; current: number; target: number; weight: number; metric: string; unit: string | null; metric_key: string | null; objective_id: string | null }[] } | null = null;
+  let objective: {
+    objective_items: {
+      id: string;
+      current: number;
+      target: number;
+      weight: number;
+      metric: string;
+      unit: string | null;
+      metric_key: string | null;
+      objective_id: string | null;
+    }[];
+  } | null = null;
   let leaderName = "";
   let leaderDept: string | null = null;
   let objectiveError: unknown = null;
@@ -196,8 +228,8 @@ export default async function ObjectivesPage() {
   return (
     <div>
       <p className="bg-cb-panel-2 border-cb-line mb-5 rounded-lg border p-3.5 text-sm leading-relaxed">
-        <EmojiIcon glyph="⚔️" /> <b>Cấp Chiến sỹ:</b> đây là mục tiêu của quản lý trực tiếp — nhiệm vụ ngày của bạn góp
-        phần hoàn thành nó.
+        <EmojiIcon glyph="⚔️" /> <b>Cấp Chiến sỹ:</b> đây là mục tiêu của quản lý trực tiếp — nhiệm
+        vụ Daily của bạn góp phần hoàn thành nó.
       </p>
       {objectiveError ? (
         <Card className="border-cb-crimson/40 bg-cb-crimson/10">
@@ -209,7 +241,11 @@ export default async function ObjectivesPage() {
           </CardContent>
         </Card>
       ) : objective ? (
-        <ObjectiveCard ownerName={leaderName} ownerDept={leaderDept} items={objective.objective_items} />
+        <ObjectiveCard
+          ownerName={leaderName}
+          ownerDept={leaderDept}
+          items={objective.objective_items}
+        />
       ) : (
         <Card className="bg-cb-panel border-cb-line">
           <CardContent className="text-cb-ink-dim text-sm">Đội chưa có mục tiêu.</CardContent>

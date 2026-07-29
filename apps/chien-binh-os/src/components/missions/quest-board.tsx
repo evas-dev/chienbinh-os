@@ -70,14 +70,14 @@ export function QuestBoard({
         />
         <Category
           icon="📌"
-          title="Nhiệm vụ cố định"
+          title="Nhiệm vụ Daily"
           desc="Lặp lại mỗi ngày — nhận & hoàn thành trước cuối ngày"
           missions={fixed}
           rejectReasonByMission={rejectReasonByMission}
         />
         <Category
           icon="⚔️"
-          title="Nhiệm vụ ngày — Chinh phục"
+          title="Nhiệm vụ Bonus"
           desc="Nhiệm vụ bổ sung để bứt phá, thưởng lớn hơn"
           missions={bonus}
           rejectReasonByMission={rejectReasonByMission}

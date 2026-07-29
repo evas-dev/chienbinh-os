@@ -175,10 +175,10 @@ export function MucCauHoi() {
             trị hệ thống để đặt lại.
           </P>
         </CauHoi>
-        <CauHoi hoi="Tôi được duyệt nhiệm vụ ngày ghi +60 EXP nhưng chỉ nhận 40?">
+        <CauHoi hoi="Tôi được duyệt nhiệm vụ Daily ghi +60 EXP nhưng chỉ nhận 40?">
           <P>
-            Đúng, không phải lỗi. Mọi nhiệm vụ ngày đều cộng đúng 40 EXP; con số trên thẻ chỉ là
-            hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+            Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ
+            là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
           </P>
         </CauHoi>
         <CauHoi hoi="Tôi bị phạt trừ EXP, quân hàm có tụt không?">
@@ -268,7 +268,7 @@ export function MucHanChe() {
             <Td>Chủ động mở app kiểm tra hàng ngày</Td>
           </tr>
           <tr>
-            <Td dam>Nhật ký chiến công công khai toàn công ty, kể cả lý do từ chối và án phạt</Td>
+            <Td dam>Nhật ký hiện lý do từ chối / án phạt cho quản lý phòng và Tổng Tư Lệnh đọc</Td>
             <Td>Viết lý do khách quan, gọn</Td>
           </tr>
         </tbody>

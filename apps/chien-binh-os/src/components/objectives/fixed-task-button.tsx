@@ -74,7 +74,7 @@ export function FixedTaskButton({ template, soldiers }: { template: Template; so
         <DialogContent className="bg-cb-panel border-cb-line">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-1.5">
-              <EmojiIcon glyph="⚡" /> Giao nhiệm vụ ngày
+              <EmojiIcon glyph="⚡" /> Giao nhiệm vụ Daily
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">

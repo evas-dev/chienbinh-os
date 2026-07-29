@@ -1,4 +1,4 @@
-// Mẫu nhiệm vụ ngày để quản lý bấm giao nhanh cho lính — khớp FIXED_TASKS trong js/data.js.
+// Mẫu nhiệm vụ Daily (fixed = true) để quản lý bấm giao nhanh cho lính.
 export const FIXED_TASKS = [
   { title: "Viết 1 bài / đăng nội dung", unit: "bài", target: 1, exp: 40 },
   { title: "Sản xuất video ngắn", unit: "video", target: 3, exp: 60 },
@@ -31,10 +31,11 @@ export function fmtTargetVal(v: number, unit: string) {
 export function weightedRaw(items: { current: number; target: number; weight: number }[]) {
   const tw = items.reduce((s, it) => s + it.weight, 0) || 1;
   return Math.round(
-    (items.reduce((s, it) => s + (it.target > 0 ? it.current / it.target : 0) * it.weight, 0) / tw) * 100,
+    (items.reduce((s, it) => s + (it.target > 0 ? it.current / it.target : 0) * it.weight, 0) /
+      tw) *
+      100,
   );
 }
 
 // Số liệu cùng kỳ trước để so sánh cảnh báo tăng/giảm — dữ liệu demo gốc (js/data.js PREV_PERIOD).
 export const PREV_PERIOD = { revenue: 1050000000, newCustomers: 64, leads: 210 };
-

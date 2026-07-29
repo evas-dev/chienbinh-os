@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { fmtNum } from "@/lib/format";
-import { TYPE_LABEL, STATUS_LABEL } from "@/lib/missions";
+import { nhanLoaiNhiemVu, STATUS_LABEL } from "@/lib/missions";
 import { acceptMissionAction } from "@/lib/actions/missions";
 import { SubmitReportDialog } from "./submit-report-dialog";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -47,7 +47,7 @@ export function MissionCard({
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-2">
           <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
-            {TYPE_LABEL[mission.type]}
+            {nhanLoaiNhiemVu(mission.type, mission.fixed)}
           </span>
           <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
             {STATUS_LABEL[mission.status ?? "todo"]}
@@ -56,7 +56,11 @@ export function MissionCard({
         </div>
         {assigneeName || assignerName ? (
           <div className="text-cb-ink-faint mb-1 text-xs">
-            {assigneeName ? <>Người nhận: <b>{assigneeName}</b> · </> : null}
+            {assigneeName ? (
+              <>
+                Người nhận: <b>{assigneeName}</b> ·{" "}
+              </>
+            ) : null}
             {assignerName ? <>Người giao: {assignerName} · </> : null}
             Hạn: {mission.deadline}
           </div>
