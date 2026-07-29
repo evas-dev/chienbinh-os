@@ -33,4 +33,8 @@ export const NAV_ITEMS: { path: string; icon: string; label: string; roles: Role
   { path: "/ladder", icon: "🏅", label: "Quân hàm & Huân chương", roles: ALL_ROLES },
   { path: "/feed", icon: "📣", label: "Nhật ký chiến công", roles: ALL_ROLES },
   { path: "/guide", icon: "📖", label: "Cẩm nang", roles: ALL_ROLES },
+  // Cẩm nang (/guide) giải thích khung chỉ số EXP/huy hiệu/quân hàm; trang này
+  // hướng dẫn thao tác trong app (nhận việc, nộp, duyệt...) — hai nội dung khác
+  // nhau nên tách route riêng thay vì nhồi chung một trang.
+  { path: "/huong-dan", icon: "🎓", label: "Hướng dẫn sử dụng", roles: ALL_ROLES },
 ];

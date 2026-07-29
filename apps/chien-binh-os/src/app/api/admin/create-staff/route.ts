@@ -3,15 +3,39 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
 
+// Thông báo tiếng Việt cho mọi rule: người dùng cuối là Tổng Tư Lệnh không biết
+// kỹ thuật, mặc định zod trả tiếng Anh ("Too small: expected string to have
+// >=8 characters") thì không hiểu được.
 const bodySchema = z.object({
-  name: z.string().trim().min(1),
-  phone: z.string().trim().min(8),
-  password: z.string().min(4).default("123456"),
-  dept: z.string().trim().min(1),
-  front: z.enum(["tien_tuyen", "hau_phuong"]),
-  role: z.enum(["chien_sy", "tu_lenh"]),
+  name: z.string().trim().min(1, "Phải nhập họ tên"),
+  phone: z.string().trim().min(8, "Số điện thoại phải có ít nhất 8 số"),
+  password: z.string().min(4, "Mật khẩu phải có ít nhất 4 ký tự").default("123456"),
+  dept: z.string().trim().min(1, "Phải chọn phòng ban"),
+  front: z.enum(["tien_tuyen", "hau_phuong"], { error: "Mặt trận không hợp lệ" }),
+  role: z.enum(["chien_sy", "tu_lenh"], {
+    error: "Chỉ tạo được tài khoản Chiến Sỹ hoặc Tư Lệnh",
+  }),
   squadId: z.string().nullable().optional(),
 });
+
+/**
+ * Dịch lỗi từ Supabase Auth Admin sang tiếng Việt.
+ *
+ * Bên trong hệ thống dùng trick email ảo `<sđt>@chienbinh.local`, nên lỗi gốc
+ * nói về "email address" — trong khi CEO chỉ nhập số điện thoại và sẽ không hiểu
+ * tại sao lại có email ở đây.
+ */
+function loiTaoTaiKhoan(message: string | undefined) {
+  if (!message) return "Không tạo được tài khoản đăng nhập";
+  const m = message.toLowerCase();
+  if (m.includes("already been registered") || m.includes("already exists")) {
+    return "Số điện thoại này đã có tài khoản, hãy dùng số khác";
+  }
+  if (m.includes("password")) {
+    return "Mật khẩu quá ngắn hoặc không hợp lệ (cần từ 4 ký tự)";
+  }
+  return `Không tạo được tài khoản đăng nhập: ${message}`;
+}
 
 // Tạo tài khoản nhân sự = 2 bước bắt buộc (RPC thường không tạo được auth.users):
 // 1) service_role tạo auth user (email = <sđt>@chienbinh.local)
@@ -56,10 +80,7 @@ export async function POST(request: Request) {
     email_confirm: true,
   });
   if (createErr || !created.user) {
-    return NextResponse.json(
-      { error: createErr?.message ?? "Không tạo được tài khoản đăng nhập" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: loiTaoTaiKhoan(createErr?.message) }, { status: 400 });
   }
 
   const { error: rpcErr } = await callerClient.rpc("admin_create_warrior", {

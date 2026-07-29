@@ -390,7 +390,7 @@ Người bị ngưng: không đăng nhập được, không nhận được nhi�
 
 Tạo xong, thông báo hiện lại **tên · số điện thoại · mật khẩu** để bạn đọc cho nhân sự. Họ đăng nhập được ngay.
 
-> 🚨 **LƯU Ý — tính năng này hiện chưa dùng được trên bản online.** Bấm **Tạo tài khoản ⚔** sẽ báo lỗi *"Thiếu SUPABASE_SERVICE_ROLE_KEY..."*. Đây là **thiếu một cấu hình kỹ thuật trên máy chủ**, không phải bạn làm sai. Cần người quản trị hệ thống bổ sung cấu hình đó là dùng được. Trong lúc chờ, tài khoản mới phải được tạo trực tiếp trong cơ sở dữ liệu.
+Nếu có gì chưa đúng, hệ thống báo rõ bằng tiếng Việt — ví dụ *"Số điện thoại này đã có tài khoản, hãy dùng số khác"*, *"Số điện thoại phải có ít nhất 8 số"*, *"Phải nhập họ tên"*, *"Mật khẩu phải có ít nhất 4 ký tự"*. Sửa theo thông báo rồi bấm lại; **không có tài khoản nào bị tạo dở** khi báo lỗi.
 
 ### 7.5. Quỹ thưởng 💰
 
@@ -492,7 +492,6 @@ Ghi lại để không mất thời gian đi tìm chức năng không tồn tạ
 
 | Hạn chế | Cách xử lý tạm |
 |---|---|
-| **Tạo tài khoản nhân sự** đang lỗi trên bản online (thiếu cấu hình máy chủ) | Nhờ quản trị bổ sung cấu hình, hoặc tạo trực tiếp trong cơ sở dữ liệu |
 | Không tự đổi mật khẩu, không có "Quên mật khẩu" | Nhờ quản trị đặt lại |
 | Không đổi được tiểu đội sau khi tài khoản đã tạo | Nhờ quản trị sửa trong cơ sở dữ liệu |
 | Không sửa tay được con số hiện tại của KPI | Luôn chọn "khóa đo lường tự động" khi giao KPI |
