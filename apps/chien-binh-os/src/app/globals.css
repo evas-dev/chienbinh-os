@@ -172,6 +172,29 @@
   }
 }
 
+/*
+ * Chrome/Safari tự sơn nền sáng cho ô đã autofill (mật khẩu đã lưu, số điện
+ * thoại...), phá vỡ toàn bộ theme tối — chữ tối trên nền sáng, ô lẫn vào card.
+ * Không có cách nào set background thẳng, phải dùng box-shadow inset phủ kín,
+ * và transition dài để trình duyệt không vẽ lại nền vàng sau vài giây.
+ *
+ * CỐ TÌNH để ngoài @layer: Tailwind v4 render `ring` bằng box-shadow ở layer
+ * utilities (ưu tiên cao hơn base), nên nếu đặt trong @layer base thì lúc ô
+ * autofill được focus, focus-visible:ring sẽ ghi đè và nền sáng quay lại.
+ * CSS không thuộc layer nào thắng mọi layer.
+ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  box-shadow: 0 0 0 100px var(--cb-bg-2) inset;
+  -webkit-text-fill-color: var(--cb-ink);
+  caret-color: var(--cb-ink);
+  transition: background-color 9999s ease-out 0s;
+}
+
 /* Ẩn scrollbar cho vùng cuộn ngang (nav tabs trên mobile) mà vẫn cuộn được. */
 @utility scrollbar-none {
   scrollbar-width: none;
