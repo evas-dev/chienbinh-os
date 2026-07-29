@@ -184,6 +184,7 @@ export type Database = {
           created_at: string | null
           icon: string | null
           id: string
+          subject_id: string | null
           text: string
         }
         Insert: {
@@ -191,6 +192,7 @@ export type Database = {
           created_at?: string | null
           icon?: string | null
           id?: string
+          subject_id?: string | null
           text: string
         }
         Update: {
@@ -198,6 +200,7 @@ export type Database = {
           created_at?: string | null
           icon?: string | null
           id?: string
+          subject_id?: string | null
           text?: string
         }
         Relationships: [
