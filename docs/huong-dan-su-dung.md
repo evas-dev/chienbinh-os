@@ -335,7 +335,7 @@ Trang chủ của CEO **khác hoàn toàn** của nhân sự. Bạn thấy:
 
 ### 7.2. Giao mục tiêu KPI 🧭
 
-Vào **🧭 Mục tiêu**. Mỗi trưởng phòng có 1 thẻ cho tuần hiện tại. Bấm **➕ Giao thêm KPI** trong thẻ của họ:
+Vào **🧭 Mục tiêu**. Trang liệt kê **mọi Tư Lệnh**, mỗi người 1 thẻ cho tuần hiện tại — ai chưa được giao KPI tuần này thì thẻ ghi *"Chưa có chỉ tiêu nào."*. Bấm **➕ Giao thêm KPI** trong thẻ của họ:
 
 | Ô | Ghi chú |
 |---|---|
@@ -353,7 +353,6 @@ Nếu tuần đó người này đã có chỉ tiêu trùng, hệ thống hiện
 
 Bạn cũng có nút **➕ Giao việc trực tiếp cho nhân sự** để giao thẳng, không qua trưởng phòng.
 
-> ⚠️ **Hạn chế đã biết:** trang này chỉ hiện thẻ của người **đã từng có mục tiêu**. Với một Tư Lệnh mới hoàn toàn, chưa có cách giao KPI đầu tiên qua giao diện — cần nhờ người quản trị tạo trước.
 
 ### 7.3. Duyệt khen thưởng 🏆
 
@@ -495,7 +494,6 @@ Ghi lại để không mất thời gian đi tìm chức năng không tồn tạ
 | Không tự đổi mật khẩu, không có "Quên mật khẩu" | Nhờ quản trị đặt lại |
 | Không đổi được tiểu đội sau khi tài khoản đã tạo | Nhờ quản trị sửa trong cơ sở dữ liệu |
 | Không sửa tay được con số hiện tại của KPI | Luôn chọn "khóa đo lường tự động" khi giao KPI |
-| Không giao được KPI đầu tiên cho Tư Lệnh chưa từng có mục tiêu | Nhờ quản trị tạo hồ sơ mục tiêu trước |
 | Không xoá / hoàn tác được án phạt | Cân nhắc kỹ trước khi bấm phạt |
 | Không có nút đổi huân chương lấy thưởng | Làm việc trực tiếp với quản lý |
 | Chưa có thông báo (email / tin nhắn) khi có việc mới | Chủ động mở app kiểm tra hàng ngày |

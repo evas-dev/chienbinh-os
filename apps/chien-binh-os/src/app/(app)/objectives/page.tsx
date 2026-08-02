@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FIXED_TASKS } from "@/lib/objectives";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { khoaTuan } from "@/lib/tuan";
 
 export default async function ObjectivesPage() {
   const profile = await getCurrentProfile();
@@ -17,25 +18,31 @@ export default async function ObjectivesPage() {
   const supabase = await createClient();
 
   if (profile.role === "tong_tu_lenh") {
-    const { data: objectivesRaw } = await supabase
-      .from("objectives")
-      .select(
-        "id, owner_id, week_start, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)",
-      )
-      .order("week_start", { ascending: false });
-    // Mỗi chủ sở hữu chỉ hiển thị MỘT thẻ KPI — tuần mới nhất. Chu kỳ tuần làm
-    // mỗi người tích luỹ nhiều hồ sơ mục tiêu, không gộp thì giao diện sẽ vỡ
-    // thành một thẻ cho mỗi tuần cũ.
-    const seenOwners = new Set<string>();
-    const objectives = (objectivesRaw ?? []).filter((o) => {
-      if (!o.owner_id || seenOwners.has(o.owner_id)) return false;
-      seenOwners.add(o.owner_id);
-      return true;
-    });
-    const { data: allStaff } = await supabase
-      .from("profiles")
-      .select("id, name, role, dept")
-      .eq("role", "chien_sy");
+    const tuanNay = khoaTuan();
+
+    // Liệt kê theo NGƯỜI chứ không theo hồ sơ mục tiêu. Trước đây trang chỉ đọc
+    // bảng objectives nên Tư Lệnh chưa từng được giao KPI không hiện thẻ nào —
+    // và không có thẻ thì không có nút "Giao thêm KPI", tức là người mới tạo bị
+    // kẹt vĩnh viễn, không cách nào giao mục tiêu qua giao diện.
+    const [{ data: quanLy }, { data: objTuanNay }, { data: allStaff }] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("id, name, dept")
+        .eq("role", "tu_lenh")
+        .eq("active", true)
+        .order("dept"),
+      // Chỉ lấy mục tiêu của TUẦN NÀY: chu kỳ đã là tuần nên thẻ phải phản ánh
+      // tuần đang chạy, không kéo số liệu tuần cũ sang.
+      supabase
+        .from("objectives")
+        .select("id, owner_id, objective_items(*)")
+        .eq("week_start", tuanNay),
+      supabase.from("profiles").select("id, name, role, dept").eq("role", "chien_sy"),
+    ]);
+
+    const mucTieuTheoNguoi = new Map(
+      (objTuanNay ?? []).filter((o) => o.owner_id).map((o) => [o.owner_id as string, o]),
+    );
 
     return (
       <div>
@@ -61,22 +68,29 @@ export default async function ObjectivesPage() {
             campaigns={[]}
           />
         </div>
-        <div className="grid items-start gap-4 md:grid-cols-2">
-          {(objectives ?? []).map((o) => {
-            const owner = Array.isArray(o.profiles) ? o.profiles[0] : o.profiles;
-            return (
+        {(quanLy ?? []).length === 0 ? (
+          <Card className="bg-cb-panel border-cb-line">
+            <CardContent className="text-cb-ink-dim text-sm">
+              Chưa có Tư Lệnh nào để giao mục tiêu. Tạo tài khoản cấp Tư Lệnh ở{" "}
+              <Link href="/admin" className="underline">
+                Quản trị nhân sự
+              </Link>
+              .
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid items-start gap-4 md:grid-cols-2">
+            {(quanLy ?? []).map((ql) => (
               <ObjectiveCard
-                key={o.id}
-                ownerName={owner?.name ?? "—"}
-                ownerDept={owner?.dept ?? null}
-                items={o.objective_items}
-                actions={
-                  <AssignObjectiveButton ownerId={o.owner_id!} ownerName={owner?.name ?? "—"} />
-                }
+                key={ql.id}
+                ownerName={ql.name}
+                ownerDept={ql.dept}
+                items={mucTieuTheoNguoi.get(ql.id)?.objective_items ?? []}
+                actions={<AssignObjectiveButton ownerId={ql.id} ownerName={ql.name} />}
               />
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

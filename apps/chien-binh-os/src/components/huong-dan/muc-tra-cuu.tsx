@@ -252,10 +252,6 @@ export function MucHanChe() {
             <Td>Luôn chọn &quot;khóa đo lường tự động&quot; khi giao KPI</Td>
           </tr>
           <tr>
-            <Td dam>Không giao được KPI đầu tiên cho Tư Lệnh chưa từng có mục tiêu</Td>
-            <Td>Nhờ quản trị tạo hồ sơ mục tiêu trước</Td>
-          </tr>
-          <tr>
             <Td dam>Không xoá / hoàn tác được án phạt</Td>
             <Td>Cân nhắc kỹ trước khi bấm phạt</Td>
           </tr>

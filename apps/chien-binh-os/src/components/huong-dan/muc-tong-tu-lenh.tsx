@@ -53,7 +53,8 @@ export function MucTongTuLenh() {
 
       <TieuDePhu>7.2. Giao mục tiêu KPI</TieuDePhu>
       <P>
-        Vào <b>Mục tiêu</b>. Mỗi trưởng phòng có 1 thẻ cho tuần hiện tại. Bấm{" "}
+        Vào <b>Mục tiêu</b>. Trang liệt kê <b>mọi Tư Lệnh</b>, mỗi người 1 thẻ cho tuần hiện tại —
+        ai chưa được giao KPI tuần này thì thẻ ghi <em>“Chưa có chỉ tiêu nào.”</em>. Bấm{" "}
         <b>
           <EmojiIcon glyph="➕" /> Giao thêm KPI
         </b>{" "}
@@ -113,12 +114,6 @@ export function MucTongTuLenh() {
         </b>{" "}
         để giao thẳng, không qua trưởng phòng.
       </P>
-      <Luu kieu="canh_bao" nhan="Hạn chế đã biết">
-        <P>
-          Trang này chỉ hiện thẻ của người <b>đã từng có mục tiêu</b>. Với một Tư Lệnh mới hoàn
-          toàn, chưa có cách giao KPI đầu tiên qua giao diện — cần nhờ người quản trị tạo trước.
-        </P>
-      </Luu>
 
       <TieuDePhu>7.3. Duyệt khen thưởng</TieuDePhu>
       <P>
