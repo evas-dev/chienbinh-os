@@ -81,7 +81,7 @@ export function MucTuLenh() {
       </P>
       <DanhSach
         items={[
-          <>Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tuần = đúng số đã đặt)</>,
+          <>Nhân sự được cộng EXP — đúng bằng số ghi trên thẻ nhiệm vụ</>,
           <>Điểm mùa của họ cộng thêm 60% số EXP đó</>,
           <>Nhiệm vụ nhảy lên 100% tiến độ</>,
           <>
@@ -237,7 +237,7 @@ export function MucTuLenh() {
           </tr>
           <tr>
             <Td dam>EXP thưởng</Td>
-            <Td>Nhiệm vụ Daily/Bonus luôn cộng 40 EXP bất kể số này</Td>
+            <Td>Chính là số EXP nhân sự nhận khi được duyệt. Sửa được tuỳ ý.</Td>
           </tr>
           <tr>
             <Td dam>Hạn</Td>

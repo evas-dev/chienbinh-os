@@ -113,8 +113,8 @@ Vào app là thấy ngay 4 khối:
 Vào **🎯 Bảng nhiệm vụ**. Nhiệm vụ được chia 3 nhóm:
 
 - **🎖 Nhiệm vụ tuần — KPI**: chỉ tiêu giao cứng, tính cuối tuần
-- **📌 Nhiệm vụ Daily**: lặp lại mỗi ngày
-- **⚔️ Nhiệm vụ Bonus**: nhiệm vụ bổ sung để bứt phá
+- **📌 Nhiệm vụ Daily**: việc thường ngày, quản lý giao từ mẫu có sẵn
+- **⚔️ Nhiệm vụ Bonus**: việc giao thêm ngoài mẫu, quản lý tự đặt nội dung
 
 Mỗi nhiệm vụ có **4 trạng thái**, và nút bấm đổi theo trạng thái:
 
@@ -151,7 +151,9 @@ Bấm **Nộp cho quản lý ⚔**. Nhiệm vụ chuyển sang *Chờ duyệt*.
 - **Được duyệt** → cộng EXP ngay, nhiệm vụ thành *Hoàn thành*, có thông báo *"+X EXP"*. Nếu đủ điểm lên cấp, hiện thêm *"Thăng quân hàm! 🎖"*.
 - **Bị từ chối** → nhiệm vụ **quay lại *Đang làm***, và bạn thấy băng đỏ **"❌ Bị từ chối: <lý do>"** ngay trên thẻ nhiệm vụ. Sửa theo lý do rồi **nộp lại** — hệ thống đếm *Lần 2*, *Lần 3*... Nộp lại bao nhiêu lần cũng được.
 
-> 💡 **Điều nhiều người thắc mắc:** với **Nhiệm vụ Daily** và **Nhiệm vụ Bonus**, dù thẻ ghi *+60 EXP* hay *+80 EXP*, khi được duyệt bạn **luôn nhận đúng 40 EXP**. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
+> 💡 **EXP nhận được là bao nhiêu?** **Đúng bằng con số ghi trên thẻ nhiệm vụ** — thẻ ghi *+60 EXP* thì bạn nhận 60. Mọi loại nhiệm vụ đều vậy, không phân biệt Daily, Bonus hay nhiệm vụ tuần. Số này do người giao việc đặt lúc tạo nhiệm vụ.
+>
+> **Điểm mùa** cộng thêm **60%** số EXP đó, làm tròn. Ví dụ +60 EXP thì được thêm 36 điểm mùa.
 
 ### 5.3. Xem lại việc đã xong
 
@@ -208,7 +210,7 @@ Mỗi phiếu hiện: tên nhiệm vụ, tên nhân sự, ngày nộp, và **s�
 | **Đổi sang từ chối** | Phiếu **đã duyệt** | Thu hồi lại EXP đã cộng. **Bắt buộc nhập lý do** |
 
 **Khi bấm Duyệt ✅:**
-- Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tuần = đúng số đã đặt)
+- Nhân sự được cộng EXP — đúng bằng số ghi trên thẻ nhiệm vụ
 - Điểm mùa của họ cộng thêm 60% số EXP đó
 - Nhiệm vụ nhảy lên 100% tiến độ
 - **KPI của chính bạn tự động tăng** (xem mục 6.2)
@@ -257,7 +259,7 @@ Ngoài 6 nút mẫu ở trên, bạn có thể vào **🎯 Bảng nhiệm vụ**
 | **Giao cho** | Chỉ hiện Chiến Sỹ cùng mặt trận |
 | **Chỉ tiêu** | Phải lớn hơn 0 |
 | **Đơn vị** | Ví dụ: khách hàng, video, view |
-| **EXP thưởng** | Nhiệm vụ Daily/Bonus luôn cộng 40 EXP bất kể số này |
+| **EXP thưởng** | Chính là số EXP nhân sự nhận khi được duyệt. Sửa được tuỳ ý. |
 | **Hạn** | Ô chữ tự do, ví dụ *31/08* |
 
 Bấm **Bàn giao ⚔**. Nhiệm vụ xuất hiện trong danh sách của nhân sự ở trạng thái *Chưa nhận*.
@@ -459,8 +461,8 @@ Cơ cấu: **1 đội trưởng + 1 đội phó + không giới hạn thành vi�
 **Tôi quên mật khẩu, làm sao?**
 Hệ thống chưa có "Quên mật khẩu" và bạn không tự đổi được. Liên hệ người quản trị hệ thống để đặt lại.
 
-**Tôi được duyệt nhiệm vụ Daily ghi +60 EXP nhưng chỉ nhận 40?**
-Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ là hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
+**Nhiệm vụ ghi +60 EXP thì tôi nhận đúng 60 chứ?**
+Đúng. Số trên thẻ chính là số bạn nhận, áp dụng cho mọi loại nhiệm vụ. Riêng **điểm mùa** thì chỉ bằng **60%** số EXP đó (làm tròn) — nên +60 EXP sẽ thấy điểm mùa tăng 36, đây không phải lỗi.
 
 **Tôi bị phạt trừ EXP, quân hàm có tụt không?**
 Không. Quân hàm đã đạt là **vĩnh viễn**. Điểm mùa cũng không bị trừ. Chỉ EXP giảm (và không xuống dưới 0).

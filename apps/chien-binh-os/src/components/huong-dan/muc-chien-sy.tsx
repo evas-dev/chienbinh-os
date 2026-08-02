@@ -55,10 +55,10 @@ export function MucChienSy() {
             <b>Nhiệm vụ tuần — KPI</b>: chỉ tiêu giao cứng, tính cuối tuần
           </>,
           <>
-            <b>Nhiệm vụ Daily</b>: lặp lại mỗi ngày
+            <b>Nhiệm vụ Daily</b>: việc thường ngày, quản lý giao từ mẫu có sẵn
           </>,
           <>
-            <b>Nhiệm vụ Bonus</b>: nhiệm vụ bổ sung để bứt phá
+            <b>Nhiệm vụ Bonus</b>: việc giao thêm ngoài mẫu, quản lý tự đặt nội dung
           </>,
         ]}
       />
@@ -159,11 +159,15 @@ export function MucChienSy() {
           </>,
         ]}
       />
-      <Luu kieu="tin" nhan="Điều nhiều người thắc mắc">
+      <Luu kieu="tin" nhan="EXP nhận được là bao nhiêu?">
         <P>
-          Với <b>Nhiệm vụ Daily</b> và <b>Nhiệm vụ Bonus</b>, dù thẻ ghi <em>+60 EXP</em> hay{" "}
-          <em>+80 EXP</em>, khi được duyệt bạn <b>luôn nhận đúng 40 EXP</b>. Con số trên thẻ chỉ là
-          hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
+          <b>Đúng bằng con số ghi trên thẻ nhiệm vụ</b> — thẻ ghi <em>+60 EXP</em> thì bạn nhận 60.
+          Mọi loại nhiệm vụ đều vậy, không phân biệt Daily, Bonus hay nhiệm vụ tuần. Số này do
+          người giao việc đặt lúc tạo nhiệm vụ.
+        </P>
+        <P>
+          <b>Điểm mùa</b> cộng thêm <b>60%</b> số EXP đó, làm tròn. Ví dụ +60 EXP thì được thêm 36
+          điểm mùa.
         </P>
       </Luu>
 
