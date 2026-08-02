@@ -86,9 +86,9 @@ export default async function SquadPage() {
   return (
     <div className="space-y-8">
       <p className="bg-cb-panel-2 border-cb-line rounded-lg border p-3.5 text-sm leading-relaxed">
-        Cơ cấu tổ đội: 1 <b>tiểu đội trưởng</b> + 1 <b>tiểu đội phó</b> + tối đa 3 thành viên.
-        Điểm đội gộp từ EXP thành viên → thi đua ở <b>Bảng xếp hạng · Cấp 2</b>, tạo áp lực đồng
-        đội (chống mất đoàn kết).
+        Cơ cấu tổ đội: 1 <b>tiểu đội trưởng</b> + 1 <b>tiểu đội phó</b> + <b>không giới hạn</b> số
+        thành viên. Điểm đội gộp từ EXP thành viên → thi đua ở <b>Bảng xếp hạng · Cấp 2</b>, tạo áp
+        lực đồng đội (chống mất đoàn kết).
       </p>
 
       {FRONTS.map((front) => {
@@ -128,7 +128,7 @@ export default async function SquadPage() {
                       ))}
                       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
                         <div className="bg-cb-panel-2 rounded-lg p-2">
-                          <div className="font-bold">{all.length}/5</div>
+                          <div className="font-bold">{all.length}</div>
                           <div className="text-cb-ink-faint text-xs">QUÂN SỐ</div>
                         </div>
                         <div className="bg-cb-panel-2 rounded-lg p-2">

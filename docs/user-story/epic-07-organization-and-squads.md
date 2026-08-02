@@ -102,21 +102,22 @@ Giúp công ty quản lý cơ cấu mặt trận, đơn vị và tiểu đội r
 ## SQU-06 — Kiểm soát giới hạn quân số công bằng
 
 **Vai trò:** Tổng Tư Lệnh, Hệ Thống  
-**Ưu tiên:** P0  
-**Trạng thái:** Cần hoàn thiện
+**Ưu tiên:** —  
+**Trạng thái:** Đã bỏ (02/08/2026)
 
-> Là một Tổng Tư Lệnh, tôi muốn giới hạn quân số được áp dụng nhất quán, để các tiểu đội thi đua trong điều kiện công bằng.
+> ~~Là một Tổng Tư Lệnh, tôi muốn giới hạn quân số được áp dụng nhất quán, để các tiểu đội thi đua trong điều kiện công bằng.~~
 
-### Tiêu chí chấp nhận
-
-1. **Given** tiểu đội đã đủ số người tối đa, **when** thêm thành viên mới, **then** hệ thống từ chối trước khi thay đổi quân số.
-2. **Given** hai người cùng thêm thành viên vào suất cuối, **when** yêu cầu diễn ra gần nhau, **then** chỉ một yêu cầu hợp lệ được chấp nhận.
-3. **Given** có ngoại lệ quân số được phê duyệt, **when** xem đội và bảng xếp hạng, **then** hệ thống đánh dấu ngoại lệ để người có quyền hiểu điều kiện thi đua.
+Trần quân số đã được gỡ bỏ theo yêu cầu nghiệp vụ: một tiểu đội được phép có
+bao nhiêu thành viên tuỳ ý. Toàn bộ tiêu chí chấp nhận của story này (chặn khi
+đủ suất, tranh chấp suất cuối, ngoại lệ quân số) không còn đối tượng áp dụng.
 
 ### Quy tắc nghiệp vụ
 
-- Mô hình hiện tại: một đội trưởng, một đội phó và tối đa ba thành viên.
-- Ngoại lệ phải có lý do, thời hạn và người phê duyệt.
+- Không giới hạn số thành viên trong một tiểu đội.
+- Ràng buộc "một người chỉ thuộc một tiểu đội" vẫn giữ nguyên — xem SQU-05.
+- Vì các đội có thể chênh lệch quân số, **tổng EXP đội ở Bảng xếp hạng · Cấp 2
+  không còn là phép so sánh công bằng**; cân nhắc đổi sang EXP trung bình nếu
+  quân số giữa các đội lệch nhiều.
 
 ## SQU-07 — Chuyển thành viên giữa các tiểu đội
 

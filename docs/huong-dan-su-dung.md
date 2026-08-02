@@ -405,7 +405,7 @@ Vào **💰 Quỹ thưởng**.
 
 Chỉ để xem. Hai khối **⚔️ TIỀN TUYẾN** và **🛡 HẬU PHƯƠNG**, mỗi tiểu đội một thẻ hiện đội trưởng, đội phó, thành viên, kèm **QUÂN SỐ**, **TỔNG EXP**, **TB / NGƯỜI**.
 
-Cơ cấu: **1 đội trưởng + 1 đội phó + tối đa 3 thành viên** (tối đa 5 người/đội). Mỗi người chỉ thuộc **1 tiểu đội**.
+Cơ cấu: **1 đội trưởng + 1 đội phó + không giới hạn thành viên**. Mỗi người chỉ thuộc **1 tiểu đội**.
 
 > ⚠️ **Hạn chế đã biết:** trang này **không có nút thêm/xoá/đổi thành viên**. Cách duy nhất qua giao diện để gán tiểu đội là chọn ô *"Tiểu đội"* **lúc tạo tài khoản mới**. Muốn đổi tiểu đội của người đã có tài khoản, phải nhờ người quản trị sửa trong cơ sở dữ liệu.
 

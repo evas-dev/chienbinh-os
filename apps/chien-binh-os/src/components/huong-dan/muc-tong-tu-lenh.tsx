@@ -281,8 +281,8 @@ export function MucTongTuLenh() {
         trưởng, đội phó, thành viên, kèm <b>QUÂN SỐ</b>, <b>TỔNG EXP</b>, <b>TB / NGƯỜI</b>.
       </P>
       <P>
-        Cơ cấu: <b>1 đội trưởng + 1 đội phó + tối đa 3 thành viên</b> (tối đa 5 người/đội). Mỗi
-        người chỉ thuộc <b>1 tiểu đội</b>.
+        Cơ cấu: <b>1 đội trưởng + 1 đội phó + không giới hạn thành viên</b>. Mỗi người chỉ thuộc{" "}
+        <b>1 tiểu đội</b>.
       </P>
       <Luu kieu="canh_bao" nhan="Hạn chế đã biết">
         <P>
