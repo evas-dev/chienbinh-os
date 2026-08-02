@@ -2,11 +2,13 @@ import type { Profile } from "@/lib/auth/get-current-profile";
 import { NavTabs } from "./nav-tabs";
 import { UserMenu } from "./user-menu";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { khoaTuan, nhanTuan, soNgayConLaiTrongTuan } from "@/lib/tuan";
 
 export function AppShell({ profile, children }: { profile: Profile; children: React.ReactNode }) {
-  const now = new Date();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const daysLeft = Math.max(0, daysInMonth - now.getDate());
+  // Chu kỳ mục tiêu là TUẦN (Thứ Hai – Chủ Nhật), chốt theo giờ VN chứ không
+  // dùng new Date() trần — server chạy UTC nên chiều Chủ Nhật sẽ nhảy sớm tuần.
+  const tuan = nhanTuan(khoaTuan());
+  const conLai = soNgayConLaiTrongTuan();
 
   return (
     <div className="bg-cb-bg text-cb-ink min-h-screen">
@@ -27,11 +29,9 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
           </div>
           <div className="text-cb-ink-dim mx-auto hidden items-center gap-2 text-xs lg:flex">
             <span className="text-cb-gold-soft font-semibold tracking-wide">MỤC TIÊU</span>
-            <span>
-              THÁNG {now.getMonth() + 1}/{now.getFullYear()}
-            </span>
+            <span>TUẦN {tuan}</span>
             <span className="text-cb-line">·</span>
-            <span>còn {daysLeft} ngày</span>
+            <span>{conLai > 0 ? `còn ${conLai} ngày` : "hôm nay chốt"}</span>
           </div>
           <div className="ml-auto lg:ml-0">
             <UserMenu profile={profile} />

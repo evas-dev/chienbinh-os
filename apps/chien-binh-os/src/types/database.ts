@@ -402,23 +402,20 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          month: number
+          week_start: string
           owner_id: string | null
-          year: number
         }
         Insert: {
           created_at?: string | null
           id?: string
-          month: number
+          week_start: string
           owner_id?: string | null
-          year: number
         }
         Update: {
           created_at?: string | null
           id?: string
-          month?: number
+          week_start?: string
           owner_id?: string | null
-          year?: number
         }
         Relationships: [
           {
@@ -1061,7 +1058,7 @@ export type Database = {
       approval_status: "cho_duyet" | "da_duyet" | "tu_choi"
       front_type: "hau_phuong" | "tien_tuyen"
       mission_status: "todo" | "doing" | "review" | "done"
-      mission_type: "chien_dich" | "thang" | "ngay"
+      mission_type: "chien_dich" | "tuan" | "ngay"
       role_type: "tong_tu_lenh" | "tu_lenh" | "chien_sy"
       severity_type: "nhe" | "vua" | "nang" | "rat_nang"
       support_type:
@@ -1199,7 +1196,7 @@ export const Constants = {
       approval_status: ["cho_duyet", "da_duyet", "tu_choi"],
       front_type: ["hau_phuong", "tien_tuyen"],
       mission_status: ["todo", "doing", "review", "done"],
-      mission_type: ["chien_dich", "thang", "ngay"],
+      mission_type: ["chien_dich", "tuan", "ngay"],
       role_type: ["tong_tu_lenh", "tu_lenh", "chien_sy"],
       severity_type: ["nhe", "vua", "nang", "rat_nang"],
       support_type: [

@@ -20,14 +20,12 @@ export default async function ObjectivesPage() {
     const { data: objectivesRaw } = await supabase
       .from("objectives")
       .select(
-        "id, owner_id, year, month, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)",
+        "id, owner_id, week_start, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)",
       )
-      .order("year", { ascending: false })
-      .order("month", { ascending: false });
-    // Mỗi chủ sở hữu chỉ hiển thị MỘT thẻ KPI — kỳ mới nhất. Tránh vỡ giao diện
-    // thành nhiều thẻ trùng khi đồng hồ thật trôi qua so với tháng gán lúc tạo
-    // (vd objectives tạo cho tháng 8 nhưng "Giao thêm KPI" bấm vào tháng 7 thật
-    // sẽ tạo objective mới cho tháng 7 nếu không gộp lại ở đây).
+      .order("week_start", { ascending: false });
+    // Mỗi chủ sở hữu chỉ hiển thị MỘT thẻ KPI — tuần mới nhất. Chu kỳ tuần làm
+    // mỗi người tích luỹ nhiều hồ sơ mục tiêu, không gộp thì giao diện sẽ vỡ
+    // thành một thẻ cho mỗi tuần cũ.
     const seenOwners = new Set<string>();
     const objectives = (objectivesRaw ?? []).filter((o) => {
       if (!o.owner_id || seenOwners.has(o.owner_id)) return false;
@@ -84,14 +82,13 @@ export default async function ObjectivesPage() {
   }
 
   if (profile.role === "tu_lenh") {
-    // Lấy mục tiêu MỚI NHẤT của mình, không khớp cứng tháng/năm hiện tại —
-    // tránh lệch khi ngày thật trôi qua so với tháng gán lúc tạo mục tiêu.
+    // Lấy mục tiêu MỚI NHẤT của mình, không khớp cứng tuần hiện tại — tránh
+    // trang trống trơn vào đầu tuần khi CEO chưa kịp giao KPI tuần mới.
     const { data: objectiveRows, error: objectiveError } = await supabase
       .from("objectives")
       .select("objective_items(*)")
       .eq("owner_id", profile.id)
-      .order("year", { ascending: false })
-      .order("month", { ascending: false })
+      .order("week_start", { ascending: false })
       .limit(1);
     const objective = objectiveRows?.[0] ?? null;
 
@@ -215,8 +212,7 @@ export default async function ObjectivesPage() {
         .from("objectives")
         .select("objective_items(*)")
         .eq("owner_id", leaderId)
-        .order("year", { ascending: false })
-        .order("month", { ascending: false })
+        .order("week_start", { ascending: false })
         .limit(1),
     ]);
     leaderName = leader?.name ?? "";

@@ -47,7 +47,7 @@ export function CreateMissionDialog({
   campaigns: { id: string; title: string }[];
 }) {
   const [missionTitle, setMissionTitle] = useState("");
-  const [type, setType] = useState<Enums<"mission_type">>(isCampaign ? "chien_dich" : "thang");
+  const [type, setType] = useState<Enums<"mission_type">>(isCampaign ? "chien_dich" : "tuan");
   const [parentId, setParentId] = useState<string>("");
   const [assigneeId, setAssigneeId] = useState(targets[0]?.id ?? "");
   const [target, setTarget] = useState("10");
@@ -111,7 +111,7 @@ export function CreateMissionDialog({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="thang">Nhiệm vụ tháng (KPI khối lượng)</SelectItem>
+                  <SelectItem value="tuan">Nhiệm vụ tuần (KPI khối lượng)</SelectItem>
                   {/* Hộp thoại này luôn gửi fixed:false nên nhiệm vụ tạo ra là
                       loại Bonus — nhãn phải nói đúng thứ người dùng sẽ thấy. */}
                   <SelectItem value="ngay">Nhiệm vụ Bonus</SelectItem>

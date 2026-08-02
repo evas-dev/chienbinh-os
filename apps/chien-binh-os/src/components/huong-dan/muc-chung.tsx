@@ -257,7 +257,7 @@ export function MucVaiTro() {
             </Td>
           </tr>
           <tr>
-            <Td dam>Mục tiêu tháng</Td>
+            <Td dam>Mục tiêu</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
               <The mau="xanh">✔</The>

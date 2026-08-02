@@ -18,8 +18,8 @@ export default async function GuidePage() {
       <p className="bg-cb-panel-2 border-cb-line flex items-start gap-1.5 rounded-lg border p-3 text-sm">
         <EmojiIcon glyph="📖" className="mt-0.5" />
         <span>
-          Khung chỉ số này <b>giống nhau cho mọi nhân sự</b>. Hiểu đúng để tự triển khai chi
-          tiết cho vị trí của mình.
+          Khung chỉ số này <b>giống nhau cho mọi nhân sự</b>. Hiểu đúng để tự triển khai chi tiết
+          cho vị trí của mình.
         </span>
       </p>
 
@@ -48,9 +48,9 @@ export default async function GuidePage() {
                   <b>Khối lượng công việc hàng ngày</b>, tích luỹ dần
                 </td>
                 <td className="text-cb-ink-dim py-2">
-                  Đo <b>sự bền bỉ</b> &amp; phát triển qua từng tháng dưới dạng tổng điểm. Tích
-                  luỹ để <b>chia thưởng cuối quý/năm</b> và <b>thăng quân hàm</b>. Mục tiêu tháng
-                  được <b>chia đều cho 30</b> ngày → ra chỉ tiêu mỗi ngày.
+                  Đo <b>sự bền bỉ</b> &amp; phát triển qua từng tuần dưới dạng tổng điểm. Tích luỹ
+                  để <b>chia thưởng cuối quý/năm</b> và <b>thăng quân hàm</b>. Mục tiêu tuần được{" "}
+                  <b>chia đều cho 7</b> ngày → ra chỉ tiêu mỗi ngày.
                 </td>
               </tr>
               <tr className="border-cb-line-soft border-b">
@@ -63,9 +63,9 @@ export default async function GuidePage() {
                   <b>Kết quả cuối cùng</b> của EXP = hiệu suất
                 </td>
                 <td className="text-cb-ink-dim py-2">
-                  Khi <b>đạt mục tiêu tuần/tháng trong thời gian ngắn</b> → nhận huy hiệu. Đạt
-                  trong <b>½ thời gian</b> → huy hiệu <b>đột phá</b> (nhóm riêng). Huy hiệu đổi ra
-                  tiền đào tạo/phần thưởng.
+                  Khi <b>đạt mục tiêu tuần/tháng trong thời gian ngắn</b> → nhận huy hiệu. Đạt trong{" "}
+                  <b>½ thời gian</b> → huy hiệu <b>đột phá</b> (nhóm riêng). Huy hiệu đổi ra tiền
+                  đào tạo/phần thưởng.
                 </td>
               </tr>
               <tr className="border-cb-line-soft border-b">
@@ -80,8 +80,7 @@ export default async function GuidePage() {
                 <td className="py-2 pr-3 font-semibold">Điểm mùa</td>
                 <td className="py-2 pr-3">Điểm thi đua theo kỳ</td>
                 <td className="text-cb-ink-dim py-2">
-                  <b>Reset mỗi kỳ (3–6 tháng)</b> để ai cũng có cơ hội đua rank trên bảng xếp
-                  hạng.
+                  <b>Reset mỗi kỳ (3–6 tháng)</b> để ai cũng có cơ hội đua rank trên bảng xếp hạng.
                 </td>
               </tr>
               <tr>
@@ -122,11 +121,11 @@ export default async function GuidePage() {
                 <div className="text-cb-ink-dim text-xs">Đầu ra (lead, hợp đồng, doanh số…)</div>
               </div>
             </div>
-            <div className="text-cb-ink-faint text-center text-xs">↓ chia đều cho 30 ngày</div>
+            <div className="text-cb-ink-faint text-center text-xs">↓ chia đều cho 7 ngày</div>
             <div className="border-cb-line bg-cb-panel-2 rounded-lg border p-3 text-center">
               <b>CHỈ TIÊU NGÀY CỦA NHÂN SỰ</b>
               <div className="text-cb-ink-dim text-xs">
-                Leader bàn giao khối lượng tuần/ngày → nhân sự làm &amp; tích EXP → cuối tháng báo
+                Leader bàn giao khối lượng tuần/ngày → nhân sự làm &amp; tích EXP → cuối tuần báo
                 cáo điểm trung bình
               </div>
             </div>
@@ -165,14 +164,16 @@ export default async function GuidePage() {
               <EmojiIcon glyph="📈" />
               Ví dụ: Phòng Marketing
             </div>
-            <EgLine k="Mục tiêu tháng">
+            <EgLine k="Mục tiêu tuần">
               1.000.000 view + 100 video → <b className="text-cb-gold">EXP (khối lượng)</b>
             </EgLine>
             <EgLine k="Kết quả cần đạt">
               200 lead mới → <b className="text-cb-purple">Huy hiệu</b>
             </EgLine>
             <EgLine k="Chia đều / 30">≈ 33.333 view/ngày · ≈ 3–4 video/ngày</EgLine>
-            <EgLine k="Nhân sự">Leader giao «X video/tuần» = EXP; cuối tháng báo cáo điểm TB</EgLine>
+            <EgLine k="Nhân sự">
+              Leader giao «X video/tuần» = EXP; cuối tháng báo cáo điểm TB
+            </EgLine>
             <EgLine k="Được huy hiệu khi">
               Đạt mốc view/lead sớm; đạt trong ½ thời gian → huy hiệu đột phá
             </EgLine>
@@ -184,14 +185,16 @@ export default async function GuidePage() {
               <EmojiIcon glyph="💼" />
               Ví dụ: Phòng Sale
             </div>
-            <EgLine k="Mục tiêu tháng">
+            <EgLine k="Mục tiêu tuần">
               120 KH mới + doanh số 2 tỷ → <b className="text-cb-gold">EXP (khối lượng)</b>
             </EgLine>
             <EgLine k="Kết quả cần đạt">
               40 hợp đồng lớn → <b className="text-cb-purple">Huy hiệu</b>
             </EgLine>
             <EgLine k="Chia đều / 30">≈ 4 KH mới/ngày · doanh số ≈ 66,7 triệu/ngày</EgLine>
-            <EgLine k="Nhân sự">Tìm 3 KH mới/ngày = EXP; doanh số chốt được = hiệu suất → huy hiệu</EgLine>
+            <EgLine k="Nhân sự">
+              Tìm 3 KH mới/ngày = EXP; doanh số chốt được = hiệu suất → huy hiệu
+            </EgLine>
             <EgLine k="Được huy hiệu khi">
               Chốt hợp đồng nhanh/vượt chỉ tiêu trong ½ thời gian → huy hiệu đột phá
             </EgLine>
@@ -205,7 +208,7 @@ export default async function GuidePage() {
             <EmojiIcon glyph="🔗" />
             Gắn với tính năng trong app
           </div>
-          <EgLine icon="🧭" k="Mục tiêu tháng">
+          <EgLine icon="🧭" k="Mục tiêu tuần">
             Nơi CEO/quản lý đặt khối lượng (EXP) + kết quả (huy hiệu) cho phòng ban / nhân sự
           </EgLine>
           <EgLine icon="🎯" k="Bảng nhiệm vụ">
@@ -214,23 +217,19 @@ export default async function GuidePage() {
           <EgLine icon="🏅" k="Quân hàm & Huân chương">
             Xem cấp bậc (EXP) và huy hiệu (kết quả) đã đạt
           </EgLine>
-          <EgLine icon="📊" k="Bảng xếp hạng">Đua điểm mùa toàn công ty</EgLine>
-          <EgLine icon="💰" k="Quỹ thưởng">Chia tiền cuối kỳ theo % EXP tích luỹ</EgLine>
+          <EgLine icon="📊" k="Bảng xếp hạng">
+            Đua điểm mùa toàn công ty
+          </EgLine>
+          <EgLine icon="💰" k="Quỹ thưởng">
+            Chia tiền cuối kỳ theo % EXP tích luỹ
+          </EgLine>
         </CardContent>
       </Card>
     </div>
   );
 }
 
-function EgLine({
-  icon,
-  k,
-  children,
-}: {
-  icon?: string;
-  k: string;
-  children: React.ReactNode;
-}) {
+function EgLine({ icon, k, children }: { icon?: string; k: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
       <span className="text-cb-ink-faint flex shrink-0 items-center gap-1 sm:w-40">

@@ -64,7 +64,7 @@ Ngoài ra mỗi người thuộc một **mặt trận**:
 | 🏅 Quân hàm & Huân chương | ✔ | ✔ | ✔ |
 | 📣 Nhật ký chiến công | ✔ | ✔ | ✔ |
 | 📖 Cẩm nang | ✔ | ✔ | ✔ |
-| 🧭 Mục tiêu tháng | – | ✔ | ✔ |
+| 🧭 Mục tiêu | – | ✔ | ✔ |
 | 🏆 Đề xuất khen | – | ✔ | ✔ |
 | 📊 Bảng xếp hạng | – | ✔ | ✔ |
 | ⚖️ Xử phạt | – | ✔ | ✔ |
@@ -112,7 +112,7 @@ Vào app là thấy ngay 4 khối:
 
 Vào **🎯 Bảng nhiệm vụ**. Nhiệm vụ được chia 3 nhóm:
 
-- **🎖 Nhiệm vụ tháng — KPI**: chỉ tiêu giao cứng, tính cuối tháng
+- **🎖 Nhiệm vụ tuần — KPI**: chỉ tiêu giao cứng, tính cuối tuần
 - **📌 Nhiệm vụ Daily**: lặp lại mỗi ngày
 - **⚔️ Nhiệm vụ Bonus**: nhiệm vụ bổ sung để bứt phá
 
@@ -151,7 +151,7 @@ Bấm **Nộp cho quản lý ⚔**. Nhiệm vụ chuyển sang *Chờ duyệt*.
 - **Được duyệt** → cộng EXP ngay, nhiệm vụ thành *Hoàn thành*, có thông báo *"+X EXP"*. Nếu đủ điểm lên cấp, hiện thêm *"Thăng quân hàm! 🎖"*.
 - **Bị từ chối** → nhiệm vụ **quay lại *Đang làm***, và bạn thấy băng đỏ **"❌ Bị từ chối: <lý do>"** ngay trên thẻ nhiệm vụ. Sửa theo lý do rồi **nộp lại** — hệ thống đếm *Lần 2*, *Lần 3*... Nộp lại bao nhiêu lần cũng được.
 
-> 💡 **Điều nhiều người thắc mắc:** với **Nhiệm vụ Daily** và **Nhiệm vụ Bonus**, dù thẻ ghi *+60 EXP* hay *+80 EXP*, khi được duyệt bạn **luôn nhận đúng 40 EXP**. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+> 💡 **Điều nhiều người thắc mắc:** với **Nhiệm vụ Daily** và **Nhiệm vụ Bonus**, dù thẻ ghi *+60 EXP* hay *+80 EXP*, khi được duyệt bạn **luôn nhận đúng 40 EXP**. Con số trên thẻ chỉ là hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
 
 ### 5.3. Xem lại việc đã xong
 
@@ -208,7 +208,7 @@ Mỗi phiếu hiện: tên nhiệm vụ, tên nhân sự, ngày nộp, và **s�
 | **Đổi sang từ chối** | Phiếu **đã duyệt** | Thu hồi lại EXP đã cộng. **Bắt buộc nhập lý do** |
 
 **Khi bấm Duyệt ✅:**
-- Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)
+- Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tuần = đúng số đã đặt)
 - Điểm mùa của họ cộng thêm 60% số EXP đó
 - Nhiệm vụ nhảy lên 100% tiến độ
 - **KPI của chính bạn tự động tăng** (xem mục 6.2)
@@ -222,9 +222,9 @@ Mỗi phiếu hiện: tên nhiệm vụ, tên nhân sự, ngày nộp, và **s�
 >
 > ⚠️ Hàng chờ chỉ hiện phiếu của **nhiệm vụ do chính bạn giao**.
 
-### 6.2. Mục tiêu tháng 🧭 — và cách bẻ nhỏ thành việc hàng ngày
+### 6.2. Mục tiêu tuần 🧭 — và cách bẻ nhỏ thành việc hàng ngày
 
-Vào **🧭 Mục tiêu tháng**. Bạn thấy:
+Vào **🧭 Mục tiêu**. Bạn thấy:
 
 **a) Thẻ KPI của chính bạn** — mục tiêu mà CEO giao cho bạn, kèm % hoàn thành có trọng số. Bạn **chỉ xem, không sửa được** (chỉ CEO giao KPI).
 
@@ -252,7 +252,7 @@ Ngoài 6 nút mẫu ở trên, bạn có thể vào **🎯 Bảng nhiệm vụ**
 | Ô cần điền | Ghi chú |
 |---|---|
 | **Tên nhiệm vụ** | Bắt buộc |
-| **Loại** | *Nhiệm vụ tháng (KPI khối lượng)* hoặc *Nhiệm vụ Bonus* |
+| **Loại** | *Nhiệm vụ tuần (KPI khối lượng)* hoặc *Nhiệm vụ Bonus* |
 | **Thuộc chiến dịch (cha)** | Chọn chiến dịch CEO đã giao cho bạn, hoặc để *— Không gắn —* |
 | **Giao cho** | Chỉ hiện Chiến Sỹ cùng mặt trận |
 | **Chỉ tiêu** | Phải lớn hơn 0 |
@@ -335,7 +335,7 @@ Trang chủ của CEO **khác hoàn toàn** của nhân sự. Bạn thấy:
 
 ### 7.2. Giao mục tiêu KPI 🧭
 
-Vào **🧭 Mục tiêu tháng**. Mỗi trưởng phòng có 1 thẻ. Bấm **➕ Giao thêm KPI** trong thẻ của họ:
+Vào **🧭 Mục tiêu**. Mỗi trưởng phòng có 1 thẻ cho tuần hiện tại. Bấm **➕ Giao thêm KPI** trong thẻ của họ:
 
 | Ô | Ghi chú |
 |---|---|
@@ -349,7 +349,7 @@ Sáu lựa chọn khóa đo lường: *Không tự động* (cập nhật thủ 
 
 > 💡 **Nên luôn chọn khóa đo lường tự động** nếu chỉ tiêu đó đo được từ phiếu nộp. Nếu chọn *"Không tự động"*, con số phải cập nhật bằng tay — mà giao diện **chưa có chỗ để sửa tay**.
 
-Nếu tháng đó người này đã có chỉ tiêu trùng, hệ thống hiện cảnh báo vàng và bạn phải bấm **Vẫn tạo thêm** để xác nhận.
+Nếu tuần đó người này đã có chỉ tiêu trùng, hệ thống hiện cảnh báo vàng và bạn phải bấm **Vẫn tạo thêm** để xác nhận.
 
 Bạn cũng có nút **➕ Giao việc trực tiếp cho nhân sự** để giao thẳng, không qua trưởng phòng.
 
@@ -461,7 +461,7 @@ Cơ cấu: **1 đội trưởng + 1 đội phó + tối đa 3 thành viên** (t�
 Hệ thống chưa có "Quên mật khẩu" và bạn không tự đổi được. Liên hệ người quản trị hệ thống để đặt lại.
 
 **Tôi được duyệt nhiệm vụ Daily ghi +60 EXP nhưng chỉ nhận 40?**
-Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ là hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
 
 **Tôi bị phạt trừ EXP, quân hàm có tụt không?**
 Không. Quân hàm đã đạt là **vĩnh viễn**. Điểm mùa cũng không bị trừ. Chỉ EXP giảm (và không xuống dưới 0).

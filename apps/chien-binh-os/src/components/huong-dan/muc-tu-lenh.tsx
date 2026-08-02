@@ -81,7 +81,7 @@ export function MucTuLenh() {
       </P>
       <DanhSach
         items={[
-          <>Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tháng = đúng số đã đặt)</>,
+          <>Nhân sự được cộng EXP (Daily/Bonus = 40 EXP; nhiệm vụ tuần = đúng số đã đặt)</>,
           <>Điểm mùa của họ cộng thêm 60% số EXP đó</>,
           <>Nhiệm vụ nhảy lên 100% tiến độ</>,
           <>
@@ -112,10 +112,10 @@ export function MucTuLenh() {
         <P>Hàng chờ chỉ hiện phiếu của nhiệm vụ do chính bạn giao.</P>
       </Luu>
 
-      <TieuDePhu>6.2. Mục tiêu tháng — và cách bẻ nhỏ thành việc hàng ngày</TieuDePhu>
+      <TieuDePhu>6.2. Mục tiêu tuần — và cách bẻ nhỏ thành việc hàng ngày</TieuDePhu>
 
       <P>
-        Vào <b>Mục tiêu tháng</b>. Bạn thấy:
+        Vào <b>Mục tiêu</b>. Bạn thấy:
       </P>
 
       <P>
@@ -214,7 +214,7 @@ export function MucTuLenh() {
           <tr>
             <Td dam>Loại</Td>
             <Td>
-              <em>Nhiệm vụ tháng (KPI khối lượng)</em> hoặc <em>Nhiệm vụ Bonus</em>
+              <em>Nhiệm vụ tuần (KPI khối lượng)</em> hoặc <em>Nhiệm vụ Bonus</em>
             </Td>
           </tr>
           <tr>

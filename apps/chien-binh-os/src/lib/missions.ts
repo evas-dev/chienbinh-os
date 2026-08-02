@@ -2,7 +2,7 @@ import type { Enums } from "@/types/database";
 
 export const TYPE_LABEL: Record<Enums<"mission_type">, string> = {
   chien_dich: "Chiến dịch",
-  thang: "Nhiệm vụ tháng",
+  tuan: "Nhiệm vụ tuần",
   ngay: "Nhiệm vụ Daily",
 };
 
@@ -11,7 +11,7 @@ export const TYPE_LABEL: Record<Enums<"mission_type">, string> = {
  *
  * Enum trong DB chỉ có `ngay`, nhưng cờ `fixed` chia nó thành hai loại mà người
  * dùng thấy khác nhau hẳn — nên chỉ tra TYPE_LABEL[type] là chưa đủ:
- *   fixed = true  -> Nhiệm vụ Daily (lặp lại mỗi ngày, giao từ Mục tiêu tháng)
+ *   fixed = true  -> Nhiệm vụ Daily (lặp lại mỗi ngày, giao từ Mục tiêu tuần)
  *   fixed = false -> Nhiệm vụ Bonus (giao thêm để bứt phá, thưởng lớn hơn)
  */
 export function nhanLoaiNhiemVu(type: Enums<"mission_type">, fixed: boolean | null | undefined) {

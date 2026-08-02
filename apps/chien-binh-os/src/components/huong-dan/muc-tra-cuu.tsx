@@ -178,7 +178,7 @@ export function MucCauHoi() {
         <CauHoi hoi="Tôi được duyệt nhiệm vụ Daily ghi +60 EXP nhưng chỉ nhận 40?">
           <P>
             Đúng, không phải lỗi. Nhiệm vụ Daily và Bonus đều cộng đúng 40 EXP; con số trên thẻ chỉ
-            là hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+            là hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
           </P>
         </CauHoi>
         <CauHoi hoi="Tôi bị phạt trừ EXP, quân hàm có tụt không?">

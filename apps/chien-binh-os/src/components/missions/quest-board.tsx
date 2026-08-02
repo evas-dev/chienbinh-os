@@ -54,7 +54,7 @@ export function QuestBoard({
   rejectReasonByMission?: Map<string, string>;
   completedSubmissions?: Submission[];
 }) {
-  const kpi = missions.filter((m) => m.type === "thang");
+  const kpi = missions.filter((m) => m.type === "tuan");
   const fixed = missions.filter((m) => m.type === "ngay" && m.fixed);
   const bonus = missions.filter((m) => m.type === "ngay" && !m.fixed);
 
@@ -63,8 +63,8 @@ export function QuestBoard({
       <div>
         <Category
           icon="🎖"
-          title="Nhiệm vụ tháng — KPI"
-          desc="Chỉ tiêu giao cứng, tính trên kết quả cuối tháng"
+          title="Nhiệm vụ tuần — KPI"
+          desc="Chỉ tiêu giao cứng, tính trên kết quả cuối tuần"
           missions={kpi}
           rejectReasonByMission={rejectReasonByMission}
         />

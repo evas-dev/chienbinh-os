@@ -52,7 +52,7 @@ export function MucChienSy() {
       <DanhSach
         items={[
           <>
-            <b>Nhiệm vụ tháng — KPI</b>: chỉ tiêu giao cứng, tính cuối tháng
+            <b>Nhiệm vụ tuần — KPI</b>: chỉ tiêu giao cứng, tính cuối tuần
           </>,
           <>
             <b>Nhiệm vụ Daily</b>: lặp lại mỗi ngày
@@ -163,7 +163,7 @@ export function MucChienSy() {
         <P>
           Với <b>Nhiệm vụ Daily</b> và <b>Nhiệm vụ Bonus</b>, dù thẻ ghi <em>+60 EXP</em> hay{" "}
           <em>+80 EXP</em>, khi được duyệt bạn <b>luôn nhận đúng 40 EXP</b>. Con số trên thẻ chỉ là
-          hiển thị. Nhiệm vụ tháng thì cộng đúng số ghi trên thẻ.
+          hiển thị. Nhiệm vụ tuần thì cộng đúng số ghi trên thẻ.
         </P>
       </Luu>
 

@@ -53,7 +53,7 @@ export function MucTongTuLenh() {
 
       <TieuDePhu>7.2. Giao mục tiêu KPI</TieuDePhu>
       <P>
-        Vào <b>Mục tiêu tháng</b>. Mỗi trưởng phòng có 1 thẻ. Bấm{" "}
+        Vào <b>Mục tiêu</b>. Mỗi trưởng phòng có 1 thẻ cho tuần hiện tại. Bấm{" "}
         <b>
           <EmojiIcon glyph="➕" /> Giao thêm KPI
         </b>{" "}
@@ -103,7 +103,7 @@ export function MucTongTuLenh() {
         </P>
       </Luu>
       <P>
-        Nếu tháng đó người này đã có chỉ tiêu trùng, hệ thống hiện cảnh báo vàng và bạn phải bấm{" "}
+        Nếu tuần đó người này đã có chỉ tiêu trùng, hệ thống hiện cảnh báo vàng và bạn phải bấm{" "}
         <b>Vẫn tạo thêm</b> để xác nhận.
       </P>
       <P>

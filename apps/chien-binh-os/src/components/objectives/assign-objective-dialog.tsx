@@ -102,7 +102,7 @@ export function AssignObjectiveDialog({
         <NhomTruong>
           <TruongNhap nhan="Tên chỉ tiêu">
             <Input
-              placeholder="VD: Doanh số tháng"
+              placeholder="VD: Doanh số tuần"
               value={metric}
               onChange={(e) => setMetric(e.target.value)}
             />
@@ -119,7 +119,7 @@ export function AssignObjectiveDialog({
             </TruongNhap>
           </div>
           <p className="text-cb-ink-faint text-xs">
-            Trọng số phản ánh mức độ quan trọng của KPI trong tổng thành tích tháng.
+            Trọng số phản ánh mức độ quan trọng của KPI trong tổng thành tích tuần.
           </p>
           <TruongNhap
             nhan="Khóa đo lường tự động (tuỳ chọn)"
