@@ -10,9 +10,9 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import {
   Select,
   SelectContent,
@@ -77,9 +77,8 @@ export function ProposeCommendButton({
               <EmojiIcon glyph="🏆" /> Đề xuất khen thưởng
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-3">
-            <div className="space-y-1.5">
-              <Label>Nhân sự được khen</Label>
+          <NhomTruong>
+            <TruongNhap nhan="Nhân sự được khen">
               <Select value={staffId} onValueChange={setStaffId}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -92,9 +91,8 @@ export function ProposeCommendButton({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label>Huân chương đề xuất</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Huân chương đề xuất">
               <Select value={badgeCode} onValueChange={setBadgeCode}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -109,17 +107,16 @@ export function ProposeCommendButton({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label>Lý do</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Lý do">
               <Textarea
                 rows={3}
                 placeholder="Vì sao xứng đáng được khen"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
               />
-            </div>
-          </div>
+            </TruongNhap>
+          </NhomTruong>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Hủy

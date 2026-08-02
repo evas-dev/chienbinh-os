@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { assignObjectiveItemAction } from "@/lib/actions/objectives";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 
 // Khóa đo lường tự động — khớp CONTENT_TYPES numeric (src/lib/missions.ts) và
 // CASE trong RPC approve_submission. "none" = không tự động (nhập/sửa thủ công)
@@ -83,7 +83,7 @@ export function AssignObjectiveDialog({
         <span className="inline-flex items-center gap-1">
           Đã giao KPI <EmojiIcon glyph="🎯" />
         </span>,
-        { description: `${ownerName}: ${metric}` }
+        { description: `${ownerName}: ${metric}` },
       );
       onOpenChange(false);
       setMetric("");
@@ -99,34 +99,32 @@ export function AssignObjectiveDialog({
             <EmojiIcon glyph="➕" /> Giao KPI cho {ownerName}
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3">
-          <div className="space-y-1.5">
-            <Label>Tên chỉ tiêu</Label>
+        <NhomTruong>
+          <TruongNhap nhan="Tên chỉ tiêu">
             <Input
               placeholder="VD: Doanh số tháng"
               value={metric}
               onChange={(e) => setMetric(e.target.value)}
             />
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="space-y-1.5">
-              <Label>Con số mục tiêu</Label>
+          </TruongNhap>
+          <div className="grid grid-cols-3 gap-4">
+            <TruongNhap nhan="Con số mục tiêu">
               <Input type="number" value={target} onChange={(e) => setTarget(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Đơn vị</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Đơn vị">
               <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Trọng số (%)</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Trọng số (%)">
               <Input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
-            </div>
+            </TruongNhap>
           </div>
           <p className="text-cb-ink-faint text-xs">
             Trọng số phản ánh mức độ quan trọng của KPI trong tổng thành tích tháng.
           </p>
-          <div className="space-y-1.5">
-            <Label>Khóa đo lường tự động (tuỳ chọn)</Label>
+          <TruongNhap
+            nhan="Khóa đo lường tự động (tuỳ chọn)"
+            moTa="Nếu chọn, kết quả nộp được duyệt có khóa này sẽ tự cộng dồn vào chỉ tiêu — không phải tự sửa tay."
+          >
             <Select value={metricKey} onValueChange={setMetricKey}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -139,11 +137,7 @@ export function AssignObjectiveDialog({
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-cb-ink-faint text-xs">
-              Nếu chọn, kết quả nộp được duyệt có khóa này sẽ tự cộng dồn vào chỉ tiêu — không
-              phải tự sửa tay.
-            </p>
-          </div>
+          </TruongNhap>
           {dupWarning ? (
             <div className="border-cb-gold/40 bg-cb-gold/10 rounded-lg border p-3 text-sm leading-relaxed">
               <p>
@@ -164,7 +158,7 @@ export function AssignObjectiveDialog({
               </div>
             </div>
           ) : null}
-        </div>
+        </NhomTruong>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Hủy

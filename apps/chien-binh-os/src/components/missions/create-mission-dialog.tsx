@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { createMissionAction } from "@/lib/actions/missions";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import type { Enums } from "@/types/database";
 
 export interface MissionTarget {
@@ -99,15 +99,13 @@ export function CreateMissionDialog({
             <EmojiIcon glyph="➕" /> {title}
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3">
-          <div className="space-y-1.5">
-            <Label>Tên nhiệm vụ</Label>
+        <NhomTruong>
+          <TruongNhap nhan="Tên nhiệm vụ">
             <Input value={missionTitle} onChange={(e) => setMissionTitle(e.target.value)} />
-          </div>
+          </TruongNhap>
 
           {!isCampaign ? (
-            <div className="space-y-1.5">
-              <Label>Loại</Label>
+            <TruongNhap nhan="Loại">
               <Select value={type} onValueChange={(v) => setType(v as Enums<"mission_type">)}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -119,12 +117,11 @@ export function CreateMissionDialog({
                   <SelectItem value="ngay">Nhiệm vụ Bonus</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </TruongNhap>
           ) : null}
 
           {!isCampaign && campaigns.length > 0 ? (
-            <div className="space-y-1.5">
-              <Label>Thuộc chiến dịch (cha)</Label>
+            <TruongNhap nhan="Thuộc chiến dịch (cha)">
               <Select value={parentId} onValueChange={setParentId}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="— Không gắn —" />
@@ -137,11 +134,10 @@ export function CreateMissionDialog({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </TruongNhap>
           ) : null}
 
-          <div className="space-y-1.5">
-            <Label>Giao cho</Label>
+          <TruongNhap nhan="Giao cho">
             <Select value={assigneeId} onValueChange={setAssigneeId}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -154,28 +150,24 @@ export function CreateMissionDialog({
                 ))}
               </SelectContent>
             </Select>
-          </div>
+          </TruongNhap>
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="space-y-1.5">
-              <Label>Chỉ tiêu</Label>
+          <div className="grid grid-cols-3 gap-4">
+            <TruongNhap nhan="Chỉ tiêu">
               <Input type="number" value={target} onChange={(e) => setTarget(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Đơn vị</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Đơn vị">
               <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>EXP thưởng</Label>
+            </TruongNhap>
+            <TruongNhap nhan="EXP thưởng">
               <Input type="number" value={exp} onChange={(e) => setExp(e.target.value)} />
-            </div>
+            </TruongNhap>
           </div>
 
-          <div className="space-y-1.5">
-            <Label>Hạn</Label>
+          <TruongNhap nhan="Hạn">
             <Input value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-          </div>
-        </div>
+          </TruongNhap>
+        </NhomTruong>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Hủy

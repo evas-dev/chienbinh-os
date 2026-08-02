@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,12 +20,19 @@ import {
 } from "@/components/ui/select";
 import { createMissionAction } from "@/lib/actions/missions";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import type { FIXED_TASKS } from "@/lib/objectives";
 
 type Template = (typeof FIXED_TASKS)[number];
 type Soldier = { id: string; name: string; dept: string | null };
 
-export function FixedTaskButton({ template, soldiers }: { template: Template; soldiers: Soldier[] }) {
+export function FixedTaskButton({
+  template,
+  soldiers,
+}: {
+  template: Template;
+  soldiers: Soldier[];
+}) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(`Hôm nay: ${template.title}`);
   const [target, setTarget] = useState(String(template.target));
@@ -59,7 +65,7 @@ export function FixedTaskButton({ template, soldiers }: { template: Template; so
       toast.success(
         <span className="inline-flex items-center gap-1">
           Đã giao <EmojiIcon glyph="⚔" />
-        </span>
+        </span>,
       );
       setOpen(false);
     });
@@ -77,27 +83,22 @@ export function FixedTaskButton({ template, soldiers }: { template: Template; so
               <EmojiIcon glyph="⚡" /> Giao nhiệm vụ Daily
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-3">
-            <div className="space-y-1.5">
-              <Label>Nhiệm vụ</Label>
+          <NhomTruong>
+            <TruongNhap nhan="Nhiệm vụ">
               <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="space-y-1.5">
-                <Label>Chỉ tiêu</Label>
+            </TruongNhap>
+            <div className="grid grid-cols-3 gap-4">
+              <TruongNhap nhan="Chỉ tiêu">
                 <Input type="number" value={target} onChange={(e) => setTarget(e.target.value)} />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Đơn vị</Label>
+              </TruongNhap>
+              <TruongNhap nhan="Đơn vị">
                 <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-              </div>
-              <div className="space-y-1.5">
-                <Label>EXP</Label>
+              </TruongNhap>
+              <TruongNhap nhan="EXP">
                 <Input type="number" value={exp} onChange={(e) => setExp(e.target.value)} />
-              </div>
+              </TruongNhap>
             </div>
-            <div className="space-y-1.5">
-              <Label>Giao cho</Label>
+            <TruongNhap nhan="Giao cho">
               <Select value={who} onValueChange={setWho}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -110,8 +111,8 @@ export function FixedTaskButton({ template, soldiers }: { template: Template; so
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-          </div>
+            </TruongNhap>
+          </NhomTruong>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Hủy

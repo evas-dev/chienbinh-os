@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import { CONTENT_TYPES } from "@/lib/missions";
 import { submitMissionResultAction } from "@/lib/actions/missions";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -62,7 +63,7 @@ export function SubmitReportDialog({
         <span className="inline-flex items-center gap-1">
           Đã nộp kết quả <EmojiIcon glyph="🧾" />
         </span>,
-        { description: "Chờ quản lý duyệt." }
+        { description: "Chờ quản lý duyệt." },
       );
       onOpenChange(false);
       setChecked({});
@@ -80,35 +81,39 @@ export function SubmitReportDialog({
           </DialogTitle>
         </DialogHeader>
         <p className="text-cb-ink-dim text-sm">{missionTitle}</p>
-        <div className="space-y-2">
-          {CONTENT_TYPES.map((ct) => (
-            <div key={ct.key} className="flex items-center gap-2">
-              <Checkbox
-                id={`ct-${ct.key}`}
-                checked={checked[ct.key] ?? false}
-                onCheckedChange={(v) => setChecked((s) => ({ ...s, [ct.key]: Boolean(v) }))}
-              />
-              <Label htmlFor={`ct-${ct.key}`} className="w-32 shrink-0 font-normal">
-                {ct.label}
-              </Label>
-              <Input
-                type={ct.numeric ? "number" : "text"}
-                placeholder={ct.unit || ct.label}
-                value={values[ct.key] ?? ""}
-                onChange={(e) => setValues((s) => ({ ...s, [ct.key]: e.target.value }))}
-              />
-            </div>
-          ))}
-          <div className="space-y-1.5 pt-2">
-            <Label>Ghi chú / bằng chứng (tùy chọn)</Label>
+        <NhomTruong>
+          {/* 6 dòng này là một DANH SÁCH các loại nội dung, không phải 6 trường
+              riêng — để khoảng cách của NhomTruong (16px) sẽ kéo modal dài lê
+              thê. Gom vào nhóm riêng, sát nhau hơn. */}
+          <div className="space-y-2">
+            {CONTENT_TYPES.map((ct) => (
+              <div key={ct.key} className="flex items-center gap-2">
+                <Checkbox
+                  id={`ct-${ct.key}`}
+                  checked={checked[ct.key] ?? false}
+                  onCheckedChange={(v) => setChecked((s) => ({ ...s, [ct.key]: Boolean(v) }))}
+                />
+                <Label htmlFor={`ct-${ct.key}`} className="w-32 shrink-0 font-normal">
+                  {ct.label}
+                </Label>
+                <Input
+                  type={ct.numeric ? "number" : "text"}
+                  placeholder={ct.unit || ct.label}
+                  value={values[ct.key] ?? ""}
+                  onChange={(e) => setValues((s) => ({ ...s, [ct.key]: e.target.value }))}
+                />
+              </div>
+            ))}
+          </div>
+          <TruongNhap nhan="Ghi chú / bằng chứng (tùy chọn)">
             <Textarea
               rows={2}
               placeholder="Link, mã KH, số hóa đơn..."
               value={note}
               onChange={(e) => setNote(e.target.value)}
             />
-          </div>
-        </div>
+          </TruongNhap>
+        </NhomTruong>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Hủy

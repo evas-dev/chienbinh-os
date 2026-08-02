@@ -10,7 +10,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -22,6 +21,7 @@ import {
 import { REQUEST_TYPES, MAX_REQUESTS_PER_MONTH } from "@/lib/support-requests";
 import { createSupportRequestAction } from "@/lib/actions/support-requests";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import type { Enums } from "@/types/database";
 
 type Person = { id: string; name: string; role: Enums<"role_type">; dept: string | null };
@@ -98,9 +98,8 @@ export function CreateRequestButton({
               <EmojiIcon glyph="🤝" /> Tạo yêu cầu hỗ trợ
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-3">
-            <div className="space-y-1.5">
-              <Label>Loại yêu cầu</Label>
+          <NhomTruong>
+            <TruongNhap nhan="Loại yêu cầu">
               <Select value={type} onValueChange={changeType}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -115,9 +114,8 @@ export function CreateRequestButton({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label>Người hỗ trợ / người duyệt</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Người hỗ trợ / người duyệt">
               <Select value={targetId} onValueChange={setTargetId}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -130,21 +128,20 @@ export function CreateRequestButton({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label>Nội dung</Label>
+            </TruongNhap>
+            <TruongNhap nhan="Nội dung">
               <Textarea
                 rows={3}
                 placeholder="Mô tả cần hỗ trợ gì / lý do nghỉ / nội dung đề xuất"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-            </div>
+            </TruongNhap>
             <p className="text-cb-ink-faint text-xs">
               Yêu cầu sẽ gửi tới người hỗ trợ và ở trạng thái <b>chờ duyệt</b>. Tối đa{" "}
               {MAX_REQUESTS_PER_MONTH} yêu cầu/tháng.
             </p>
-          </div>
+          </NhomTruong>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Hủy

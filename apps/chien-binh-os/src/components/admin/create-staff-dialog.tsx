@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
 import {
   Select,
   SelectContent,
@@ -95,23 +95,27 @@ export function CreateStaffDialog({
             <EmojiIcon glyph="➕" /> Tạo tài khoản nhân sự
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3">
-          <div className="space-y-1.5">
-            <Label>Họ tên</Label>
-            <Input placeholder="VD: Trần Văn A" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="space-y-1.5">
-              <Label>Số điện thoại (đăng nhập)</Label>
-              <Input placeholder="09xxxxxxxx" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Mật khẩu</Label>
+        <NhomTruong>
+          <TruongNhap nhan="Họ tên">
+            <Input
+              placeholder="VD: Trần Văn A"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </TruongNhap>
+          <div className="grid grid-cols-2 gap-4">
+            <TruongNhap nhan="Số điện thoại (đăng nhập)">
+              <Input
+                placeholder="09xxxxxxxx"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </TruongNhap>
+            <TruongNhap nhan="Mật khẩu">
               <Input value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
+            </TruongNhap>
           </div>
-          <div className="space-y-1.5">
-            <Label>Phòng ban</Label>
+          <TruongNhap nhan="Phòng ban">
             <Select value={dept} onValueChange={setDept}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -124,9 +128,8 @@ export function CreateStaffDialog({
                 ))}
               </SelectContent>
             </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label>Cấp bậc hệ thống</Label>
+          </TruongNhap>
+          <TruongNhap nhan="Cấp bậc hệ thống">
             <Select value={role} onValueChange={(v) => setRole(v as "chien_sy" | "tu_lenh")}>
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -136,9 +139,8 @@ export function CreateStaffDialog({
                 <SelectItem value="tu_lenh">Tư lệnh (quản lý/trưởng phòng)</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label>Tiểu đội (tùy chọn)</Label>
+          </TruongNhap>
+          <TruongNhap nhan="Tiểu đội (tùy chọn)">
             <Select value={squadId} onValueChange={setSquadId}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="— Chưa gán —" />
@@ -151,8 +153,8 @@ export function CreateStaffDialog({
                 ))}
               </SelectContent>
             </Select>
-          </div>
-        </div>
+          </TruongNhap>
+        </NhomTruong>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Hủy
