@@ -215,11 +215,11 @@ export function MucCauHoi() {
         <CauHoi hoi="Tại sao trên điện thoại tôi không thấy hết menu?">
           <P>Menu cuộn ngang trên màn hình nhỏ — kéo sang phải.</P>
         </CauHoi>
-        <CauHoi hoi="Lần đầu vào bị chờ hơi lâu?">
+        <CauHoi hoi="Trước đây lần đầu vào hay phải chờ lâu, giờ còn không?">
           <P>
-            Bản online đang chạy ở gói miễn phí, nên nếu không ai dùng trong ~15 phút thì máy chủ
-            &quot;ngủ&quot;. Lần truy cập đầu tiên sau đó mất vài chục giây để khởi động, các lần
-            sau nhanh bình thường.
+            Không còn nữa. Trước đây bản online chạy trên máy chủ tự &quot;ngủ&quot; sau 15 phút nên
+            lần vào đầu tiên phải chờ khoảng 1 phút. Hệ thống đã chuyển sang nền tảng khác, giờ vào
+            lúc nào cũng sẵn sàng ngay.
           </P>
         </CauHoi>
       </div>

@@ -2,7 +2,7 @@
 
 > Tài liệu dành cho **mọi nhân sự** — không cần biết kỹ thuật. Đọc phần "Dành cho vai trò của bạn" là đủ để làm việc hàng ngày.
 
-**Địa chỉ truy cập:** https://chien-binh-os-app.onrender.com
+**Địa chỉ truy cập:** https://chien-binh-os.vercel.app
 
 ---
 
@@ -20,7 +20,7 @@ Quản lý giao nhiệm vụ  →  Bạn nhận  →  Bạn làm & nộp kết q
 
 ## 2. Đăng nhập
 
-1. Mở https://chien-binh-os-app.onrender.com
+1. Mở https://chien-binh-os.vercel.app
 2. Nhập **số điện thoại** (không phải email) và **mật khẩu**
 3. Bấm **Vào trận ⚔**
 
@@ -481,8 +481,8 @@ Menu hiện theo vai trò (xem bảng ở mục 3). Nếu gõ URL vào trang kh�
 **Tại sao trên điện thoại tôi không thấy hết menu?**
 Menu cuộn ngang trên màn hình nhỏ — kéo sang phải.
 
-**Lần đầu vào bị chờ hơi lâu?**
-Bản online đang chạy ở gói miễn phí, nên nếu không ai dùng trong ~15 phút thì máy chủ "ngủ". Lần truy cập đầu tiên sau đó mất vài chục giây để khởi động, các lần sau nhanh bình thường.
+**Trước đây lần đầu vào hay phải chờ lâu, giờ còn không?**
+Không còn nữa. Trước đây bản online chạy trên máy chủ tự "ngủ" sau 15 phút nên lần vào đầu tiên phải chờ khoảng 1 phút. Hệ thống đã chuyển sang nền tảng khác, giờ vào lúc nào cũng sẵn sàng ngay.
 
 ---
 

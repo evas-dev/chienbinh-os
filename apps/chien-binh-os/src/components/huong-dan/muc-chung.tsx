@@ -49,8 +49,8 @@ export function MucDangNhap() {
         items={[
           <>
             Mở{" "}
-            <a href="https://chien-binh-os-app.onrender.com" target="_blank" rel="noopener">
-              https://chien-binh-os-app.onrender.com
+            <a href="https://chien-binh-os.vercel.app" target="_blank" rel="noopener">
+              https://chien-binh-os.vercel.app
             </a>
           </>,
           <>
