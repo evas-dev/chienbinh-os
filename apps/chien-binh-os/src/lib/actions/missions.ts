@@ -77,32 +77,51 @@ export async function createMissionAction(input: {
   title: string;
   type: Enums<"mission_type">;
   parentId: string | null;
-  assigneeId: string;
+  /** Một nhiệm vụ GIỐNG NHAU sẽ được tạo riêng cho từng người trong danh sách. */
+  assigneeIds: string[];
   target: number;
   unit: string;
   exp: number;
+  /** Dạng YYYY-MM-DD (hàm SQL từ chối định dạng khác). */
   deadline: string;
   fixed: boolean;
-}): Promise<ActionResult<string>> {
+}): Promise<ActionResult<{ soTao: number; loi: string[] }>> {
+  if (input.assigneeIds.length === 0) {
+    return { ok: false, error: "Chưa chọn người nhận" };
+  }
   const supabase = await createClient();
-  // Codegen đánh dấu p_parent_id/p_badge_reward/p_icon là "string" bắt buộc vì
-  // hàm SQL không có DEFAULT NULL — nhưng cột đích đều nullable nên Postgres
-  // vẫn nhận null bình thường lúc chạy, chỉ TS quá chặt ở đây.
-  const { data, error } = await supabase.rpc("create_mission", {
-    p_title: input.title,
-    p_type: input.type,
-    p_parent_id: input.parentId,
-    p_assignee_id: input.assigneeId,
-    p_target: input.target,
-    p_unit: input.unit,
-    p_exp: input.exp,
-    p_badge_reward: null,
-    p_deadline: input.deadline,
-    p_fixed: input.fixed,
-    p_icon: null,
-  } as never);
-  if (error) return fail(error);
+
+  // Tạo tuần tự chứ không Promise.all: mỗi lượt là một giao dịch riêng, chạy
+  // song song thì thứ tự nhiệm vụ trong danh sách sẽ đảo lung tung theo độ
+  // trễ mạng. Số người giao cùng lúc chỉ hàng chục nên không đáng ngại tốc độ.
+  const loi: string[] = [];
+  let soTao = 0;
+  for (const assigneeId of input.assigneeIds) {
+    // Codegen đánh dấu p_parent_id/p_badge_reward/p_icon là "string" bắt buộc vì
+    // hàm SQL không có DEFAULT NULL — nhưng cột đích đều nullable nên Postgres
+    // vẫn nhận null bình thường lúc chạy, chỉ TS quá chặt ở đây.
+    const { error } = await supabase.rpc("create_mission", {
+      p_title: input.title,
+      p_type: input.type,
+      p_parent_id: input.parentId,
+      p_assignee_id: assigneeId,
+      p_target: input.target,
+      p_unit: input.unit,
+      p_exp: input.exp,
+      p_badge_reward: null,
+      p_deadline: input.deadline,
+      p_fixed: input.fixed,
+      p_icon: null,
+    } as never);
+    if (error) loi.push(error.message);
+    else soTao += 1;
+  }
+
   revalidatePath("/missions");
   revalidatePath("/objectives");
-  return { ok: true, data: data as string };
+
+  // Giao cho 5 người mà hỏng cả 5 thì coi như thất bại; hỏng một phần vẫn báo
+  // thành công kèm danh sách lỗi để người dùng biết ai chưa được giao.
+  if (soTao === 0) return { ok: false, error: loi[0] ?? "Không tạo được nhiệm vụ" };
+  return { ok: true, data: { soTao, loi } };
 }

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ChonNhieuNguoi } from "@/components/chung/chon-nhieu-nguoi";
+import { ngayCuoiTuan, ngayHomNay } from "@/lib/tuan";
 import {
   Select,
   SelectContent,
@@ -46,23 +48,50 @@ export function CreateMissionDialog({
   targets: MissionTarget[];
   campaigns: { id: string; title: string }[];
 }) {
+  // Gom giá trị khởi tạo lại một chỗ để sau khi bàn giao xong dựng lại được
+  // đúng form trắng. Trước đây chỉ xoá mỗi tên nhiệm vụ, nên chỉ tiêu / đơn vị
+  // / EXP / hạn của lần trước còn nguyên ở lần mở sau — người dùng tưởng hệ
+  // thống tự điền lung tung.
+  const macDinh = {
+    type: (isCampaign ? "chien_dich" : "tuan") as Enums<"mission_type">,
+    target: "10",
+    unit: isCampaign ? "khách hàng" : "đơn vị",
+    exp: isCampaign ? "2000" : "300",
+    deadline: ngayCuoiTuan(),
+  };
+
   const [missionTitle, setMissionTitle] = useState("");
-  const [type, setType] = useState<Enums<"mission_type">>(isCampaign ? "chien_dich" : "tuan");
+  const [type, setType] = useState<Enums<"mission_type">>(macDinh.type);
   const [parentId, setParentId] = useState<string>("");
-  const [assigneeId, setAssigneeId] = useState(targets[0]?.id ?? "");
-  const [target, setTarget] = useState("10");
-  const [unit, setUnit] = useState(isCampaign ? "khách hàng" : "đơn vị");
-  const [exp, setExp] = useState(isCampaign ? "2000" : "300");
-  const [deadline, setDeadline] = useState("31/08");
+  const [assigneeIds, setAssigneeIds] = useState<string[]>([]);
+  const [target, setTarget] = useState(macDinh.target);
+  const [unit, setUnit] = useState(macDinh.unit);
+  const [exp, setExp] = useState(macDinh.exp);
+  const [deadline, setDeadline] = useState(macDinh.deadline);
   const [isPending, startTransition] = useTransition();
+
+  function xoaForm() {
+    setMissionTitle("");
+    setType(macDinh.type);
+    setParentId("");
+    setAssigneeIds([]);
+    setTarget(macDinh.target);
+    setUnit(macDinh.unit);
+    setExp(macDinh.exp);
+    setDeadline(macDinh.deadline);
+  }
 
   function submit() {
     if (!missionTitle.trim()) {
       toast.error("Thiếu tên", { description: "Nhập tên nhiệm vụ đã, chỉ huy." });
       return;
     }
-    if (!assigneeId) {
-      toast.error("Chưa chọn người nhận");
+    if (assigneeIds.length === 0) {
+      toast.error("Chưa chọn người nhận", { description: "Tích ít nhất một người." });
+      return;
+    }
+    if (!deadline) {
+      toast.error("Chưa chọn hạn hoàn thành");
       return;
     }
     startTransition(async () => {
@@ -70,24 +99,31 @@ export function CreateMissionDialog({
         title: missionTitle.trim(),
         type,
         parentId: parentId || null,
-        assigneeId,
+        assigneeIds,
         target: Number(target) || 1,
         unit: unit.trim() || "đơn vị",
         exp: Number(exp) || 100,
-        deadline: deadline.trim() || "—",
+        deadline,
         fixed: false,
       });
       if (!res.ok) {
         toast.error("Lỗi", { description: res.error });
         return;
       }
-      toast.success(
-        <span className="inline-flex items-center gap-1">
-          Đã bàn giao <EmojiIcon glyph="⚔" />
-        </span>,
-      );
+      const { soTao, loi } = res.data;
+      if (loi.length > 0) {
+        toast.warning(`Giao được ${soTao}/${assigneeIds.length} người`, {
+          description: loi[0],
+        });
+      } else {
+        toast.success(
+          <span className="inline-flex items-center gap-1">
+            Đã bàn giao cho {soTao} người <EmojiIcon glyph="⚔" />
+          </span>,
+        );
+      }
       onOpenChange(false);
-      setMissionTitle("");
+      xoaForm();
     });
   }
 
@@ -137,19 +173,14 @@ export function CreateMissionDialog({
             </TruongNhap>
           ) : null}
 
-          <TruongNhap nhan="Giao cho">
-            <Select value={assigneeId} onValueChange={setAssigneeId}>
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {targets.map((t) => (
-                  <SelectItem key={t.id} value={t.id}>
-                    {t.name} ({t.dept})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <TruongNhap
+            nhan={`Giao cho${assigneeIds.length > 0 ? ` (${assigneeIds.length} người)` : ""}`}
+          >
+            <ChonNhieuNguoi
+              danhSach={targets}
+              daChon={assigneeIds}
+              onDoiChon={setAssigneeIds}
+            />
           </TruongNhap>
 
           <div className="grid grid-cols-3 gap-4">
@@ -164,8 +195,15 @@ export function CreateMissionDialog({
             </TruongNhap>
           </div>
 
-          <TruongNhap nhan="Hạn">
-            <Input value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+          <TruongNhap nhan="Hạn hoàn thành">
+            {/* Ô ngày của trình duyệt: gửi lên đúng dạng YYYY-MM-DD mà hàm SQL
+                yêu cầu, và người dùng bấm lịch chọn thay vì gõ tay. */}
+            <Input
+              type="date"
+              value={deadline}
+              min={ngayHomNay()}
+              onChange={(e) => setDeadline(e.target.value)}
+            />
           </TruongNhap>
         </NhomTruong>
         <DialogFooter>

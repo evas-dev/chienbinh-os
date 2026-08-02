@@ -260,7 +260,7 @@ Ngoài 6 nút mẫu ở trên, bạn có thể vào **🎯 Bảng nhiệm vụ**
 | **Chỉ tiêu** | Phải lớn hơn 0 |
 | **Đơn vị** | Ví dụ: khách hàng, video, view |
 | **EXP thưởng** | Chính là số EXP nhân sự nhận khi được duyệt. Sửa được tuỳ ý. |
-| **Hạn** | Ô chữ tự do, ví dụ *31/08* |
+| **Hạn hoàn thành** | Bấm vào ô để mở lịch chọn ngày. Mặc định là Chủ Nhật tuần này. |
 
 Bấm **Bàn giao ⚔**. Nhiệm vụ xuất hiện trong danh sách của nhân sự ở trạng thái *Chưa nhận*.
 

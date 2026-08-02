@@ -56,6 +56,30 @@ export function nhanTuan(weekStart: string) {
   return `${ddmm(batDau)} – ${ddmm(ketThuc)}`;
 }
 
+/** Hôm nay theo giờ VN, dạng YYYY-MM-DD — hợp với ô nhập kiểu ngày của trình duyệt. */
+export function ngayHomNay(now: Date = new Date()) {
+  return ngayVN(now);
+}
+
+/** Chủ Nhật của tuần hiện tại, dạng YYYY-MM-DD — hạn mặc định cho nhiệm vụ tuần. */
+export function ngayCuoiTuan(now: Date = new Date()) {
+  return tuanHienTai(now).ketThuc.toISOString().slice(0, 10);
+}
+
+/**
+ * Đổi YYYY-MM-DD sang dd/mm/yyyy để hiển thị.
+ *
+ * Cắt chuỗi thay vì `new Date(...)`: chuỗi chỉ có ngày sẽ được hiểu là 00:00
+ * UTC, đem về giờ VN vẫn đúng ngày, nhưng ở múi giờ âm thì lùi mất một ngày.
+ * Cắt chuỗi thì không bao giờ lệch.
+ */
+export function dinhDangNgay(ngay: string | null | undefined) {
+  if (!ngay) return "—";
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ngay);
+  if (!m) return ngay; // dữ liệu cũ dạng tự do — hiện nguyên văn còn hơn hiện rỗng
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
 /** Số ngày còn lại tới hết Chủ Nhật (0 = hôm nay là Chủ Nhật). */
 export function soNgayConLaiTrongTuan(now: Date = new Date()) {
   const { ketThuc, homNay } = tuanHienTai(now);

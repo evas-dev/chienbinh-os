@@ -242,7 +242,7 @@ export function MucTuLenh() {
           <tr>
             <Td dam>Hạn</Td>
             <Td>
-              Ô chữ tự do, ví dụ <em>31/08</em>
+              Bấm vào ô để mở lịch chọn ngày. Mặc định là Chủ Nhật tuần này.
             </Td>
           </tr>
         </tbody>

@@ -11,13 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ChonNhieuNguoi } from "@/components/chung/chon-nhieu-nguoi";
+import { ngayHomNay } from "@/lib/tuan";
 import { createMissionAction } from "@/lib/actions/missions";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { NhomTruong, TruongNhap } from "@/components/chung/truong-nhap";
@@ -38,12 +33,12 @@ export function FixedTaskButton({
   const [target, setTarget] = useState(String(template.target));
   const [unit, setUnit] = useState<string>(template.unit);
   const [exp, setExp] = useState(String(template.exp));
-  const [who, setWho] = useState(soldiers[0]?.id ?? "");
+  const [who, setWho] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
 
   function submit() {
-    if (!who) {
-      toast.error("Chưa có lính", { description: "Front này chưa có chiến sỹ để giao." });
+    if (who.length === 0) {
+      toast.error("Chưa chọn người nhận", { description: "Tích ít nhất một chiến sỹ." });
       return;
     }
     startTransition(async () => {
@@ -51,23 +46,29 @@ export function FixedTaskButton({
         title: title.trim(),
         type: "ngay",
         parentId: null,
-        assigneeId: who,
+        assigneeIds: who,
         target: Number(target) || 1,
         unit: unit.trim(),
         exp: Number(exp) || 40,
-        deadline: "Hôm nay",
+        deadline: ngayHomNay(),
         fixed: true,
       });
       if (!res.ok) {
         toast.error("Lỗi", { description: res.error });
         return;
       }
-      toast.success(
-        <span className="inline-flex items-center gap-1">
-          Đã giao <EmojiIcon glyph="⚔" />
-        </span>,
-      );
+      const { soTao, loi } = res.data;
+      if (loi.length > 0) {
+        toast.warning(`Giao được ${soTao}/${who.length} người`, { description: loi[0] });
+      } else {
+        toast.success(
+          <span className="inline-flex items-center gap-1">
+            Đã giao cho {soTao} người <EmojiIcon glyph="⚔" />
+          </span>,
+        );
+      }
       setOpen(false);
+      setWho([]);
     });
   }
 
@@ -98,19 +99,13 @@ export function FixedTaskButton({
                 <Input type="number" value={exp} onChange={(e) => setExp(e.target.value)} />
               </TruongNhap>
             </div>
-            <TruongNhap nhan="Giao cho">
-              <Select value={who} onValueChange={setWho}>
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {soldiers.map((s) => (
-                    <SelectItem key={s.id} value={s.id}>
-                      {s.name} ({s.dept})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <TruongNhap nhan={`Giao cho${who.length > 0 ? ` (${who.length} người)` : ""}`}>
+              <ChonNhieuNguoi
+                danhSach={soldiers}
+                daChon={who}
+                onDoiChon={setWho}
+                thongBaoRong="Mặt trận này chưa có chiến sỹ để giao."
+              />
             </TruongNhap>
           </NhomTruong>
           <DialogFooter>

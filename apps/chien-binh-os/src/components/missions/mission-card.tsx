@@ -7,6 +7,7 @@ import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { fmtNum } from "@/lib/format";
 import { nhanLoaiNhiemVu, STATUS_LABEL, STATUS_MAU } from "@/lib/missions";
 import { Chip } from "@/components/chung/chip";
+import { dinhDangNgay } from "@/lib/tuan";
 import { acceptMissionAction } from "@/lib/actions/missions";
 import { SubmitReportDialog } from "./submit-report-dialog";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -63,7 +64,7 @@ export function MissionCard({
               </>
             ) : null}
             {assignerName ? <>Người giao: {assignerName} · </> : null}
-            Hạn: {mission.deadline}
+            Hạn: {dinhDangNgay(mission.deadline)}
           </div>
         ) : null}
         <div className="mt-2">
