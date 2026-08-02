@@ -19,11 +19,19 @@ export function ChonNhieuNguoi({
 }: {
   danhSach: NguoiNhan[];
   daChon: string[];
-  onDoiChon: (ids: string[]) => void;
+  /**
+   * Nhận thẳng hàm setState, KHÔNG phải `(ids) => void`.
+   *
+   * Nếu tính danh sách mới từ prop `daChon` rồi truyền mảng lên, hai lần tích
+   * liên tiếp trong cùng một nhịp render sẽ cùng đọc `daChon` cũ — lần sau ghi
+   * đè lần trước và người vừa tích bị rơi mất. Cập nhật theo hàm thì React
+   * luôn đưa giá trị mới nhất.
+   */
+  onDoiChon: React.Dispatch<React.SetStateAction<string[]>>;
   thongBaoRong?: string;
 }) {
   function doi(id: string) {
-    onDoiChon(daChon.includes(id) ? daChon.filter((x) => x !== id) : [...daChon, id]);
+    onDoiChon((cu) => (cu.includes(id) ? cu.filter((x) => x !== id) : [...cu, id]));
   }
 
   if (danhSach.length === 0) {
