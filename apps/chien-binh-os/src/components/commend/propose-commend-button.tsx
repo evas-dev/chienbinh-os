@@ -71,7 +71,7 @@ export function ProposeCommendButton({
         <EmojiIcon glyph="➕" /> Đề xuất khen
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-cb-panel border-cb-line">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-1.5">
               <EmojiIcon glyph="🏆" /> Đề xuất khen thưởng

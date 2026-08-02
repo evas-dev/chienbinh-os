@@ -74,7 +74,7 @@ export function SubmitReportDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-cb-panel border-cb-line">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1.5">
             <EmojiIcon glyph="📋" /> Nộp kết quả nhiệm vụ

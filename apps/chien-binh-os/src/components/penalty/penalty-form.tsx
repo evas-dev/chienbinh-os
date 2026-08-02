@@ -52,7 +52,7 @@ export function PenaltyForm({
   }
 
   return (
-    <Card className="bg-cb-panel border-cb-line mb-4">
+    <Card className="mb-4">
       <CardContent>
         <TieuDeMuc icon="⚖️">Áp phạt (chịu trách nhiệm: {actorName})</TieuDeMuc>
         <div className="mb-4 grid gap-4 sm:grid-cols-2">

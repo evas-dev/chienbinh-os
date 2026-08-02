@@ -59,7 +59,7 @@ export default async function PenaltyPage() {
   if (loadError) {
     return (
       <div>
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <p className="text-cb-crimson flex items-center gap-1 text-sm">
               <EmojiIcon glyph="⚠️" /> Không tải được dữ liệu xử phạt. Vui lòng thử lại sau.
@@ -79,7 +79,7 @@ export default async function PenaltyPage() {
       />
 
       <div className="grid items-start gap-4 md:grid-cols-2">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="📕">Danh mục xử phạt</TieuDeMuc>
             {(penalties ?? []).map((p) => (
@@ -99,7 +99,7 @@ export default async function PenaltyPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🗂">Sổ ghi án phạt</TieuDeMuc>
             {(log ?? []).length === 0 ? (

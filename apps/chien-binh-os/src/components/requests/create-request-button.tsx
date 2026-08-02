@@ -92,7 +92,7 @@ export function CreateRequestButton({
         <EmojiIcon glyph="➕" /> Tạo yêu cầu ({left}/{MAX_REQUESTS_PER_MONTH} còn lại)
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-cb-panel border-cb-line">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-1.5">
               <EmojiIcon glyph="🤝" /> Tạo yêu cầu hỗ trợ

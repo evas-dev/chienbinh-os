@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { rankOf } from "@/lib/ranks";
 import { fmtNum } from "@/lib/format";
 import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
+import { Chip } from "@/components/chung/chip";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
@@ -32,9 +33,9 @@ function WarriorRow({
         <div className="flex flex-wrap items-center gap-2 text-sm font-medium">
           <span className="truncate">{warrior.name}</span>
           {tag ? (
-            <span className="bg-cb-blue/10 text-cb-blue shrink-0 rounded-full px-2 py-0.5 text-xs">
+            <Chip mau="lam" className="shrink-0">
               {tag}
-            </span>
+            </Chip>
           ) : null}
         </div>
         <div className="text-cb-ink-faint truncate text-xs">
@@ -94,7 +95,7 @@ export default async function SquadPage() {
         const frontSquads = (squads ?? []).filter((s) => s.front === front.key);
         return (
           <section key={front.key}>
-            <h2 className="text-cb-gold-soft mb-3 flex items-center gap-1.5 font-semibold tracking-wide">
+            <h2 className="font-heading text-cb-gold-soft mb-3 flex items-center gap-1.5 text-lg font-extrabold tracking-wide uppercase">
               <EmojiIcon glyph={front.icon} /> {front.label}
             </h2>
             {frontSquads.length === 0 ? (
@@ -113,7 +114,7 @@ export default async function SquadPage() {
                 const totalExp = all.reduce((sum, w) => sum + w.exp, 0);
 
                 return (
-                  <Card key={s.id} className="bg-cb-panel border-cb-line">
+                  <Card key={s.id}>
                     <CardContent>
                       <TieuDeMuc icon="🛡">{s.name}</TieuDeMuc>
                       {leader ? (

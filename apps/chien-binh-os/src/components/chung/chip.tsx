@@ -26,6 +26,9 @@ const chipVariants = cva(
   },
 );
 
+/** Dùng cho các bảng tra "trạng thái -> màu" ở list row. */
+export type ChipMau = NonNullable<VariantProps<typeof chipVariants>["mau"]>;
+
 export function Chip({
   children,
   mau,

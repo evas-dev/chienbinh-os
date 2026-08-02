@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { Chip } from "@/components/chung/chip";
 import { weightedProgress, fmtTargetVal } from "@/lib/objectives";
 import type { Tables } from "@/types/database";
 
@@ -19,7 +20,7 @@ export function ObjectiveCard({
 }) {
   const overall = items.length ? weightedProgress(items) : 0;
   return (
-    <Card className="bg-cb-panel border-cb-line">
+    <Card>
       <CardContent>
         <TieuDeMuc icon="🎯">
           {ownerName} · {ownerDept}
@@ -41,9 +42,7 @@ export function ObjectiveCard({
                 <div key={it.id} className="border-cb-line-soft border-b py-3.5 first:pt-0 last:border-none last:pb-0">
                   <div className="mb-1 flex items-center justify-between gap-2">
                     <b className="text-sm">{it.metric}</b>
-                    <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
-                      Trọng số {it.weight}%
-                    </span>
+                    <Chip>Trọng số {it.weight}%</Chip>
                   </div>
                   <ThanhTienDo pct={pct} />
                   <div className="text-cb-ink-faint mt-1.5 flex justify-between text-xs">

@@ -108,7 +108,7 @@ export default async function RequestsPage() {
       </div>
 
       <div className="grid items-start gap-4 md:grid-cols-2">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🗂">Yêu cầu của tôi</TieuDeMuc>
             {mineError ? (
@@ -140,7 +140,7 @@ export default async function RequestsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="📨">Yêu cầu cần tôi duyệt</TieuDeMuc>
             {incomingError ? (

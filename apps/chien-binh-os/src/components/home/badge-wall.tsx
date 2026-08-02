@@ -12,7 +12,7 @@ export async function BadgeWall({ warriorId }: { warriorId: string }) {
   const ownedCodes = new Set((owned ?? []).map((o) => o.badge_code));
 
   return (
-    <Card className="bg-cb-panel border-cb-line">
+    <Card>
       <CardContent>
         <TieuDeMuc
           icon="🏅"

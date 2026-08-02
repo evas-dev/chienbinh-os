@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { requireRole } from "@/lib/auth/require-role";
 import { cn } from "@/lib/utils";
+import { PILL_BASE, PILL_OFF, PILL_ON } from "@/lib/pill";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import {
   MucGioiThieu,
@@ -121,12 +122,7 @@ export default async function HuongDanPage({
               key={l.key}
               href={`/huong-dan?vai_tro=${l.key}`}
               aria-current={loc === l.key ? "page" : undefined}
-              className={cn(
-                "rounded-full px-3.5 py-1.5 text-sm transition-colors",
-                loc === l.key
-                  ? "bg-cb-gold text-cb-bg font-semibold"
-                  : "bg-cb-panel-2 text-cb-ink-dim hover:text-cb-ink",
-              )}
+              className={cn(PILL_BASE, loc === l.key ? PILL_ON : PILL_OFF)}
             >
               {l.label}
             </Link>

@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
+import { Chip } from "@/components/chung/chip";
 import { ROLE_LABEL } from "@/lib/nav";
 import { setActiveAction } from "@/lib/actions/admin";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -45,13 +46,9 @@ export function StaffRow({
           </span>
         </div>
       </div>
-      <span
-        className={`rounded-full px-2 py-0.5 text-center text-xs ${
-          warrior.active ? "bg-green-500/10 text-green-400" : "bg-cb-crimson/10 text-cb-crimson"
-        }`}
-      >
+      <Chip mau={warrior.active ? "xanh" : "do"}>
         {warrior.active ? "Đang hoạt động" : "Đã ngưng"}
-      </span>
+      </Chip>
       {isCeo || isSelf ? (
         <span className="text-cb-ink-faint w-20 shrink-0 text-right text-xs">
           {isCeo ? "CEO" : "Bạn"}

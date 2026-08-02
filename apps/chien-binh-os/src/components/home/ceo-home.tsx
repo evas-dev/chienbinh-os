@@ -7,13 +7,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { Chip } from "@/components/chung/chip";
 import { cn } from "@/lib/utils";
 
 function deptStatus(raw: number) {
-  if (raw >= 100) return { label: "Vượt/Đạt", cls: "bg-green-500/10 text-green-400" };
-  if (raw >= 80) return { label: "Sắp đạt", cls: "bg-cb-panel-2 text-cb-ink-dim" };
-  if (raw >= 60) return { label: "Đang chạy", cls: "bg-cb-blue/10 text-cb-blue" };
-  return { label: "Chậm tiến độ", cls: "bg-cb-crimson/10 text-cb-crimson" };
+  if (raw >= 100) return { label: "Vượt/Đạt", mau: "xanh" as const };
+  if (raw >= 80) return { label: "Sắp đạt", mau: "xam" as const };
+  if (raw >= 60) return { label: "Đang chạy", mau: "lam" as const };
+  return { label: "Chậm tiến độ", mau: "do" as const };
 }
 
 export async function CeoHome() {
@@ -89,21 +90,21 @@ export async function CeoHome() {
       ) : (
         <>
           <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-            <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+            <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 text-center ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
               <div className="text-xl font-bold">{doanhSo ? fmtVnd(doanhSo.current) : "—"}</div>
               <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">
                 DOANH SỐ {doanhSo ? `(${Math.round((doanhSo.current / doanhSo.target) * 100)}%)` : ""}
               </div>
             </div>
-            <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+            <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 text-center ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
               <div className="text-xl font-bold">{khMoi ? fmtNum(khMoi.current) : "—"}</div>
               <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">KHÁCH HÀNG MỚI</div>
             </div>
-            <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+            <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 text-center ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
               <div className="text-xl font-bold">{completion}%</div>
               <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">HOÀN THÀNH MỤC TIÊU</div>
             </div>
-            <div className="bg-cb-panel border-cb-line rounded-xl border p-4 text-center">
+            <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 text-center ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
               <div className={`text-xl font-bold ${warnCount ? "text-red-400" : "text-green-400"}`}>
                 {warnCount}
               </div>
@@ -113,7 +114,7 @@ export async function CeoHome() {
 
           {/* items-start: thẻ ngắn không bị kéo cao bằng cột đối diện (tránh khoảng trắng chết). */}
           <div className="grid items-start gap-4 md:grid-cols-2">
-            <Card className="bg-cb-panel border-cb-line">
+            <Card>
               <CardContent>
                 <TieuDeMuc icon="🎖">Tiến độ trọng số theo phòng ban</TieuDeMuc>
                 {objs.map((o) => {
@@ -126,9 +127,9 @@ export async function CeoHome() {
                         <b className="text-sm">
                           {owner?.name} · {owner?.dept}
                         </b>
-                        <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${st.cls}`}>
+                        <Chip mau={st.mau} className="shrink-0">
                           {st.label} · {raw}%
-                        </span>
+                        </Chip>
                       </div>
                       <ThanhTienDo pct={Math.min(100, raw)} />
                     </div>
@@ -138,7 +139,7 @@ export async function CeoHome() {
             </Card>
 
             <div className="space-y-4">
-              <Card className="bg-cb-panel border-cb-line">
+              <Card>
                 <CardContent>
                   <TieuDeMuc icon="📈">Chỉ số khách hàng &amp; tài chính</TieuDeMuc>
                   {[
@@ -165,7 +166,7 @@ export async function CeoHome() {
                   )}
                 </CardContent>
               </Card>
-              <Card className="bg-cb-panel border-cb-line">
+              <Card>
                 <CardContent>
                   <TieuDeMuc icon="🚨">Cảnh báo so với cùng kỳ</TieuDeMuc>
                   {alerts.map((a, i) => (

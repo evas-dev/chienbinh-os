@@ -24,7 +24,7 @@ function Category({
 }) {
   if (!missions.length) return null;
   return (
-    <Card className="bg-cb-panel border-cb-line mb-4">
+    <Card className="mb-4">
       <CardContent>
         <TieuDeMuc icon={icon} hint={desc}>
           {title}
@@ -83,7 +83,7 @@ export function QuestBoard({
           rejectReasonByMission={rejectReasonByMission}
         />
         {!missions.length ? (
-          <Card className="bg-cb-panel border-cb-line">
+          <Card>
             <CardContent className="text-cb-ink-dim text-sm">
               Chưa có nhiệm vụ nào. Chờ quản lý giao xuống nhé, chiến binh!
             </CardContent>
@@ -92,7 +92,7 @@ export function QuestBoard({
         <CompletedHistory submissions={completedSubmissions} />
       </div>
 
-      <Card className="bg-cb-panel border-cb-line h-fit">
+      <Card className="h-fit">
         <CardContent>
           <TieuDeMuc icon="📊">Bảng xếp hạng mùa</TieuDeMuc>
           {leaderboard.map((w, i) => (

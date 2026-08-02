@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { Chip, type ChipMau } from "@/components/chung/chip";
 import { REQUEST_TYPES } from "@/lib/support-requests";
 import {
   respondSupportRequestAction,
@@ -11,10 +12,10 @@ import {
 } from "@/lib/actions/support-requests";
 import type { Enums } from "@/types/database";
 
-const STATUS: Record<string, { label: string; cls: string }> = {
-  cho_duyet: { label: "Chờ duyệt", cls: "bg-cb-panel-2 text-cb-ink-dim" },
-  da_duyet: { label: "Đã duyệt", cls: "bg-green-500/10 text-green-400" },
-  tu_choi: { label: "Từ chối", cls: "bg-cb-crimson/10 text-cb-crimson" },
+const STATUS: Record<string, { label: string; mau: ChipMau }> = {
+  cho_duyet: { label: "Chờ duyệt", mau: "tim" },
+  da_duyet: { label: "Đã duyệt", mau: "xanh" },
+  tu_choi: { label: "Từ chối", mau: "do" },
 };
 
 export function RequestRow({
@@ -43,7 +44,7 @@ export function RequestRow({
 }) {
   const [isPending, startTransition] = useTransition();
   const t = REQUEST_TYPES.find((x) => x.code === type);
-  const s = cancelledAt ? { label: "Đã hủy", cls: "bg-cb-panel-2 text-cb-ink-faint" } : (STATUS[status] ?? STATUS.cho_duyet);
+  const s = cancelledAt ? { label: "Đã hủy", mau: "xam" as ChipMau } : (STATUS[status] ?? STATUS.cho_duyet);
 
   function respond(approve: boolean) {
     startTransition(async () => {
@@ -77,7 +78,7 @@ export function RequestRow({
   return (
     <div className="border-cb-line-soft border-b py-3.5 last:border-none">
       <div className="mb-1.5 flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2 py-0.5 text-xs ${s.cls}`}>{s.label}</span>
+        <Chip mau={s.mau}>{s.label}</Chip>
         <b className="inline-flex items-center gap-1 text-sm">
           <EmojiIcon glyph={t?.icon} /> {t?.label}
         </b>

@@ -69,7 +69,7 @@ export default async function ObjectivesPage() {
           />
         </div>
         {(quanLy ?? []).length === 0 ? (
-          <Card className="bg-cb-panel border-cb-line">
+          <Card>
             <CardContent className="text-cb-ink-dim text-sm">
               Chưa có Tư Lệnh nào để giao mục tiêu. Tạo tài khoản cấp Tư Lệnh ở{" "}
               <Link href="/admin" className="underline">
@@ -136,14 +136,14 @@ export default async function ObjectivesPage() {
             items={objective.objective_items}
           />
         ) : (
-          <Card className="bg-cb-panel border-cb-line">
+          <Card>
             <CardContent className="text-cb-ink-dim text-sm">
               Chưa được CEO giao mục tiêu nào.
             </CardContent>
           </Card>
         )}
 
-        <Card className="bg-cb-panel border-cb-line mt-4">
+        <Card className="mt-4">
           <CardContent>
             <TieuDeMuc
               icon="⚡"
@@ -257,7 +257,7 @@ export default async function ObjectivesPage() {
           items={objective.objective_items}
         />
       ) : (
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent className="text-cb-ink-dim text-sm">Đội chưa có mục tiêu.</CardContent>
         </Card>
       )}

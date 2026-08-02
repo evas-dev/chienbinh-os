@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { Chip } from "@/components/chung/chip";
 
 // Hồ sơ kỷ luật của 1 nhân sự — hiện trong Sở chỉ huy của người đó.
 export async function PenaltyRecordCard({ warriorId }: { warriorId: string }) {
@@ -15,15 +16,13 @@ export async function PenaltyRecordCard({ warriorId }: { warriorId: string }) {
   const rows = list ?? [];
 
   return (
-    <Card className="bg-cb-panel border-cb-line">
+    <Card>
       <CardContent>
         <TieuDeMuc
           icon="⚖️"
           action={
             rows.length ? (
-              <span className="bg-cb-crimson/10 text-cb-crimson rounded-full px-2 py-0.5 text-xs">
-                {rows.length} án phạt
-              </span>
+<Chip mau="do">{rows.length} án phạt</Chip>
             ) : null
           }
         >

@@ -26,7 +26,7 @@ export default async function LadderPage() {
     <div className="space-y-4">
       {/* Thang quân hàm trải ngang + chia cột để 18 bậc không tạo cột quá cao,
           để lại khoảng trắng lớn bên cạnh như layout 2 cột trước đây. */}
-      <Card className="bg-cb-panel border-cb-line">
+      <Card>
         <CardContent>
           <TieuDeMuc icon="🎖" hint={`Bậc hiện tại của bạn: ${fmtNum(profile.exp)} EXP`}>
             Thang quân hàm
@@ -65,7 +65,7 @@ export default async function LadderPage() {
       </Card>
 
       <div className="grid items-start gap-4 lg:grid-cols-2">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🏅" hint="Thưởng theo kết quả — đổi ra tiền đào tạo, quà, nghỉ phép">
               Hệ thống huân chương
@@ -84,7 +84,7 @@ export default async function LadderPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🎁">Đổi huân chương lấy thưởng</TieuDeMuc>
             <div className="space-y-1.5">

@@ -52,7 +52,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-4">
       <div className="grid items-start gap-4 md:grid-cols-2">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <div className="flex items-center gap-4">
               <AnhDaiDien id={profile.id} ten={profile.name} className="size-20" canhPx={80} />
@@ -108,7 +108,7 @@ export default async function HomePage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🎯">Nhiệm vụ hôm nay</TieuDeMuc>
             {missionsError ? (

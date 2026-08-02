@@ -132,7 +132,7 @@ export default async function MissionsPage() {
         <div>
           <ReviewPanel pending={withNames(pendingSubs)} recent={withNames(recentSubs)} />
         </div>
-        <Card className="bg-cb-panel border-cb-line h-fit">
+        <Card className="h-fit">
           <CardContent>
             <TieuDeMuc icon="🎯">Nhiệm vụ của tôi ({(myMissions ?? []).length})</TieuDeMuc>
             {(myMissions ?? []).length ? (

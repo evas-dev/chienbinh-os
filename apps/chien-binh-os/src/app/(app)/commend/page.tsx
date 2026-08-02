@@ -56,7 +56,7 @@ export default async function CommendPage() {
         {!isCeo ? <ProposeCommendButton staff={staff ?? []} badges={badges ?? []} /> : null}
       </div>
 
-      <Card className="bg-cb-panel border-cb-line">
+      <Card>
         <CardContent>
           <TieuDeMuc icon="🏆">
             {isCeo ? "Danh sách đề xuất khen thưởng" : "Đề xuất của tôi"}

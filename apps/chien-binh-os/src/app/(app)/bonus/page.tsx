@@ -26,7 +26,7 @@ export default async function BonusPage() {
   // được âm thầm hiển thị quỹ = 0 như thể đó là số liệu thật.
   if (configError || !config) {
     return (
-      <Card className="bg-cb-panel border-cb-line max-w-xl">
+      <Card className="max-w-xl">
         <CardContent>
           <p className="text-cb-crimson text-sm" role="alert">
             Không tải được cấu hình quỹ thưởng. Vui lòng thử lại hoặc kiểm tra lại cấu hình
@@ -61,7 +61,7 @@ export default async function BonusPage() {
       {/* Cột cấu hình hẹp bên trái, bảng chia thưởng rộng bên phải — items-start để
           thẻ cấu hình (ngắn) không bị kéo cao bằng bảng 11 người. */}
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,340px)_1fr]">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="⚙️">Thiết lập quỹ (Tổng Tư Lệnh)</TieuDeMuc>
             <BonusConfigForm pool={bonus.pool} months={bonus.months} />
@@ -82,7 +82,7 @@ export default async function BonusPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent>
             <TieuDeMuc icon="🏆" hint={`Chia theo tỷ lệ EXP tích luỹ trong kỳ ${bonus.months} tháng`}>
               Bảng chia thưởng cuối kỳ

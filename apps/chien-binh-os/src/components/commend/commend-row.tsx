@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { Chip, type ChipMau } from "@/components/chung/chip";
 import { ReasonDialog } from "@/components/missions/reason-dialog";
 import {
   approveCommendationAction,
@@ -11,11 +12,11 @@ import {
   revokeCommendationAction,
 } from "@/lib/actions/commend";
 
-const STATUS: Record<string, { label: string; cls: string }> = {
-  cho_duyet: { label: "Chờ CEO duyệt", cls: "bg-cb-panel-2 text-cb-ink-dim" },
-  da_duyet: { label: "Đã trao", cls: "bg-green-500/10 text-green-400" },
-  tu_choi: { label: "Từ chối", cls: "bg-cb-crimson/10 text-cb-crimson" },
-  thu_hoi: { label: "Đã thu hồi", cls: "bg-cb-crimson/10 text-cb-crimson" },
+const STATUS: Record<string, { label: string; mau: ChipMau }> = {
+  cho_duyet: { label: "Chờ CEO duyệt", mau: "tim" },
+  da_duyet: { label: "Đã trao", mau: "xanh" },
+  tu_choi: { label: "Từ chối", mau: "do" },
+  thu_hoi: { label: "Đã thu hồi", mau: "do" },
 };
 
 export function CommendRow({
@@ -77,7 +78,7 @@ export function CommendRow({
   return (
     <div className="border-cb-line-soft border-b py-3.5 last:border-none">
       <div className="mb-1.5 flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2 py-0.5 text-xs ${s.cls}`}>{s.label}</span>
+        <Chip mau={s.mau}>{s.label}</Chip>
         <b className="inline-flex items-center gap-1 text-sm">
           <EmojiIcon glyph={badgeIcon} /> {badgeName}
         </b>

@@ -58,7 +58,7 @@ export default async function FeedPage() {
   }
 
   return (
-    <Card className="bg-cb-panel border-cb-line max-w-3xl">
+    <Card className="max-w-3xl">
       <CardContent>
         <TieuDeMuc icon="📣" hint={`${dsDong.length} hoạt động gần nhất`}>
           Nhật ký chiến công

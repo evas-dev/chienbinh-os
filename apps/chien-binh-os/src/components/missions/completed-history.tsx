@@ -9,7 +9,7 @@ export function CompletedHistory({ submissions }: { submissions: Submission[] })
   if (!submissions.length) return null;
 
   return (
-    <Card className="bg-cb-panel border-cb-line mt-4">
+    <Card className="mt-4">
       <CardContent>
         <TieuDeMuc icon="✅">Công việc đã hoàn thành ({submissions.length})</TieuDeMuc>
         <div>

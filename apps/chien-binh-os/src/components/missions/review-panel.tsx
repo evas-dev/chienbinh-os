@@ -8,6 +8,7 @@ import { CONTENT_TYPES } from "@/lib/missions";
 import { approveSubmissionAction, rejectSubmissionAction, revertSubmissionAction } from "@/lib/actions/missions";
 import { ReasonDialog } from "./reason-dialog";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { Chip } from "@/components/chung/chip";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import type { Tables } from "@/types/database";
 
@@ -59,17 +60,17 @@ function SubmissionCard({ sub, pending }: { sub: Submission; pending: boolean })
 
   const statusChip =
     sub.status === "cho_duyet" ? (
-      <span className="bg-cb-panel-2 text-cb-ink-dim inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs">
+      <Chip mau="tim">
         <EmojiIcon glyph="⏳" /> Chờ duyệt · Lần {sub.round}
-      </span>
+      </Chip>
     ) : sub.status === "da_duyet" ? (
-      <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-xs text-green-400">
+      <Chip mau="xanh">
         <EmojiIcon glyph="✅" /> Đã duyệt
-      </span>
+      </Chip>
     ) : (
-      <span className="bg-cb-crimson/10 text-cb-crimson inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs">
+      <Chip mau="do">
         <EmojiIcon glyph="❌" /> Từ chối
-      </span>
+      </Chip>
     );
 
   return (
@@ -154,7 +155,7 @@ export function ReviewPanel({
 }) {
   return (
     <>
-      <Card className="bg-cb-panel border-cb-line mb-4">
+      <Card className="mb-4">
         <CardContent>
           <TieuDeMuc icon="🛡">Chờ anh/chị duyệt ({pending.length})</TieuDeMuc>
           {pending.length ? (
@@ -164,7 +165,7 @@ export function ReviewPanel({
           )}
         </CardContent>
       </Card>
-      <Card className="bg-cb-panel border-cb-line mb-4">
+      <Card className="mb-4">
         <CardContent>
           <TieuDeMuc icon="📋">Kết quả đã xử lý</TieuDeMuc>
           {recent.length ? (

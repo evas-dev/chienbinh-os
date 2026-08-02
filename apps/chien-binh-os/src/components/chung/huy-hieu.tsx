@@ -5,14 +5,14 @@ import { EmojiIcon } from "./emoji-icon";
 export type BadgeRarity = "common" | "rare" | "epic" | "legendary";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium",
+  "font-heading inline-flex items-center gap-1.5 rounded-lg border-2 px-2.5 py-1 text-xs font-bold",
   {
     variants: {
       rarity: {
-        common: "border-cb-line text-cb-ink-dim bg-cb-panel-2",
-        rare: "border-cb-blue/40 text-cb-blue bg-cb-blue/10",
-        epic: "border-cb-purple/40 text-cb-purple bg-cb-purple/10",
-        legendary: "border-cb-gold/50 text-cb-gold bg-cb-gold/10",
+        common: "border-black/50 text-cb-ink-dim bg-cb-panel-2",
+        rare: "border-cb-blue/60 text-cb-blue bg-cb-blue/15",
+        epic: "border-cb-purple/60 text-cb-purple bg-cb-purple/15",
+        legendary: "border-cb-gold/70 text-cb-gold bg-cb-gold/15",
       },
       locked: {
         true: "opacity-40 grayscale",

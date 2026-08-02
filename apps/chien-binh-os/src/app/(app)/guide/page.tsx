@@ -23,7 +23,7 @@ export default async function GuidePage() {
         </span>
       </p>
 
-      <Card className="bg-cb-panel border-cb-line">
+      <Card>
         <CardContent className="overflow-x-auto">
           <div className="mb-3 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="📏" />
@@ -95,7 +95,7 @@ export default async function GuidePage() {
         </CardContent>
       </Card>
 
-      <Card className="bg-cb-panel border-cb-line">
+      <Card>
         <CardContent>
           <div className="mb-3 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="🧭" />
@@ -158,7 +158,7 @@ export default async function GuidePage() {
       </Card>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent className="space-y-2 text-sm">
             <div className="mb-1 flex items-center gap-1.5 font-semibold">
               <EmojiIcon glyph="📈" />
@@ -179,7 +179,7 @@ export default async function GuidePage() {
             </EgLine>
           </CardContent>
         </Card>
-        <Card className="bg-cb-panel border-cb-line">
+        <Card>
           <CardContent className="space-y-2 text-sm">
             <div className="mb-1 flex items-center gap-1.5 font-semibold">
               <EmojiIcon glyph="💼" />
@@ -202,7 +202,7 @@ export default async function GuidePage() {
         </Card>
       </div>
 
-      <Card className="bg-cb-panel border-cb-line">
+      <Card>
         <CardContent className="space-y-2 text-sm">
           <div className="mb-1 flex items-center gap-1.5 font-semibold">
             <EmojiIcon glyph="🔗" />
