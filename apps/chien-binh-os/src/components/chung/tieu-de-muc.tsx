@@ -25,7 +25,7 @@ export function TieuDeMuc({
   return (
     <div className={cn("mb-3 flex items-start justify-between gap-3", className)}>
       <div className="min-w-0">
-        <div className="flex items-center gap-2 font-semibold">
+        <div className="font-heading flex items-center gap-2 text-base font-extrabold tracking-wide uppercase">
           {icon ? <EmojiIcon glyph={icon} className="text-cb-gold-soft" /> : null}
           <span className="min-w-0">{children}</span>
         </div>

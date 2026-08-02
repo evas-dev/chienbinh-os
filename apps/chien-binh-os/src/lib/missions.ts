@@ -26,6 +26,17 @@ export const STATUS_LABEL: Record<Enums<"mission_status">, string> = {
   done: "Hoàn thành",
 };
 
+/**
+ * Màu nhãn trạng thái. Khớp đúng bảng trạng thái đã in trong cẩm nang
+ * (/huong-dan mục 5.2) — nếu đổi ở đây thì phải sửa cả cẩm nang.
+ */
+export const STATUS_MAU: Record<Enums<"mission_status">, "xam" | "vang" | "tim" | "xanh"> = {
+  todo: "xam",
+  doing: "vang",
+  review: "tim",
+  done: "xanh",
+};
+
 // Khớp CONTENT_TYPES trong js/submission.js — dùng cho form nộp kết quả và
 // khớp trực tiếp với case metric_key trong RPC approve_submission.
 export const CONTENT_TYPES = [

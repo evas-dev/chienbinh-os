@@ -2,7 +2,8 @@ import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { requireRole } from "@/lib/auth/require-role";
 import { createClient } from "@/lib/supabase/server";
 import { rankOf } from "@/lib/ranks";
-import { fmtNum, initials } from "@/lib/format";
+import { fmtNum } from "@/lib/format";
+import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
@@ -26,9 +27,7 @@ function WarriorRow({
 }) {
   return (
     <div className="border-cb-line-soft flex items-center gap-3 border-b py-2.5 last:border-none">
-      <div className="bg-cb-panel-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold">
-        {initials(warrior.name)}
-      </div>
+      <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-11" canhPx={44} />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-sm font-medium">
           <span className="truncate">{warrior.name}</span>

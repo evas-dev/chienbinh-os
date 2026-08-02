@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { createClient } from "@/lib/supabase/server";
 import { rankOf, expProgress } from "@/lib/ranks";
-import { fmtNum, initials } from "@/lib/format";
+import { fmtNum } from "@/lib/format";
 import { FRONT_LABEL, ROLE_LABEL } from "@/lib/nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { MissionCard } from "@/components/missions/mission-card";
@@ -12,6 +12,8 @@ import { CeoHome } from "@/components/home/ceo-home";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
+import { Chip } from "@/components/chung/chip";
+import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
 
 export default async function HomePage() {
   const profile = await getCurrentProfile();
@@ -53,11 +55,9 @@ export default async function HomePage() {
         <Card className="bg-cb-panel border-cb-line">
           <CardContent>
             <div className="flex items-center gap-4">
-              <div className="bg-cb-crimson text-cb-ink flex size-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold">
-                {initials(profile.name)}
-              </div>
+              <AnhDaiDien id={profile.id} ten={profile.name} className="size-20" canhPx={80} />
               <div className="min-w-0">
-                <div className="text-lg leading-tight font-bold">{profile.name}</div>
+                <div className="font-heading text-lg leading-tight font-bold">{profile.name}</div>
                 <div className="text-cb-ink-dim mt-0.5 text-sm">
                   {profile.front ? FRONT_LABEL[profile.front] : "—"} · {profile.dept} ·{" "}
                   {ROLE_LABEL[profile.role]}
@@ -65,16 +65,18 @@ export default async function HomePage() {
                 <div className="text-cb-ink-faint mt-0.5 text-xs">
                   Tiểu đội: {squad?.name ?? "Chưa cập nhật"}
                 </div>
-                <div className="text-cb-gold mt-1.5 flex items-center gap-1.5 text-sm font-semibold">
+                <Chip mau="vang" className="mt-2">
                   <EmojiIcon glyph={rank.insignia} /> {rank.name}
-                </div>
+                </Chip>
               </div>
             </div>
 
             <div className="mt-5">
-              <div className="text-cb-ink-dim mb-2 flex flex-wrap justify-between gap-2 text-xs">
-                <span>EXP: {fmtNum(profile.exp)}</span>
-                <span>
+              <div className="mb-2 flex flex-wrap items-end justify-between gap-2 text-xs">
+                <span className="text-cb-ink-dim font-semibold">
+                  EXP <span className="text-cb-gold text-sm">{fmtNum(profile.exp)}</span>
+                </span>
+                <span className="text-cb-ink-faint">
                   Còn {fmtNum(progress.remaining)} → {progress.nextName}
                 </span>
               </div>
@@ -83,20 +85,24 @@ export default async function HomePage() {
                   <EmojiIcon glyph="⚠️" /> {progress.configIssue}
                 </p>
               ) : (
-                <ThanhTienDo pct={progress.pct} />
+                <ThanhTienDo pct={progress.pct} co="lon" soDoan={10} />
               )}
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3 text-center">
-              <div className="bg-cb-panel-2 rounded-xl p-4">
-                <div className="text-cb-gold text-xl font-bold">{badgeCount ?? 0}</div>
-                <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">HUÂN CHƯƠNG</div>
+              <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
+                <div className="text-cb-gold cb-chu-noi text-2xl font-bold">{badgeCount ?? 0}</div>
+                <div className="text-cb-ink-faint mt-1 text-xs font-semibold tracking-wide">
+                  HUÂN CHƯƠNG
+                </div>
               </div>
-              <div className="bg-cb-panel-2 rounded-xl p-4">
-                <div className="text-cb-gold text-xl font-bold">
+              <div className="bg-cb-bg-2 ring-cb-line rounded-xl p-4 ring-1 shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.35)]">
+                <div className="text-cb-gold cb-chu-noi text-2xl font-bold">
                   {fmtNum(profile.season_points)}
                 </div>
-                <div className="text-cb-ink-faint mt-1 text-xs tracking-wide">ĐIỂM MÙA</div>
+                <div className="text-cb-ink-faint mt-1 text-xs font-semibold tracking-wide">
+                  ĐIỂM MÙA
+                </div>
               </div>
             </div>
           </CardContent>

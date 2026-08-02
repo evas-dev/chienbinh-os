@@ -203,3 +203,24 @@ select:-webkit-autofill {
     display: none;
   }
 }
+
+/* ==========================================================================
+ * CHẤT GAME — khung lục giác + chữ nổi
+ *
+ * Phần "vát nổi" của nút/thẻ KHÔNG đặt ở đây mà viết bằng class `shadow-[…]`
+ * ngay trong component. Lý do: Tailwind v4 dựng `ring`/`focus-visible:ring`
+ * bằng chính thuộc tính box-shadow, gộp qua biến --tw-shadow. Nếu ta khai báo
+ * `box-shadow` thẳng trong @utility thì nó ghi đè cả cụm, làm vòng focus biến
+ * mất (đúng lỗi đã gặp với autofill ở trên). Đi qua `shadow-[…]` thì Tailwind
+ * tự gộp bóng vát với vòng focus.
+ * ========================================================================== */
+
+/* Khung lục giác cho khung quân hàm — kiểu huy hiệu game. */
+@utility cb-hex {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Chữ có bóng đổ cứng, đọc rõ trên nền màu rực. */
+@utility cb-chu-noi {
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.45);
+}

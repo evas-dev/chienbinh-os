@@ -5,7 +5,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ThanhTienDo } from "@/components/chung/thanh-tien-do";
 import { fmtNum } from "@/lib/format";
-import { nhanLoaiNhiemVu, STATUS_LABEL } from "@/lib/missions";
+import { nhanLoaiNhiemVu, STATUS_LABEL, STATUS_MAU } from "@/lib/missions";
+import { Chip } from "@/components/chung/chip";
 import { acceptMissionAction } from "@/lib/actions/missions";
 import { SubmitReportDialog } from "./submit-report-dialog";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -43,16 +44,16 @@ export function MissionCard({
   }
 
   return (
-    <div className="border-cb-line-soft flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b py-3.5 last:border-none">
+    // Mỗi nhiệm vụ là một khối nổi riêng thay vì một dòng ngăn bởi gạch chân:
+    // dễ quét mắt hơn khi danh sách dài, và hợp chất game hơn.
+    <div className="bg-cb-bg-2 border-cb-line mb-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border p-3.5 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.04)] last:mb-0">
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-2">
-          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
-            {nhanLoaiNhiemVu(mission.type, mission.fixed)}
-          </span>
-          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-0.5 text-xs">
+          <Chip>{nhanLoaiNhiemVu(mission.type, mission.fixed)}</Chip>
+          <Chip mau={STATUS_MAU[mission.status ?? "todo"]}>
             {STATUS_LABEL[mission.status ?? "todo"]}
-          </span>
-          <span className="text-sm font-medium">{mission.title}</span>
+          </Chip>
+          <span className="text-sm font-semibold">{mission.title}</span>
         </div>
         {assigneeName || assignerName ? (
           <div className="text-cb-ink-faint mb-1 text-xs">
@@ -68,46 +69,35 @@ export function MissionCard({
         <div className="mt-2">
           <ThanhTienDo pct={pct} />
         </div>
-        <div className="text-cb-ink-faint mt-1.5 flex justify-between text-xs">
+        <div className="text-cb-ink-faint mt-1.5 flex items-center justify-between gap-2 text-xs">
           <span>
             {fmtNum(mission.current ?? 0)}/{fmtNum(mission.target ?? 0)} {mission.unit} ({pct}%)
           </span>
-          <span className="text-cb-gold font-semibold">+{mission.exp} EXP</span>
+          <Chip mau="vang">+{mission.exp} EXP</Chip>
         </div>
         {rejectReason ? (
-          <p className="mt-1.5 flex items-center gap-1 rounded-md bg-red-500/10 px-2 py-1 text-xs text-red-400">
+          <p className="border-cb-crimson/40 bg-cb-crimson/12 text-cb-crimson mt-2 flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium">
             <EmojiIcon glyph="❌" /> Bị từ chối: {rejectReason}
           </p>
         ) : null}
       </div>
-      <div className="shrink-0">
-        {mission.status === "todo" ? (
-          <Button
-            size="sm"
-            disabled={isPending}
-            onClick={accept}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft flex items-center gap-1"
-          >
+      {/* Chỉ chừa cột phải khi thật sự có việc để bấm. Trạng thái "Chờ duyệt"/
+          "Hoàn thành" đã có nhãn màu ở hàng trên rồi, lặp lại lần nữa chỉ làm
+          rối. Nút cũng không cần đè `bg-cb-gold`: biến thể mặc định đã là nút
+          vàng vát nổi, đè màu phẳng lên sẽ giết mất lớp gradient. */}
+      {mission.status === "todo" ? (
+        <div className="shrink-0">
+          <Button size="sm" variant="success" disabled={isPending} onClick={accept}>
             Nhận <EmojiIcon glyph="⚔" />
           </Button>
-        ) : mission.status === "doing" ? (
-          <Button
-            size="sm"
-            onClick={() => setSubmitOpen(true)}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
-          >
+        </div>
+      ) : mission.status === "doing" ? (
+        <div className="shrink-0">
+          <Button size="sm" onClick={() => setSubmitOpen(true)}>
             Nộp báo cáo
           </Button>
-        ) : mission.status === "review" ? (
-          <span className="bg-cb-panel-2 text-cb-ink-dim rounded-full px-2 py-1 text-xs">
-            Chờ duyệt
-          </span>
-        ) : (
-          <span className="flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-1 text-xs text-green-400">
-            <EmojiIcon glyph="✔" /> Xong
-          </span>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       <SubmitReportDialog
         missionId={mission.id}

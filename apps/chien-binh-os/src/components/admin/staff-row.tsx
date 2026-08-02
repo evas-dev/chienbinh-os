@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { initials } from "@/lib/format";
+import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
 import { ROLE_LABEL } from "@/lib/nav";
 import { setActiveAction } from "@/lib/actions/admin";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
@@ -32,9 +32,7 @@ export function StaffRow({
 
   return (
     <div className={`flex items-center gap-3 py-3.5 ${warrior.active ? "" : "opacity-60"}`}>
-      <div className="bg-cb-panel-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-semibold">
-        {initials(warrior.name)}
-      </div>
+      <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-10" canhPx={40} />
       <div className="min-w-0 flex-1">
         <div className="truncate text-sm font-medium">
           {warrior.name} {isSelf ? <span className="text-cb-ink-faint">· Bạn</span> : null}

@@ -12,7 +12,9 @@ function Card({
       data-slot="card"
       data-size={size}
       className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(5)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        // Viền dày + gờ sáng mép trên + khối bóng dưới: thẻ trông như miếng
+        // ghép dày có độ nổi, thay vì ô phẳng dán lên nền.
+        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl bg-card bg-linear-to-b from-cb-panel-2 to-cb-panel py-(--card-spacing) text-sm text-card-foreground ring-2 ring-cb-line shadow-[inset_0_1px_0_0_rgb(255_255_255/0.09),0_4px_0_0_rgb(0_0_0/0.4),0_12px_24px_-8px_rgb(0_0_0/0.65)] [--card-spacing:--spacing(5)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
         className
       )}
       {...props}
