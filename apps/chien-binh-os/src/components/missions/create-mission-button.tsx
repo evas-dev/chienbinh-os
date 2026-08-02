@@ -20,7 +20,7 @@ export function CreateMissionButton({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft">
+      <Button onClick={() => setOpen(true)}>
         {label}
       </Button>
       <CreateMissionDialog

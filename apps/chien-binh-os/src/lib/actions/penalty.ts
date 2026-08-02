@@ -22,6 +22,6 @@ export async function applyPenaltyAction(
   if (error) return fail(error);
   revalidatePath("/penalty");
   revalidatePath("/");
-  revalidatePath("/ranks");
+  revalidatePath("/admin"); // bảng xếp hạng nằm trong trang Nhân sự
   return { ok: true, data: undefined };
 }

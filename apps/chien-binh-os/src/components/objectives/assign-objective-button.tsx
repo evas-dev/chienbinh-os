@@ -12,7 +12,7 @@ export function AssignObjectiveButton({ ownerId, ownerName }: { ownerId: string;
       <Button
         size="sm"
         onClick={() => setOpen(true)}
-        className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+       
       >
         <EmojiIcon glyph="➕" /> Giao thêm KPI
       </Button>

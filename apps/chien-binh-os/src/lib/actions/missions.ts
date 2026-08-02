@@ -38,7 +38,7 @@ export async function approveSubmissionAction(submissionId: string): Promise<Act
   const { error } = await supabase.rpc("approve_submission", { p_submission_id: submissionId });
   if (error) return fail(error);
   revalidatePath("/missions");
-  revalidatePath("/ranks");
+  revalidatePath("/admin"); // bảng xếp hạng nằm trong trang Nhân sự
   revalidatePath("/feed");
   revalidatePath("/objectives");
   return { ok: true, data: undefined };
@@ -69,7 +69,7 @@ export async function revertSubmissionAction(
   });
   if (error) return fail(error);
   revalidatePath("/missions");
-  revalidatePath("/ranks");
+  revalidatePath("/admin"); // bảng xếp hạng nằm trong trang Nhân sự
   return { ok: true, data: undefined };
 }
 

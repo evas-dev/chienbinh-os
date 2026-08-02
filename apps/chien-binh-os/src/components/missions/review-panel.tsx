@@ -93,7 +93,7 @@ function SubmissionCard({ sub, pending }: { sub: Submission; pending: boolean })
             size="sm"
             disabled={isPending}
             onClick={approve}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+           
           >
             Duyệt <EmojiIcon glyph="✅" />
           </Button>

@@ -151,7 +151,7 @@ export function AssignObjectiveDialog({
                   size="sm"
                   onClick={() => submit(true)}
                   disabled={isPending}
-                  className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+                 
                 >
                   Vẫn tạo thêm
                 </Button>
@@ -166,7 +166,7 @@ export function AssignObjectiveDialog({
           <Button
             onClick={() => submit(false)}
             disabled={isPending}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+           
           >
             {isPending ? (
               "Đang gửi…"

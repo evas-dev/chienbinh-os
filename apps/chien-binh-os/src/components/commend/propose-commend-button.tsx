@@ -66,7 +66,7 @@ export function ProposeCommendButton({
       <Button
         size="sm"
         onClick={() => setOpen(true)}
-        className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+       
       >
         <EmojiIcon glyph="➕" /> Đề xuất khen
       </Button>
@@ -124,7 +124,7 @@ export function ProposeCommendButton({
             <Button
               onClick={submit}
               disabled={isPending}
-              className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+             
             >
               {isPending ? "Đang gửi…" : "Gửi đề xuất"}
             </Button>

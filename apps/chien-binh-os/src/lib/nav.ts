@@ -38,8 +38,10 @@ export const NAV_ITEMS: {
   { path: "/commend", icon: "🏆", label: "Khen thưởng", roles: MGMT },
   { path: "/penalty", icon: "⚖️", label: "Xử phạt", roles: MGMT },
   { path: "/requests", icon: "🤝", label: "Hỗ trợ", roles: ALL_ROLES },
-  { path: "/ranks", icon: "📊", label: "Xếp hạng", roles: MGMT },
-  { path: "/admin", icon: "👤", label: "Nhân sự", roles: CEO_ONLY },
+  // Bảng xếp hạng nằm trong trang Nhân sự dưới dạng thẻ (`/admin?xem=xep-hang`),
+  // không còn mục riêng. Vì vậy mục này mở cho cả Tư Lệnh — họ chỉ thấy thẻ xếp
+  // hạng, danh sách nhân sự vẫn chỉ CEO xem được (xem admin/page.tsx).
+  { path: "/admin", icon: "👤", label: "Nhân sự", roles: MGMT },
   { path: "/squad", icon: "🛡", label: "Tiểu đội", roles: CEO_ONLY },
   { path: "/bonus", icon: "💰", label: "Quỹ thưởng", roles: CEO_ONLY },
 

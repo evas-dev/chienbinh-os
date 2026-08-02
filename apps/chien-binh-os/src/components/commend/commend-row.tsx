@@ -99,7 +99,7 @@ export function CommendRow({
             size="sm"
             disabled={isPending}
             onClick={approve}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+           
           >
             Trao <EmojiIcon glyph="🏅" />
           </Button>

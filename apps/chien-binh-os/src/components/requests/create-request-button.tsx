@@ -87,7 +87,7 @@ export function CreateRequestButton({
       <Button
         onClick={() => setOpen(true)}
         disabled={left <= 0}
-        className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+       
       >
         <EmojiIcon glyph="➕" /> Tạo yêu cầu ({left}/{MAX_REQUESTS_PER_MONTH} còn lại)
       </Button>
@@ -149,7 +149,7 @@ export function CreateRequestButton({
             <Button
               onClick={submit}
               disabled={isPending}
-              className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+             
             >
               {isPending ? (
                 "Đang gửi…"

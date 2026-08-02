@@ -91,7 +91,7 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isPending}
-        className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft flex h-11 w-full items-center justify-center gap-2 rounded-lg text-sm font-semibold disabled:opacity-70"
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-lg text-sm font-semibold disabled:opacity-70"
       >
         {isPending ? (
           "Đang xác thực…"

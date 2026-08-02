@@ -162,7 +162,7 @@ export function CreateStaffDialog({
           <Button
             onClick={submit}
             disabled={isPending}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+           
           >
             {isPending ? (
               "Đang tạo…"

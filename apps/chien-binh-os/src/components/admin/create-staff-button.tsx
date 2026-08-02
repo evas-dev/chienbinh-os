@@ -9,7 +9,7 @@ export function CreateStaffButton({ squads }: { squads: { id: string; name: stri
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft">
+      <Button onClick={() => setOpen(true)}>
         <EmojiIcon glyph="➕" /> Tạo tài khoản
       </Button>
       <CreateStaffDialog open={open} onOpenChange={setOpen} squads={squads} />

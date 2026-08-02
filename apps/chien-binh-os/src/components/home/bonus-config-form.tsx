@@ -56,7 +56,7 @@ export function BonusConfigForm({ pool, months }: { pool: number; months: number
       <Button
         onClick={submit}
         disabled={isPending}
-        className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft col-span-2"
+        className="col-span-2"
       >
         {isPending ? "Đang lưu…" : "Lưu cấu hình quỹ"}
       </Button>

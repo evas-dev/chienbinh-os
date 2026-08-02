@@ -72,11 +72,7 @@ export function ReasonDialog({
           <Button
             onClick={submit}
             disabled={isPending}
-            className={
-              confirmVariant === "destructive"
-                ? "bg-cb-crimson hover:bg-cb-crimson-deep text-white"
-                : "bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
-            }
+            variant={confirmVariant === "destructive" ? "destructive" : "default"}
           >
             {isPending ? "Đang xử lý…" : confirmLabel}
           </Button>

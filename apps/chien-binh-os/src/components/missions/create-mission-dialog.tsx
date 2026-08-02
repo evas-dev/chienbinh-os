@@ -175,7 +175,7 @@ export function CreateMissionDialog({
           <Button
             onClick={submit}
             disabled={isPending}
-            className="bg-cb-gold text-cb-bg hover:bg-cb-gold-soft"
+           
           >
             {isPending ? (
               "Đang gửi…"
