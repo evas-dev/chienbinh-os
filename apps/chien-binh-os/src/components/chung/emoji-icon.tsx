@@ -52,6 +52,8 @@ import {
   Crosshair,
   Sword,
   Rocket,
+  Send,
+  Undo2,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -66,10 +68,8 @@ const EMOJI_TO_ICON: Record<string, LucideIcon> = {
   "🛡": Shield,
   "🏅": Medal,
   "🎯": Target,
-  "⚖️": Scale,
   "⚖": Scale,
   "🤝": Handshake,
-  "⚠️": AlertTriangle,
   "⚠": AlertTriangle,
   "📊": BarChart3,
   "💰": Wallet,
@@ -103,7 +103,6 @@ const EMOJI_TO_ICON: Record<string, LucideIcon> = {
   "🎁": Gift,
   "🌴": Palmtree,
   "✔": Check,
-  "⚙️": Settings,
   "⚙": Settings,
   "🆕": Sparkles,
   "⏳": Hourglass,
@@ -117,6 +116,8 @@ const EMOJI_TO_ICON: Record<string, LucideIcon> = {
   "🔫": Crosshair,
   "🗡": Sword,
   "🚀": Rocket,
+  "📤": Send,
+  "↩": Undo2,
 };
 
 // Màu riêng cho huy chương hạng 1/2/3 trên bảng xếp hạng — thay cho 🥇🥈🥉.
@@ -136,7 +137,10 @@ export function EmojiIcon({
   className?: string;
 }) {
   if (!glyph) return null;
-  const trimmed = glyph.trim();
+  // Bỏ ký tự biến thể U+FE0F trước khi tra bảng: "⚔️" và "⚔" là cùng một biểu
+  // tượng nhưng khác chuỗi, trước đây phải khai báo cả hai và cứ quên một cái
+  // là glyph đó rơi xuống nhánh hiển thị emoji thật.
+  const trimmed = glyph.trim().replace(/\uFE0F/g, "");
   const Icon = EMOJI_TO_ICON[trimmed];
   if (!Icon) return <span className={className}>{glyph}</span>;
   const medalColor = MEDAL_COLOR[trimmed];

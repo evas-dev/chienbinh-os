@@ -187,113 +187,165 @@ export function MucVaiTro() {
           <tr>
             <Td dam>Sở chỉ huy (trang chủ)</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Bảng nhiệm vụ</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Yêu cầu hỗ trợ</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Quân hàm & Huân chương</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Nhật ký chiến công</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Cẩm nang</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Mục tiêu</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Đề xuất khen</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Bảng xếp hạng</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
             <Td dam>Xử phạt</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
@@ -301,7 +353,9 @@ export function MucVaiTro() {
             <Td canhGiua>—</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
@@ -309,7 +363,9 @@ export function MucVaiTro() {
             <Td canhGiua>—</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
           <tr>
@@ -317,7 +373,9 @@ export function MucVaiTro() {
             <Td canhGiua>—</Td>
             <Td canhGiua>—</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
           </tr>
         </tbody>

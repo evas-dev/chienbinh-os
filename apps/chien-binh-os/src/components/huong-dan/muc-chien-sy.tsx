@@ -40,7 +40,7 @@ export function MucChienSy() {
           </>,
           <>
             <b>Hồ sơ kỷ luật</b> — các án phạt của bạn. Sạch thì hiện{" "}
-            <em>“Chưa có vi phạm nào — hồ sơ kỷ luật sạch 🛡”</em>.
+            <em>“Chưa có vi phạm nào — hồ sơ kỷ luật sạch <EmojiIcon glyph="🛡" />”</em>.
           </>,
         ]}
       />
@@ -101,7 +101,9 @@ export function MucChienSy() {
             <Td dam>
               <The mau="xanh">Hoàn thành</The>
             </Td>
-            <Td>Chip ✔ Xong</Td>
+            <Td>
+              Chip <EmojiIcon glyph="✔" /> Xong
+            </Td>
             <Td>Xong rồi, EXP đã cộng</Td>
           </tr>
         </tbody>
@@ -147,7 +149,7 @@ export function MucChienSy() {
         items={[
           <>
             <b>Được duyệt</b> → cộng EXP ngay, nhiệm vụ thành <em>Hoàn thành</em>, có thông báo{" "}
-            <em>“+X EXP”</em>. Nếu đủ điểm lên cấp, hiện thêm <em>“Thăng quân hàm! 🎖”</em>.
+            <em>“+X EXP”</em>. Nếu đủ điểm lên cấp, hiện thêm <em>“Thăng quân hàm! <EmojiIcon glyph="🎖" />”</em>.
           </>,
           <>
             <b>Bị từ chối</b> → nhiệm vụ <b>quay lại Đang làm</b>, và bạn thấy băng đỏ{" "}

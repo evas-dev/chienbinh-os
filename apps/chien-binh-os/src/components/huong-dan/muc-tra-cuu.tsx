@@ -1,3 +1,4 @@
+import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { Bang, CauHoi, Luu, Muc, P, Td, Th, TieuDePhu } from "@/components/huong-dan/khoi";
 
 /**
@@ -93,31 +94,45 @@ export function MucTraCuu() {
         </thead>
         <tbody>
           <tr>
-            <Td dam>🔥 Máu Lửa</Td>
+            <Td dam>
+              <EmojiIcon glyph="🔥" /> Máu Lửa
+            </Td>
             <Td>Hoàn thành nhiệm vụ đầu tiên</Td>
           </tr>
           <tr>
-            <Td dam>💼 Hợp Đồng Lớn</Td>
+            <Td dam>
+              <EmojiIcon glyph="💼" /> Hợp Đồng Lớn
+            </Td>
             <Td>Ký hợp đồng giá trị cao</Td>
           </tr>
           <tr>
-            <Td dam>📈 Bùng Nổ View</Td>
+            <Td dam>
+              <EmojiIcon glyph="📈" /> Bùng Nổ View
+            </Td>
             <Td>Bài đạt mốc view khủng</Td>
           </tr>
           <tr>
-            <Td dam>💡 Cải Tiến</Td>
+            <Td dam>
+              <EmojiIcon glyph="💡" /> Cải Tiến
+            </Td>
             <Td>Sáng kiến giúp tổ chức tốt hơn</Td>
           </tr>
           <tr>
-            <Td dam>🛡 Hậu Phương Vững</Td>
+            <Td dam>
+              <EmojiIcon glyph="🛡" /> Hậu Phương Vững
+            </Td>
             <Td>Không lỗi vận hành trong tháng</Td>
           </tr>
           <tr>
-            <Td dam>⚡ Bất Bại 7 Ngày</Td>
+            <Td dam>
+              <EmojiIcon glyph="⚡" /> Bất Bại 7 Ngày
+            </Td>
             <Td>7 ngày liên tiếp hoàn thành nhiệm vụ</Td>
           </tr>
           <tr>
-            <Td dam>👑 Danh Tướng</Td>
+            <Td dam>
+              <EmojiIcon glyph="👑" /> Danh Tướng
+            </Td>
             <Td>Đứng #1 bảng xếp hạng mùa</Td>
           </tr>
         </tbody>
@@ -150,7 +165,9 @@ export function MucTraCuu() {
           </tr>
           <tr>
             <Td dam>Chương trình đào tạo VIP</Td>
-            <Td so>Huân chương 👑</Td>
+            <Td so>
+              Huân chương <EmojiIcon glyph="👑" />
+            </Td>
           </tr>
         </tbody>
       </Bang>

@@ -200,14 +200,18 @@ export function MucTongTuLenh() {
           <tr>
             <Td dam>Họ tên</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td>—</Td>
           </tr>
           <tr>
             <Td dam>Số điện thoại (đăng nhập)</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td>Từ 8 số trở lên, chưa ai dùng</Td>
           </tr>
@@ -221,7 +225,9 @@ export function MucTongTuLenh() {
           <tr>
             <Td dam>Phòng ban</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td>
               Marketing / Sale <em>(Tiền tuyến)</em>; Dev / CSKH / Kế toán / HR{" "}
@@ -231,7 +237,9 @@ export function MucTongTuLenh() {
           <tr>
             <Td dam>Cấp bậc hệ thống</Td>
             <Td canhGiua>
-              <The mau="xanh">✔</The>
+              <The mau="xanh">
+                <EmojiIcon glyph="✔" />
+              </The>
             </Td>
             <Td>
               <em>Chiến sỹ</em> hoặc <em>Tư lệnh</em>. <b>Không tạo được Tổng Tư Lệnh</b>
