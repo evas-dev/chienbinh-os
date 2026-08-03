@@ -28,6 +28,7 @@ export default async function MissionsPage() {
         .from("profiles")
         .select("id, name, season_points")
         .neq("role", "tong_tu_lenh")
+        .eq("active", true)
         .order("season_points", { ascending: false })
         .limit(10),
       supabase
@@ -109,12 +110,20 @@ export default async function MissionsPage() {
       .neq("status", "cho_duyet")
       .order("reviewed_at", { ascending: false })
       .limit(15),
+    // Chỉ người ĐANG hoạt động mới hiện trong ô chọn: giao việc cho tài khoản
+    // đã ngưng thì RPC `create_mission` cũng chặn, để tên trong danh sách chỉ
+    // tổ nhầm lẫn.
     isCeo
-      ? supabase.from("profiles").select("id, name, role, dept").eq("role", "tu_lenh")
+      ? supabase
+          .from("profiles")
+          .select("id, name, role, dept")
+          .eq("role", "tu_lenh")
+          .eq("active", true)
       : supabase
           .from("profiles")
           .select("id, name, role, dept")
           .eq("role", "chien_sy")
+          .eq("active", true)
           .eq("front", profile.front ?? "tien_tuyen"),
     campaignsQuery,
   ]);

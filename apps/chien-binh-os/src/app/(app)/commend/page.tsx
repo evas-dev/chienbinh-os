@@ -30,6 +30,7 @@ export default async function CommendPage() {
         .from("profiles")
         .select("id, name, dept")
         .eq("role", "chien_sy")
+        .eq("active", true)
         .eq("front", profile.front ?? "tien_tuyen");
   const { data: badges, error: badgesError } = await supabase
     .from("badges")

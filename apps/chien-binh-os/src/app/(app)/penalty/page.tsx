@@ -33,6 +33,7 @@ export default async function PenaltyPage() {
     .from("profiles")
     .select("id, name, dept")
     .neq("role", "tong_tu_lenh")
+    .eq("active", true)
     .neq("id", profile.id);
   if (!isCeo) targetsQuery = targetsQuery.eq("front", profile.front ?? "tien_tuyen");
 

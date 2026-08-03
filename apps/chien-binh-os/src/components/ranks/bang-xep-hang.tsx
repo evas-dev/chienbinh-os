@@ -98,9 +98,12 @@ export async function BangXepHang({
   basePath: string;
 }) {
   const supabase = await createClient();
+  // Chỉ xếp hạng người ĐANG hoạt động. Lọc ngay ở truy vấn nên cả ba cấp đều
+  // sạch: cấp tiểu đội và mặt trận cộng dồn điểm từ chính danh sách này, để sót
+  // người đã ngưng là quân số lẫn tổng điểm đội đều sai.
   const [{ data: warriors }, { data: ranks }, { data: squads }, { data: members }] =
     await Promise.all([
-      supabase.from("profiles").select("*"),
+      supabase.from("profiles").select("*").eq("active", true),
       supabase.from("ranks").select("*"),
       supabase.from("squads").select("*"),
       supabase.from("squad_members").select("squad_id, warrior_id"),

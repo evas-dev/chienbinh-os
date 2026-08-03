@@ -65,7 +65,10 @@ export default async function SquadPage() {
     supabase.from("squads").select("*").order("id"),
     supabase.from("squad_members").select("squad_id, warrior_id"),
     supabase.from("ranks").select("*"),
-    supabase.from("profiles").select("*"),
+    // Người đã ngưng không còn nằm trong biên chế: không hiện ở danh sách đội,
+    // không tính vào quân số / tổng EXP. Bản ghi squad_members vẫn giữ nguyên
+    // nên kích hoạt lại là họ trở về đúng đội cũ.
+    supabase.from("profiles").select("*").eq("active", true),
   ]);
 
   // SQU-11.2: lỗi tải dữ liệu tổ chức phải hiển thị rõ là lỗi, không được lặng
@@ -92,7 +95,7 @@ export default async function SquadPage() {
   }
   for (const m of members ?? []) daCoDoi.add(m.warrior_id);
   const chuaVaoDoi = (allProfiles ?? []).filter(
-    (p) => p.active && p.role !== "tong_tu_lenh" && !daCoDoi.has(p.id),
+    (p) => p.role !== "tong_tu_lenh" && !daCoDoi.has(p.id),
   );
 
   const membersBySquad = new Map<string, Warrior[]>();

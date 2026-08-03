@@ -22,11 +22,20 @@ export async function CeoHome() {
   const [{ data: objectives, error: objectivesError }, { data: squads }] = await Promise.all([
     supabase
       .from("objectives")
-      .select("id, owner_id, profiles!objectives_owner_id_fkey(name, dept), objective_items(*)"),
+      .select(
+        "id, owner_id, profiles!objectives_owner_id_fkey(name, dept, active), objective_items(*)",
+      ),
     supabase.from("squads").select("id, name"),
   ]);
 
-  const objs = objectives ?? [];
+  // Bỏ KPI của người đã ngưng: mục tiêu bỏ dở của họ đứng yên mãi nên vừa kéo
+  // tụt % hoàn thành toàn công ty, vừa đẻ ra cảnh báo "chậm tiến độ" không ai
+  // xử lý được.
+  const dangLam = (o: { profiles: { active: boolean } | { active: boolean }[] | null }) => {
+    const owner = Array.isArray(o.profiles) ? o.profiles[0] : o.profiles;
+    return owner?.active ?? false;
+  };
+  const objs = (objectives ?? []).filter(dangLam);
   const findMetric = (name: string) => {
     for (const o of objs) {
       const item = o.objective_items.find((it) => it.metric.includes(name));

@@ -38,7 +38,9 @@ export default async function BonusPage() {
   }
 
   const bonus = config.value as { pool: number; months: number };
-  const people = (warriors ?? []).filter((w) => w.role !== "tong_tu_lenh");
+  // Người đã ngưng không được chia quỹ — để họ trong danh sách thì EXP của họ
+  // vẫn nằm ở mẫu số, kéo tụt phần trăm của tất cả những người còn lại.
+  const people = (warriors ?? []).filter((w) => w.active && w.role !== "tong_tu_lenh");
   const totalExp = people.reduce((sum, w) => sum + w.exp, 0);
 
   const rows = [...people]

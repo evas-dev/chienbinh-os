@@ -37,7 +37,11 @@ export default async function ObjectivesPage() {
         .from("objectives")
         .select("id, owner_id, objective_items(*)")
         .eq("week_start", tuanNay),
-      supabase.from("profiles").select("id, name, role, dept").eq("role", "chien_sy"),
+      supabase
+        .from("profiles")
+        .select("id, name, role, dept")
+        .eq("role", "chien_sy")
+        .eq("active", true),
     ]);
 
     const mucTieuTheoNguoi = new Map(
@@ -110,6 +114,7 @@ export default async function ObjectivesPage() {
       .from("profiles")
       .select("id, name, role, dept")
       .eq("role", "chien_sy")
+      .eq("active", true)
       .eq("front", profile.front ?? "tien_tuyen");
 
     return (
