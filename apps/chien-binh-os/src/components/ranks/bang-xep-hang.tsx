@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { duongDanHoSo } from "@/lib/auth/quyen-xem-ho-so";
 import { rankOf } from "@/lib/ranks";
 import { fmtNum } from "@/lib/format";
 import { FRONT_LABEL } from "@/lib/nav";
@@ -35,6 +36,7 @@ function Row({
   pts,
   isMe,
   avatarId,
+  href,
   chucVu,
 }: {
   rank: number;
@@ -44,6 +46,13 @@ function Row({
   isMe: boolean;
   avatarId?: string;
   /**
+   * Link tới hồ sơ — chỉ có khi người xem được phép.
+   *
+   * Bảng này Tư Lệnh cũng xem được, mà họ chỉ mở được hồ sơ Chiến Sỹ cùng mặt
+   * trận; hàng nào ngoài tầm thì để nguyên chữ, không bọc link.
+   */
+  href?: string | null;
+  /**
    * Chức vụ hiển thị cạnh tên (Tư Lệnh, Đội trưởng, Đội phó).
    *
    * Chỉ gắn cho người CÓ chức, nhân viên thường để trống — gắn nhãn "Chiến Sỹ"
@@ -51,17 +60,8 @@ function Row({
    */
   chucVu?: string;
 }) {
-  return (
-    <div
-      className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-2.5",
-        isMe && "bg-cb-gold/10 border-cb-gold/40 border",
-        rank <= 3 && !isMe && "bg-cb-panel-2",
-      )}
-    >
-      <div className="flex w-8 shrink-0 items-center justify-center text-sm font-semibold">
-        <EmojiIcon glyph={medal(rank)} />
-      </div>
+  const than = (
+    <>
       {avatarId ? <AnhDaiDien id={avatarId} ten={name} className="size-9" canhPx={36} /> : null}
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-medium">
@@ -75,6 +75,30 @@ function Row({
         </div>
         <div className="text-cb-ink-faint truncate text-xs">{sub}</div>
       </div>
+    </>
+  );
+
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-lg px-3 py-2.5",
+        isMe && "bg-cb-gold/10 border-cb-gold/40 border",
+        rank <= 3 && !isMe && "bg-cb-panel-2",
+      )}
+    >
+      <div className="flex w-8 shrink-0 items-center justify-center text-sm font-semibold">
+        <EmojiIcon glyph={medal(rank)} />
+      </div>
+      {href ? (
+        <Link
+          href={href}
+          className="hover:text-cb-gold-soft flex min-w-0 flex-1 items-center gap-3 transition-colors"
+        >
+          {than}
+        </Link>
+      ) : (
+        <div className="flex min-w-0 flex-1 items-center gap-3">{than}</div>
+      )}
       <div className="shrink-0 text-right">
         <div className="text-cb-gold font-semibold">{fmtNum(pts)}</div>
         <div className="text-cb-ink-faint text-xs">ĐIỂM MÙA</div>
@@ -130,6 +154,7 @@ export async function BangXepHang({
     pts: number;
     isMe: boolean;
     avatarId?: string;
+    href?: string | null;
     chucVu?: string;
   }[] = [];
 
@@ -143,6 +168,7 @@ export async function BangXepHang({
         pts: w.season_points,
         isMe: w.id === profile.id,
         avatarId: w.id,
+        href: duongDanHoSo(profile, w),
         chucVu: chucVuCua(w),
       }));
   } else if (scope === "tieu_doi") {
@@ -220,6 +246,7 @@ export async function BangXepHang({
                 pts={r.pts}
                 isMe={r.isMe}
                 avatarId={r.avatarId}
+                href={r.href}
                 chucVu={r.chucVu}
               />
             ))

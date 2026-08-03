@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
@@ -28,19 +29,26 @@ export function StaffRow({ warrior, isSelf }: { warrior: Tables<"profiles">; isS
 
   return (
     <div className={`flex items-center gap-3 py-3.5 ${warrior.active ? "" : "opacity-60"}`}>
-      <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-10" canhPx={40} />
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium">
-          {warrior.name} {isSelf ? <span className="text-cb-ink-faint">· Bạn</span> : null}
+      {/* Danh sách này chỉ Tổng Tư Lệnh thấy, mà CEO xem được hồ sơ mọi người —
+          nên link ở đây không cần xét quyền như ở Tiểu đội / Bảng xếp hạng. */}
+      <Link
+        href={`/nhan-su/${warrior.id}`}
+        className="hover:text-cb-gold-soft flex min-w-0 flex-1 items-center gap-3 transition-colors"
+      >
+        <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-10" canhPx={40} />
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-medium">
+            {warrior.name} {isSelf ? <span className="text-cb-ink-faint">· Bạn</span> : null}
+          </div>
+          <div className="text-cb-ink-faint truncate text-xs">
+            {ROLE_LABEL[warrior.role]} · {warrior.dept} ·{" "}
+            <span className="inline-flex items-center gap-1">
+              <EmojiIcon glyph="📱" />
+              {warrior.phone}
+            </span>
+          </div>
         </div>
-        <div className="text-cb-ink-faint truncate text-xs">
-          {ROLE_LABEL[warrior.role]} · {warrior.dept} ·{" "}
-          <span className="inline-flex items-center gap-1">
-            <EmojiIcon glyph="📱" />
-            {warrior.phone}
-          </span>
-        </div>
-      </div>
+      </Link>
       <Chip mau={warrior.active ? "xanh" : "do"}>
         {warrior.active ? "Đang hoạt động" : "Đã ngưng"}
       </Chip>

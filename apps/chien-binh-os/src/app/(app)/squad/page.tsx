@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { requireRole } from "@/lib/auth/require-role";
 import { createClient } from "@/lib/supabase/server";
@@ -32,20 +33,27 @@ function WarriorRow({
 }) {
   return (
     <div className="border-cb-line-soft flex items-center gap-3 border-b py-2.5 last:border-none">
-      <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-11" canhPx={44} />
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2 text-sm font-medium">
-          <span className="truncate">{warrior.name}</span>
-          {tag ? (
-            <Chip mau="lam" className="shrink-0">
-              {tag}
-            </Chip>
-          ) : null}
+      {/* Trang Tiểu đội chỉ Tổng Tư Lệnh vào được (requireRole bên dưới) nên
+          hàng nào cũng bấm xem hồ sơ được. */}
+      <Link
+        href={`/nhan-su/${warrior.id}`}
+        className="hover:text-cb-gold-soft flex min-w-0 flex-1 items-center gap-3 transition-colors"
+      >
+        <AnhDaiDien id={warrior.id} ten={warrior.name} className="size-11" canhPx={44} />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2 text-sm font-medium">
+            <span className="truncate">{warrior.name}</span>
+            {tag ? (
+              <Chip mau="lam" className="shrink-0">
+                {tag}
+              </Chip>
+            ) : null}
+          </div>
+          <div className="text-cb-ink-faint truncate text-xs">
+            {warrior.dept} · {rankOf(warrior.exp, ranks).name}
+          </div>
         </div>
-        <div className="text-cb-ink-faint truncate text-xs">
-          {warrior.dept} · {rankOf(warrior.exp, ranks).name}
-        </div>
-      </div>
+      </Link>
       <div className="text-cb-gold shrink-0 text-sm font-semibold">{fmtNum(warrior.exp)} EXP</div>
     </div>
   );
