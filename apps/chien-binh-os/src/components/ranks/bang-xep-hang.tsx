@@ -6,6 +6,7 @@ import { FRONT_LABEL } from "@/lib/nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
+import { Chip } from "@/components/chung/chip";
 import { PILL_BASE, PILL_OFF, PILL_ON } from "@/lib/pill";
 import { cn } from "@/lib/utils";
 import type { Tables } from "@/types/database";
@@ -34,6 +35,7 @@ function Row({
   pts,
   isMe,
   avatarId,
+  chucVu,
 }: {
   rank: number;
   name: string;
@@ -41,6 +43,13 @@ function Row({
   pts: number;
   isMe: boolean;
   avatarId?: string;
+  /**
+   * Chức vụ hiển thị cạnh tên (Tư Lệnh, Đội trưởng, Đội phó).
+   *
+   * Chỉ gắn cho người CÓ chức, nhân viên thường để trống — gắn nhãn "Chiến Sỹ"
+   * cho toàn bộ danh sách thì nhãn mất tác dụng phân biệt.
+   */
+  chucVu?: string;
 }) {
   return (
     <div
@@ -55,9 +64,14 @@ function Row({
       </div>
       {avatarId ? <AnhDaiDien id={avatarId} ten={name} className="size-9" canhPx={36} /> : null}
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium">
-          {name}
-          {isMe ? <span className="text-cb-gold-soft ml-1.5 text-xs">· Bạn</span> : null}
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-medium">
+          <span className="truncate">{name}</span>
+          {chucVu ? (
+            <Chip mau="vang" className="shrink-0">
+              {chucVu}
+            </Chip>
+          ) : null}
+          {isMe ? <span className="text-cb-gold-soft text-xs">· Bạn</span> : null}
         </div>
         <div className="text-cb-ink-faint truncate text-xs">{sub}</div>
       </div>
@@ -93,7 +107,28 @@ export async function BangXepHang({
     ]);
 
   const profileById = new Map((warriors ?? []).map((w) => [w.id, w]));
-  let rows: { name: string; sub: string; pts: number; isMe: boolean; avatarId?: string }[] = [];
+
+  // Chức trong tiểu đội: tra ngược từ bảng squads vì profiles không lưu việc
+  // ai là đội trưởng/đội phó.
+  const chucTrongDoi = new Map<string, string>();
+  for (const s of squads ?? []) {
+    if (s.leader_id) chucTrongDoi.set(s.leader_id, "Đội trưởng");
+    if (s.deputy_id) chucTrongDoi.set(s.deputy_id, "Đội phó");
+  }
+  /** Tư Lệnh là chức cao hơn nên ưu tiên hiện; hết mới xét chức trong tiểu đội. */
+  function chucVuCua(w: Tables<"profiles">) {
+    if (w.role === "tu_lenh") return "Tư Lệnh";
+    return chucTrongDoi.get(w.id);
+  }
+
+  let rows: {
+    name: string;
+    sub: string;
+    pts: number;
+    isMe: boolean;
+    avatarId?: string;
+    chucVu?: string;
+  }[] = [];
 
   if (scope === "ca_nhan") {
     rows = (warriors ?? [])
@@ -105,6 +140,7 @@ export async function BangXepHang({
         pts: w.season_points,
         isMe: w.id === profile.id,
         avatarId: w.id,
+        chucVu: chucVuCua(w),
       }));
   } else if (scope === "tieu_doi") {
     const membersBySquad = new Map<string, Tables<"profiles">[]>();
@@ -181,6 +217,7 @@ export async function BangXepHang({
                 pts={r.pts}
                 isMe={r.isMe}
                 avatarId={r.avatarId}
+                chucVu={r.chucVu}
               />
             ))
           )}
