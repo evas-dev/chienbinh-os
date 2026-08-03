@@ -7,6 +7,8 @@ import { CreateMissionButton } from "@/components/missions/create-mission-button
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import { TaoLichLapButton } from "@/components/missions/tao-lich-lap-button";
+import { DongLichLap } from "@/components/missions/dong-lich-lap";
 
 export default async function MissionsPage() {
   const profile = await getCurrentProfile();
@@ -71,6 +73,7 @@ export default async function MissionsPage() {
   const [
     { data: myMissions },
     { data: assignedMissions },
+    { data: lichLap },
     { data: pendingSubs },
     { data: recentSubs },
     { data: targets },
@@ -87,6 +90,12 @@ export default async function MissionsPage() {
       .neq("assignee_id", profile.id)
       .order("created_at", { ascending: false })
       .limit(50),
+    // Lịch lặp mình đã đặt — mỗi dòng là một người nhận.
+    supabase
+      .from("recurring_missions")
+      .select("*")
+      .eq("assigner_id", profile.id)
+      .order("created_at", { ascending: false }),
     supabase
       .from("submissions")
       .select("*")
@@ -117,6 +126,7 @@ export default async function MissionsPage() {
       [
         ...[...(pendingSubs ?? []), ...(recentSubs ?? [])].map((s) => s.submitter_id),
         ...(assignedMissions ?? []).map((m) => m.assignee_id),
+        ...(lichLap ?? []).map((l) => l.assignee_id),
       ].filter(Boolean),
     ),
   ] as string[];
@@ -185,6 +195,45 @@ export default async function MissionsPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4">
+        <CardContent>
+          <TieuDeMuc
+            icon="🔄"
+            hint="Tự tạo nhiệm vụ mới vào đầu mỗi ngày đã chọn"
+            action={
+              <TaoLichLapButton
+                nguoiNhan={(targets ?? []).map((t) => ({
+                  id: t.id,
+                  name: t.name,
+                  dept: t.dept,
+                }))}
+              />
+            }
+          >
+            Nhiệm vụ lặp ({(lichLap ?? []).length})
+          </TieuDeMuc>
+          {(lichLap ?? []).length === 0 ? (
+            <p className="text-cb-ink-dim text-sm">
+              Chưa có lịch nào. Đặt lịch để khỏi phải giao lại mỗi sáng.
+            </p>
+          ) : (
+            (lichLap ?? []).map((l) => (
+              <DongLichLap
+                key={l.id}
+                id={l.id}
+                title={l.title}
+                target={Number(l.target)}
+                unit={l.unit}
+                exp={l.exp}
+                weekdays={l.weekdays}
+                active={l.active}
+                tenNguoiNhan={nameById.get(l.assignee_id) ?? "—"}
+              />
+            ))
+          )}
+        </CardContent>
+      </Card>
 
       <Card className="mt-4">
         <CardContent>

@@ -40,7 +40,10 @@ export function MucChienSy() {
           </>,
           <>
             <b>Hồ sơ kỷ luật</b> — các án phạt của bạn. Sạch thì hiện{" "}
-            <em>“Chưa có vi phạm nào — hồ sơ kỷ luật sạch <EmojiIcon glyph="🛡" />”</em>.
+            <em>
+              “Chưa có vi phạm nào — hồ sơ kỷ luật sạch <EmojiIcon glyph="🛡" />”
+            </em>
+            .
           </>,
         ]}
       />
@@ -55,7 +58,8 @@ export function MucChienSy() {
             <b>Nhiệm vụ tuần — KPI</b>: chỉ tiêu giao cứng, tính cuối tuần
           </>,
           <>
-            <b>Nhiệm vụ Daily</b>: việc thường ngày, quản lý giao từ mẫu có sẵn
+            <b>Nhiệm vụ Daily</b>: việc thường ngày. Quản lý đặt lịch một lần rồi hệ thống tự giao
+            lại vào những thứ đã chọn trong tuần
           </>,
           <>
             <b>Nhiệm vụ Bonus</b>: việc giao thêm ngoài mẫu, quản lý tự đặt nội dung
@@ -149,7 +153,11 @@ export function MucChienSy() {
         items={[
           <>
             <b>Được duyệt</b> → cộng EXP ngay, nhiệm vụ thành <em>Hoàn thành</em>, có thông báo{" "}
-            <em>“+X EXP”</em>. Nếu đủ điểm lên cấp, hiện thêm <em>“Thăng quân hàm! <EmojiIcon glyph="🎖" />”</em>.
+            <em>“+X EXP”</em>. Nếu đủ điểm lên cấp, hiện thêm{" "}
+            <em>
+              “Thăng quân hàm! <EmojiIcon glyph="🎖" />”
+            </em>
+            .
           </>,
           <>
             <b>Bị từ chối</b> → nhiệm vụ <b>quay lại Đang làm</b>, và bạn thấy băng đỏ{" "}
@@ -164,8 +172,8 @@ export function MucChienSy() {
       <Luu kieu="tin" nhan="EXP nhận được là bao nhiêu?">
         <P>
           <b>Đúng bằng con số ghi trên thẻ nhiệm vụ</b> — thẻ ghi <em>+60 EXP</em> thì bạn nhận 60.
-          Mọi loại nhiệm vụ đều vậy, không phân biệt Daily, Bonus hay nhiệm vụ tuần. Số này do
-          người giao việc đặt lúc tạo nhiệm vụ.
+          Mọi loại nhiệm vụ đều vậy, không phân biệt Daily, Bonus hay nhiệm vụ tuần. Số này do người
+          giao việc đặt lúc tạo nhiệm vụ.
         </P>
         <P>
           <b>Điểm mùa</b> cộng thêm <b>60%</b> số EXP đó, làm tròn. Ví dụ +60 EXP thì được thêm 36

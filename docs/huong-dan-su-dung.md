@@ -115,7 +115,7 @@ Vào app là thấy ngay 4 khối:
 Vào **🎯 Bảng nhiệm vụ**. Nhiệm vụ được chia 3 nhóm:
 
 - **🎖 Nhiệm vụ tuần — KPI**: chỉ tiêu giao cứng, tính cuối tuần
-- **📌 Nhiệm vụ Daily**: việc thường ngày, quản lý giao từ mẫu có sẵn
+- **📌 Nhiệm vụ Daily**: việc thường ngày. Quản lý đặt lịch một lần rồi hệ thống tự giao lại vào những thứ đã chọn trong tuần
 - **⚔️ Nhiệm vụ Bonus**: việc giao thêm ngoài mẫu, quản lý tự đặt nội dung
 
 Mỗi nhiệm vụ có **4 trạng thái**, và nút bấm đổi theo trạng thái:

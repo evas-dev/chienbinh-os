@@ -601,6 +601,45 @@ export type Database = {
         }
         Relationships: []
       }
+      recurring_missions: {
+        Row: {
+          active: boolean
+          assignee_id: string
+          assigner_id: string
+          created_at: string
+          exp: number
+          id: string
+          target: number
+          title: string
+          unit: string
+          weekdays: number[]
+        }
+        Insert: {
+          active?: boolean
+          assignee_id: string
+          assigner_id: string
+          created_at?: string
+          exp: number
+          id?: string
+          target: number
+          title: string
+          unit: string
+          weekdays: number[]
+        }
+        Update: {
+          active?: boolean
+          assignee_id?: string
+          assigner_id?: string
+          created_at?: string
+          exp?: number
+          id?: string
+          target?: number
+          title?: string
+          unit?: string
+          weekdays?: number[]
+        }
+        Relationships: []
+      }
       squad_members: {
         Row: {
           created_at: string
@@ -945,6 +984,25 @@ export type Database = {
       }
       assign_squad_member: {
         Args: { p_squad_id: string; p_squad_role: string; p_warrior_id: string }
+        Returns: undefined
+      }
+      create_recurring_mission: {
+        Args: {
+          p_assignee_ids: string[]
+          p_exp: number
+          p_target: number
+          p_title: string
+          p_unit: string
+          p_weekdays: number[]
+        }
+        Returns: number
+      }
+      delete_recurring_mission: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
+      set_recurring_mission_active: {
+        Args: { p_active: boolean; p_id: string }
         Returns: undefined
       }
       delete_mission: {

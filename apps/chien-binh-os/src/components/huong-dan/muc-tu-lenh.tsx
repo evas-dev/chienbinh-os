@@ -189,7 +189,43 @@ export function MucTuLenh() {
         </P>
       </Luu>
 
-      <TieuDePhu>6.3. Giao nhiệm vụ (cách đầy đủ)</TieuDePhu>
+      <TieuDePhu>6.3. Nhiệm vụ lặp — đặt lịch một lần, khỏi giao lại mỗi sáng</TieuDePhu>
+
+      <P>
+        Vào <b>Bảng nhiệm vụ</b> → khối <b>Nhiệm vụ lặp</b> → bấm <b>Đặt lịch lặp</b>. Chọn những
+        thứ trong tuần cần giao (mặc định tích sẵn <b>T2 đến T7</b>, bỏ tích được nếu đội bạn chỉ
+        chạy vài ngày), chọn người nhận, đặt chỉ tiêu và EXP.
+      </P>
+      <P>
+        Từ đó mỗi ngày đã chọn, hệ thống <b>tự tạo nhiệm vụ mới</b> vào lúc nửa đêm, hạn là chính
+        ngày hôm đó. Hôm nay nếu nằm trong lịch thì có ngay, không phải đợi tới mai.
+      </P>
+      <Bang>
+        <thead>
+          <tr>
+            <Th>Nút</Th>
+            <Th>Tác dụng</Th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <Td dam>Tạm dừng</Td>
+            <Td>Ngừng sinh nhiệm vụ mới, giữ nguyên lịch để bật lại sau</Td>
+          </tr>
+          <tr>
+            <Td dam>Xoá lịch</Td>
+            <Td>Bỏ hẳn lịch. Nhiệm vụ đã giao vẫn còn nguyên, chỉ ngừng sinh tiếp</Td>
+          </tr>
+        </tbody>
+      </Bang>
+      <Luu kieu="tin" nhan="Không sợ trùng">
+        <P>
+          Mỗi lịch chỉ sinh <b>đúng một nhiệm vụ mỗi ngày</b>. Dù hệ thống có chạy lại nhiều lần
+          trong ngày cũng không tạo thêm bản trùng.
+        </P>
+      </Luu>
+
+      <TieuDePhu>6.4. Giao nhiệm vụ (cách đầy đủ)</TieuDePhu>
 
       <P>
         Ngoài 6 nút mẫu ở trên, bạn có thể vào <b>Bảng nhiệm vụ</b> → bấm{" "}
@@ -241,9 +277,7 @@ export function MucTuLenh() {
           </tr>
           <tr>
             <Td dam>Hạn</Td>
-            <Td>
-              Bấm vào ô để mở lịch chọn ngày. Mặc định là Chủ Nhật tuần này.
-            </Td>
+            <Td>Bấm vào ô để mở lịch chọn ngày. Mặc định là Chủ Nhật tuần này.</Td>
           </tr>
         </tbody>
       </Bang>
@@ -263,7 +297,7 @@ export function MucTuLenh() {
         </P>
       </Luu>
 
-      <TieuDePhu>6.4. Đề xuất khen thưởng</TieuDePhu>
+      <TieuDePhu>6.5. Đề xuất khen thưởng</TieuDePhu>
 
       <P>Cuối tháng, đề xuất nhân sự xuất sắc để CEO trao huân chương.</P>
 
@@ -298,7 +332,7 @@ export function MucTuLenh() {
         </P>
       </Luu>
 
-      <TieuDePhu>6.5. Xử phạt</TieuDePhu>
+      <TieuDePhu>6.6. Xử phạt</TieuDePhu>
 
       <P>
         Vào <b>Xử phạt</b>. Chọn <b>Chiến binh vi phạm</b> (cùng mặt trận), chọn <b>Hình thức</b>,
@@ -398,7 +432,7 @@ export function MucTuLenh() {
         <P>Không tự phạt chính mình, không phạt Tổng Tư Lệnh, không phạt tài khoản đã ngưng.</P>
       </Luu>
 
-      <TieuDePhu>6.6. Bảng xếp hạng</TieuDePhu>
+      <TieuDePhu>6.7. Bảng xếp hạng</TieuDePhu>
 
       <P>Chỉ để xem, không có nút nào. Ba mức lọc:</P>
       <DanhSach
