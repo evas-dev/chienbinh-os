@@ -302,7 +302,7 @@ export function MucTuLenh() {
       <P>Cuối tháng, đề xuất nhân sự xuất sắc để CEO trao huân chương.</P>
 
       <P>
-        Vào <b>Đề xuất khen</b> →{" "}
+        Vào <b>Thưởng phạt</b> → viên chọn <b>Khen thưởng</b> →{" "}
         <b>
           <EmojiIcon glyph="➕" /> Đề xuất khen
         </b>{" "}
@@ -335,7 +335,7 @@ export function MucTuLenh() {
       <TieuDePhu>6.6. Xử phạt</TieuDePhu>
 
       <P>
-        Vào <b>Xử phạt</b>. Chọn <b>Chiến binh vi phạm</b> (cùng mặt trận), chọn <b>Hình thức</b>,
+        Vào <b>Thưởng phạt</b> → viên chọn <b>Xử phạt</b>. Chọn <b>Chiến binh vi phạm</b> (cùng mặt trận), chọn <b>Hình thức</b>,
         nhập <b>Lý do / bằng chứng</b>, bấm{" "}
         <b>
           Ra quyết định phạt <EmojiIcon glyph="⚖️" />

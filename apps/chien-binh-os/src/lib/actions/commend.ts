@@ -20,7 +20,7 @@ export async function proposeCommendationAction(
     p_reason: reason,
   });
   if (error) return fail(error);
-  revalidatePath("/commend");
+  revalidatePath("/thuong-phat");
   return { ok: true, data: data as string };
 }
 
@@ -28,7 +28,7 @@ export async function approveCommendationAction(id: string): Promise<ActionResul
   const supabase = await createClient();
   const { error } = await supabase.rpc("approve_commendation", { p_commendation_id: id });
   if (error) return fail(error);
-  revalidatePath("/commend");
+  revalidatePath("/thuong-phat");
   revalidatePath("/feed");
   return { ok: true, data: undefined };
 }
@@ -37,7 +37,7 @@ export async function rejectCommendationAction(id: string): Promise<ActionResult
   const supabase = await createClient();
   const { error } = await supabase.rpc("reject_commendation", { p_commendation_id: id });
   if (error) return fail(error);
-  revalidatePath("/commend");
+  revalidatePath("/thuong-phat");
   return { ok: true, data: undefined };
 }
 
@@ -48,7 +48,7 @@ export async function revokeCommendationAction(id: string, reason: string): Prom
     p_reason: reason,
   });
   if (error) return fail(error);
-  revalidatePath("/commend");
+  revalidatePath("/thuong-phat");
   revalidatePath("/feed");
   return { ok: true, data: undefined };
 }

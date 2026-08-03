@@ -4,7 +4,6 @@ type Role = Enums<"role_type">;
 
 const ALL_ROLES: Role[] = ["tong_tu_lenh", "tu_lenh", "chien_sy"];
 const MGMT: Role[] = ["tong_tu_lenh", "tu_lenh"];
-const CEO_ONLY: Role[] = ["tong_tu_lenh"];
 
 export const ROLE_LABEL: Record<Role, string> = {
   tong_tu_lenh: "Tổng Tư Lệnh",
@@ -35,18 +34,17 @@ export const NAV_ITEMS: {
   { path: "/", icon: "🎖", label: "Sở chỉ huy", roles: ALL_ROLES },
   { path: "/missions", icon: "🎯", label: "Nhiệm vụ", roles: ALL_ROLES },
   { path: "/objectives", icon: "🧭", label: "Mục tiêu", roles: MGMT },
-  { path: "/commend", icon: "🏆", label: "Khen thưởng", roles: MGMT },
-  { path: "/penalty", icon: "⚖️", label: "Xử phạt", roles: MGMT },
+  // Khen thưởng và Xử phạt gộp làm một: cùng khuôn chọn người → nêu lý do →
+  // ghi sổ EXP, tách ra hai mục chỉ làm nav dài mà vẫn phải nhảy qua lại.
+  { path: "/thuong-phat", icon: "🏆", label: "Thưởng phạt", roles: MGMT },
   { path: "/requests", icon: "🤝", label: "Hỗ trợ", roles: ALL_ROLES },
-  // Bảng xếp hạng nằm trong trang Nhân sự dưới dạng thẻ (`/admin?xem=xep-hang`),
-  // không còn mục riêng. Vì vậy mục này mở cho cả Tư Lệnh — họ chỉ thấy thẻ xếp
-  // hạng, danh sách nhân sự vẫn chỉ CEO xem được (xem admin/page.tsx).
+  // Nhân sự là trung tâm mọi thứ về con người: danh sách, tiểu đội, quỹ thưởng
+  // (đổi qua viên chọn `?xem=`) và bảng xếp hạng cố định ở cột phải. Mục này mở
+  // cho cả Tư Lệnh — họ chỉ thấy bảng xếp hạng, phần còn lại chỉ CEO xem được.
   { path: "/admin", icon: "👤", label: "Nhân sự", roles: MGMT },
-  { path: "/squad", icon: "🛡", label: "Tiểu đội", roles: CEO_ONLY },
-  { path: "/bonus", icon: "💰", label: "Quỹ thưởng", roles: CEO_ONLY },
 
-  // --- Nhóm tra cứu: xem chứ không thao tác, không cần đứng hàng đầu ---
-  { path: "/feed", icon: "📣", label: "Nhật ký", roles: ALL_ROLES, nhomPhu: true },
+  // --- Nhóm tra cứu: xem chứ không thao tác, gom sau nút "Thêm" ---
+  // Nhật ký KHÔNG nằm ở đây: đã có nút chuông ở header trỏ tới `/feed`.
   { path: "/ladder", icon: "🏅", label: "Quân hàm", roles: ALL_ROLES, nhomPhu: true },
   { path: "/guide", icon: "📖", label: "Cẩm nang", roles: ALL_ROLES, nhomPhu: true },
   // Cẩm nang (/guide) giải thích khung chỉ số EXP/huy hiệu/quân hàm; trang này

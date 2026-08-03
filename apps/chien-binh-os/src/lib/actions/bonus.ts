@@ -12,6 +12,6 @@ export async function setBonusConfigAction(pool: number, months: number): Promis
   const supabase = await createClient();
   const { error } = await supabase.rpc("set_bonus_config", { p_pool: pool, p_months: months });
   if (error) return fail(error);
-  revalidatePath("/bonus");
+  revalidatePath("/admin");
   return { ok: true, data: undefined };
 }

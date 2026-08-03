@@ -43,11 +43,10 @@ export async function removeSquadMemberAction(
 }
 
 /**
- * Đổi cơ cấu tiểu đội ảnh hưởng nhiều trang: quân số ở trang Tiểu đội, nhãn
- * chức vụ ở bảng xếp hạng (nằm trong trang Nhân sự), và bảng xếp hạng cấp 2
- * gộp điểm theo đội.
+ * Đổi cơ cấu tiểu đội ảnh hưởng cả ba chế độ xem của trang Nhân sự: quân số ở
+ * Tiểu đội, nhãn chức vụ ở bảng xếp hạng, và bảng xếp hạng cấp 2 gộp điểm theo
+ * đội. Cả ba nằm chung `/admin` nên một lần làm mới là đủ.
  */
 function lamMoi() {
-  revalidatePath("/squad");
   revalidatePath("/admin");
 }

@@ -20,7 +20,7 @@ export async function applyPenaltyAction(
     p_reason: reason,
   });
   if (error) return fail(error);
-  revalidatePath("/penalty");
+  revalidatePath("/thuong-phat");
   revalidatePath("/");
   revalidatePath("/admin"); // bảng xếp hạng nằm trong trang Nhân sự
   return { ok: true, data: undefined };

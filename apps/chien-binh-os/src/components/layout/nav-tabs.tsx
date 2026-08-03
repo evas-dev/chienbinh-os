@@ -1,53 +1,86 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 import { NAV_ITEMS } from "@/lib/nav";
 import type { Enums } from "@/types/database";
 import { cn } from "@/lib/utils";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const VIEN_NAV =
+  "flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] whitespace-nowrap transition-colors";
+const VIEN_BAT = "bg-cb-gold text-cb-bg font-semibold";
+const VIEN_TAT = "text-cb-ink-dim hover:bg-cb-panel-2 hover:text-cb-ink";
 
 export function NavTabs({ role }: { role: Enums<"role_type"> }) {
   const pathname = usePathname();
-  const items = NAV_ITEMS.filter((item) => item.roles.includes(role));
+  const [moThem, setMoThem] = useState(false);
 
-  // Vạch ngăn đặt trước mục tra cứu đầu tiên, tách nhóm "thao tác hàng ngày"
-  // khỏi nhóm "chỉ để xem".
-  const moNhomPhu = items.findIndex((i) => i.nhomPhu);
+  const items = NAV_ITEMS.filter((item) => item.roles.includes(role));
+  const chinh = items.filter((i) => !i.nhomPhu);
+  const phu = items.filter((i) => i.nhomPhu);
+
+  const dangO = (path: string) => (path === "/" ? pathname === "/" : pathname.startsWith(path));
+  const dangOTrangPhu = phu.some((i) => dangO(i.path));
 
   return (
     <nav className="border-cb-line border-b">
       {/*
-        Mobile: cuộn ngang 1 hàng trong khung nav (không đẩy cả trang cuộn theo).
-        Desktop: cho xuống hàng. 14 mục cần 1547px mà khung chỉ rộng 1216–1280px,
-        nên ép 1 hàng thì các mục cuối bị khuất sau vùng cuộn KHÔNG có thanh
-        scrollbar — người dùng không biết là còn mục. Xuống 2 hàng thì thấy hết,
-        và nhãn ngắn + chip sát đã kéo nav từ 91px xuống ~65px.
+        Gom nhóm tra cứu vào một nút "Thêm" nên số mục hiện ra vừa một hàng ở mọi
+        vai: Tổng Tư Lệnh 6, Tư Lệnh 5, Chiến Sỹ 4. Trước đây 13 mục trải phẳng
+        phải xuống 2 hàng, ăn mất chiều dọc trước MỌI trang.
+        Mobile vẫn cuộn ngang trong khung nav, không đẩy cả trang cuộn theo.
       */}
-      <div className="scrollbar-none mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-1.5 sm:px-6 lg:flex-wrap lg:overflow-x-visible lg:px-8">
-        {items.map((item, i) => {
-          const active = item.path === "/" ? pathname === "/" : pathname.startsWith(item.path);
-          return (
-            <div key={item.path} className="contents">
-              {i === moNhomPhu && moNhomPhu > 0 ? (
-                <span aria-hidden className="bg-cb-line mx-1 h-4 w-px shrink-0" />
-              ) : null}
-              <Link
-                href={item.path}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] whitespace-nowrap transition-colors",
-                  active
-                    ? "bg-cb-gold text-cb-bg font-semibold"
-                    : "text-cb-ink-dim hover:bg-cb-panel-2 hover:text-cb-ink",
-                )}
+      <div className="scrollbar-none mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-1.5 sm:px-6 lg:overflow-x-visible lg:px-8">
+        {chinh.map((item) => (
+          <Link
+            key={item.path}
+            href={item.path}
+            aria-current={dangO(item.path) ? "page" : undefined}
+            className={cn(VIEN_NAV, dangO(item.path) ? VIEN_BAT : VIEN_TAT)}
+          >
+            <EmojiIcon glyph={item.icon} />
+            {item.label}
+          </Link>
+        ))}
+
+        {phu.length > 0 ? (
+          <>
+            <span aria-hidden className="bg-cb-line mx-1 h-4 w-px shrink-0" />
+            <Popover open={moThem} onOpenChange={setMoThem}>
+              <PopoverTrigger
+                // Sáng lên khi đang đứng ở một trang bên trong: nếu không thì
+                // vào Cẩm nang xong nhìn thanh nav tưởng như chẳng ở đâu cả.
+                className={cn(VIEN_NAV, dangOTrangPhu ? VIEN_BAT : VIEN_TAT, "outline-none")}
               >
-                <EmojiIcon glyph={item.icon} />
-                {item.label}
-              </Link>
-            </div>
-          );
-        })}
+                Thêm
+                <ChevronDown className="size-3.5 stroke-[2.5]" />
+              </PopoverTrigger>
+              <PopoverContent align="start" className="w-52 p-2">
+                {phu.map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    onClick={() => setMoThem(false)}
+                    aria-current={dangO(item.path) ? "page" : undefined}
+                    className={cn(
+                      "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
+                      dangO(item.path)
+                        ? "bg-cb-gold text-cb-bg"
+                        : "text-cb-ink-dim hover:bg-cb-panel-2 hover:text-cb-ink",
+                    )}
+                  >
+                    <EmojiIcon glyph={item.icon} />
+                    {item.label}
+                  </Link>
+                ))}
+              </PopoverContent>
+            </Popover>
+          </>
+        ) : null}
       </div>
     </nav>
   );

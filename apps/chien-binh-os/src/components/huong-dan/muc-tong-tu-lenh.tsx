@@ -117,7 +117,7 @@ export function MucTongTuLenh() {
 
       <TieuDePhu>7.3. Duyệt khen thưởng</TieuDePhu>
       <P>
-        Vào <b>Đề xuất khen</b> — bạn thấy đề xuất của <b>toàn công ty</b>.
+        Vào <b>Thưởng phạt</b> → viên chọn <b>Khen thưởng</b> — bạn thấy đề xuất của <b>toàn công ty</b>.
       </P>
       <Bang>
         <thead>
@@ -268,7 +268,7 @@ export function MucTongTuLenh() {
 
       <TieuDePhu>7.5. Quỹ thưởng</TieuDePhu>
       <P>
-        Vào <b>Quỹ thưởng</b>.
+        Vào <b>Nhân sự</b> → viên chọn <b>Quỹ thưởng</b>.
       </P>
       <P>
         <b>Bên trái — Thiết lập quỹ:</b> nhập <b>Quỹ thưởng (VNĐ)</b>, chọn <b>Chu kỳ chia</b> (
@@ -285,20 +285,18 @@ export function MucTongTuLenh() {
 
       <TieuDePhu>7.6. Tiểu đội</TieuDePhu>
       <P>
-        Chỉ để xem. Hai khối <b>TIỀN TUYẾN</b> và <b>HẬU PHƯƠNG</b>, mỗi tiểu đội một thẻ hiện đội
-        trưởng, đội phó, thành viên, kèm <b>QUÂN SỐ</b>, <b>TỔNG EXP</b>, <b>TB / NGƯỜI</b>.
+        Vào <b>Nhân sự</b> → viên chọn <b>Tiểu đội</b>. Hai khối <b>TIỀN TUYẾN</b> và{" "}
+        <b>HẬU PHƯƠNG</b>, mỗi tiểu đội một thẻ hiện đội trưởng, đội phó, thành viên, kèm{" "}
+        <b>QUÂN SỐ</b>, <b>TỔNG EXP</b>, <b>TB / NGƯỜI</b>. Bấm tên ai để mở hồ sơ người đó.
       </P>
       <P>
         Cơ cấu: <b>1 đội trưởng + 1 đội phó + không giới hạn thành viên</b>. Mỗi người chỉ thuộc{" "}
         <b>1 tiểu đội</b>.
       </P>
-      <Luu kieu="canh_bao" nhan="Hạn chế đã biết">
-        <P>
-          Trang này <b>không có nút thêm/xoá/đổi thành viên</b>. Cách duy nhất qua giao diện để gán
-          tiểu đội là chọn ô <em>&quot;Tiểu đội&quot;</em> <b>lúc tạo tài khoản mới</b>. Muốn đổi
-          tiểu đội của người đã có tài khoản, phải nhờ người quản trị sửa trong cơ sở dữ liệu.
-        </P>
-      </Luu>
+      <P>
+        Mỗi thẻ tiểu đội có nút <b>Quản lý</b> để thêm người, gỡ người, và bổ nhiệm đội trưởng /
+        đội phó. Người chưa thuộc đội nào sẽ hiện trong danh sách chọn.
+      </P>
     </Muc>
   );
 }
