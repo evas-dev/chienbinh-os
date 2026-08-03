@@ -64,9 +64,25 @@ export default async function MissionsPage() {
   let campaignsQuery = supabase.from("missions").select("id, title").eq("type", "chien_dich");
   if (!isCeo) campaignsQuery = campaignsQuery.eq("assignee_id", profile.id);
 
-  const [{ data: myMissions }, { data: pendingSubs }, { data: recentSubs }, { data: targets }, { data: campaigns }] =
-    await Promise.all([
+  const [
+    { data: myMissions },
+    { data: assignedMissions },
+    { data: pendingSubs },
+    { data: recentSubs },
+    { data: targets },
+    { data: campaigns },
+  ] = await Promise.all([
       supabase.from("missions").select("*").eq("assignee_id", profile.id),
+      // Việc MÌNH ĐÃ GIAO cho người khác. Trước đây không có chỗ nào xem lại:
+      // giao xong là nhiệm vụ biến mất khỏi tầm mắt cho tới khi có người nộp
+      // kết quả, nên giao nhầm người hay nhầm chỉ tiêu thì không cách nào biết.
+      supabase
+        .from("missions")
+        .select("*")
+        .eq("assigner_id", profile.id)
+        .neq("assignee_id", profile.id)
+        .order("created_at", { ascending: false })
+        .limit(50),
       supabase
         .from("submissions")
         .select("*")
@@ -90,15 +106,29 @@ export default async function MissionsPage() {
       campaignsQuery,
     ]);
 
-  // hiển thị tên submitter: join thủ công qua 1 query profiles
-  const submitterIds = [
-    ...new Set([...(pendingSubs ?? []), ...(recentSubs ?? [])].map((s) => s.submitter_id).filter(Boolean)),
+  // Tên người: join thủ công qua MỘT query cho cả người nộp lẫn người được
+  // giao việc — gộp id lại để không phải gọi hai lần.
+  const canTenIds = [
+    ...new Set(
+      [
+        ...[...(pendingSubs ?? []), ...(recentSubs ?? [])].map((s) => s.submitter_id),
+        ...(assignedMissions ?? []).map((m) => m.assignee_id),
+      ].filter(Boolean),
+    ),
   ] as string[];
   const { data: submitterProfiles } =
-    submitterIds.length > 0
-      ? await supabase.from("profiles").select("id, name").in("id", submitterIds)
+    canTenIds.length > 0
+      ? await supabase.from("profiles").select("id, name").in("id", canTenIds)
       : { data: [] };
   const nameById = new Map((submitterProfiles ?? []).map((p) => [p.id, p.name]));
+  const daGiao = assignedMissions ?? [];
+  const demTheoTrangThai = {
+    todo: daGiao.filter((m) => m.status === "todo").length,
+    doing: daGiao.filter((m) => m.status === "doing").length,
+    review: daGiao.filter((m) => m.status === "review").length,
+    done: daGiao.filter((m) => m.status === "done").length,
+  };
+
   const withNames = (subs: typeof pendingSubs) =>
     (subs ?? []).map((s) => ({ ...s, submitter_name: s.submitter_id ? nameById.get(s.submitter_id) : undefined }));
 
@@ -143,6 +173,38 @@ export default async function MissionsPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4">
+        <CardContent>
+          <TieuDeMuc
+            icon="📤"
+            hint={
+              daGiao.length > 0 ? (
+                <>
+                  {demTheoTrangThai.todo} chưa nhận · {demTheoTrangThai.doing} đang làm ·{" "}
+                  {demTheoTrangThai.review} chờ duyệt · {demTheoTrangThai.done} xong
+                </>
+              ) : null
+            }
+          >
+            Việc tôi đã giao ({daGiao.length})
+          </TieuDeMuc>
+          {daGiao.length === 0 ? (
+            <p className="text-cb-ink-dim text-sm">
+              Bạn chưa giao việc cho ai. Bấm «{isCeo ? "Mở chiến dịch" : "Tạo nhiệm vụ"}» ở trên.
+            </p>
+          ) : (
+            daGiao.map((m) => (
+              <MissionCard
+                key={m.id}
+                mission={m}
+                assigneeName={(m.assignee_id ? nameById.get(m.assignee_id) : undefined) ?? "—"}
+                chiXem
+              />
+            ))
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

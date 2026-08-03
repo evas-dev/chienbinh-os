@@ -20,11 +20,21 @@ export function MissionCard({
   assigneeName,
   assignerName,
   rejectReason,
+  chiXem = false,
 }: {
   mission: Mission;
   assigneeName?: string;
   assignerName?: string;
   rejectReason?: string;
+  /**
+   * Chỉ để xem, không hiện nút thao tác.
+   *
+   * Dùng khi người xem KHÔNG phải người được giao — ví dụ quản lý xem lại việc
+   * mình đã giao. Hàm `accept_mission` trong DB vốn đã chặn ("Chỉ người được
+   * giao nhiệm vụ mới được nhận") nên không hỏng dữ liệu, nhưng để nút ở đó thì
+   * bấm vào chỉ nhận về thông báo lỗi.
+   */
+  chiXem?: boolean;
 }) {
   const [submitOpen, setSubmitOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -86,7 +96,7 @@ export function MissionCard({
           "Hoàn thành" đã có nhãn màu ở hàng trên rồi, lặp lại lần nữa chỉ làm
           rối. Nút cũng không cần đè `bg-cb-gold`: biến thể mặc định đã là nút
           vàng vát nổi, đè màu phẳng lên sẽ giết mất lớp gradient. */}
-      {mission.status === "todo" ? (
+      {chiXem ? null : mission.status === "todo" ? (
         <div className="shrink-0">
           <Button size="sm" variant="success" disabled={isPending} onClick={accept}>
             Nhận <EmojiIcon glyph="⚔" />
@@ -100,12 +110,14 @@ export function MissionCard({
         </div>
       ) : null}
 
-      <SubmitReportDialog
-        missionId={mission.id}
-        missionTitle={mission.title}
-        open={submitOpen}
-        onOpenChange={setSubmitOpen}
-      />
+      {chiXem ? null : (
+        <SubmitReportDialog
+          missionId={mission.id}
+          missionTitle={mission.title}
+          open={submitOpen}
+          onOpenChange={setSubmitOpen}
+        />
+      )}
     </div>
   );
 }
