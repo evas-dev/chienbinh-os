@@ -72,7 +72,8 @@ export function MucDangNhap() {
         .
       </P>
       <P>
-        <b>Đăng xuất:</b> góc trên bên phải, cạnh tên bạn, bấm <b>Đăng xuất</b>.
+        <b>Đăng xuất:</b> bấm vào <b>ảnh đại diện</b> góc trên bên phải, rồi chọn{" "}
+        <b>Đăng xuất</b>.
       </P>
 
       <TieuDePhu>Nếu đăng nhập không được</TieuDePhu>
@@ -111,8 +112,8 @@ export function MucDangNhap() {
 
       <Luu kieu="tin" nhan="Đổi mật khẩu">
         <P>
-          Vào mục <b>Mật khẩu</b> trên thanh menu để tự đổi. Phải nhập đúng mật khẩu hiện tại thì
-          mới đổi được.
+          Bấm <b>ảnh đại diện</b> góc trên bên phải, chọn <b>Đổi mật khẩu</b>. Phải nhập đúng mật
+          khẩu hiện tại thì mới đổi được.
         </P>
         <P>
           <b>Quên mật khẩu thì không tự lấy lại được</b> — báo Tổng Tư Lệnh cấp lại giúp, sau đó nên

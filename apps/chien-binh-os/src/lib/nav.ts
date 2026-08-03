@@ -53,5 +53,7 @@ export const NAV_ITEMS: {
   // hướng dẫn thao tác trong app (nhận việc, nộp, duyệt...) — hai nội dung khác
   // nhau nên tách route riêng thay vì nhồi chung một trang.
   { path: "/huong-dan", icon: "🎓", label: "Hướng dẫn", roles: ALL_ROLES, nhomPhu: true },
-  { path: "/doi-mat-khau", icon: "🔑", label: "Mật khẩu", roles: ALL_ROLES, nhomPhu: true },
+  // Đổi mật khẩu KHÔNG nằm ở đây: đó là thao tác lên tài khoản của chính mình,
+  // vài tháng mới làm một lần, đã chuyển vào menu ảnh đại diện ở góc phải
+  // header (components/layout/user-menu.tsx) cùng chỗ với Đăng xuất.
 ];

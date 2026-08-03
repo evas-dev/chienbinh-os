@@ -194,8 +194,8 @@ export function MucCauHoi() {
         </CauHoi>
         <CauHoi hoi="Tôi muốn đổi mật khẩu mặc định 123456?">
           <P>
-            Vào mục <b>Mật khẩu</b> trên thanh menu, nhập mật khẩu hiện tại rồi đặt mật khẩu mới (ít
-            nhất 6 ký tự).
+            Bấm <b>ảnh đại diện</b> góc trên bên phải, chọn <b>Đổi mật khẩu</b>, nhập mật khẩu hiện
+            tại rồi đặt mật khẩu mới (ít nhất 6 ký tự).
           </P>
         </CauHoi>
         <CauHoi hoi="Nhiệm vụ ghi +60 EXP thì tôi nhận đúng 60 chứ?">
