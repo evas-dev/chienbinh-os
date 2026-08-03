@@ -5,18 +5,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AnhDaiDien } from "@/components/chung/anh-dai-dien";
 import { Chip } from "@/components/chung/chip";
+import { CapLaiMatKhauButton } from "./cap-lai-mat-khau-button";
 import { ROLE_LABEL } from "@/lib/nav";
 import { setActiveAction } from "@/lib/actions/admin";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import type { Tables } from "@/types/database";
 
-export function StaffRow({
-  warrior,
-  isSelf,
-}: {
-  warrior: Tables<"profiles">;
-  isSelf: boolean;
-}) {
+export function StaffRow({ warrior, isSelf }: { warrior: Tables<"profiles">; isSelf: boolean }) {
   const [isPending, startTransition] = useTransition();
   const isCeo = warrior.role === "tong_tu_lenh";
 
@@ -49,6 +44,10 @@ export function StaffRow({
       <Chip mau={warrior.active ? "xanh" : "do"}>
         {warrior.active ? "Đang hoạt động" : "Đã ngưng"}
       </Chip>
+      {/* Cấp lại mật khẩu cho cả tài khoản đã ngưng: có khi phải mở lại rồi
+          bàn giao, lúc đó vẫn cần đặt mật khẩu mới. Riêng chính mình thì dùng
+          trang Đổi mật khẩu, không cần đường vòng qua đây. */}
+      {!isSelf ? <CapLaiMatKhauButton warriorId={warrior.id} tenNhanSu={warrior.name} /> : null}
       {isCeo || isSelf ? (
         <span className="text-cb-ink-faint w-20 shrink-0 text-right text-xs">
           {isCeo ? "CEO" : "Bạn"}

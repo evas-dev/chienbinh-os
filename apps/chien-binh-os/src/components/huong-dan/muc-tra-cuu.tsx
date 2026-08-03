@@ -188,8 +188,14 @@ export function MucCauHoi() {
       <div className="space-y-2">
         <CauHoi hoi="Tôi quên mật khẩu, làm sao?">
           <P>
-            Hệ thống chưa có &quot;Quên mật khẩu&quot; và bạn không tự đổi được. Liên hệ người quản
-            trị hệ thống để đặt lại.
+            Báo Tổng Tư Lệnh cấp lại. Hệ thống không có nút &quot;Quên mật khẩu&quot; tự phục hồi vì
+            tài khoản đăng nhập bằng số điện thoại chứ không gắn với hộp thư nào.
+          </P>
+        </CauHoi>
+        <CauHoi hoi="Tôi muốn đổi mật khẩu mặc định 123456?">
+          <P>
+            Vào mục <b>Mật khẩu</b> trên thanh menu, nhập mật khẩu hiện tại rồi đặt mật khẩu mới (ít
+            nhất 6 ký tự).
           </P>
         </CauHoi>
         <CauHoi hoi="Nhiệm vụ ghi +60 EXP thì tôi nhận đúng 60 chứ?">
@@ -258,8 +264,8 @@ export function MucHanChe() {
         </thead>
         <tbody>
           <tr>
-            <Td dam>Không tự đổi mật khẩu, không có &quot;Quên mật khẩu&quot;</Td>
-            <Td>Nhờ quản trị đặt lại</Td>
+            <Td dam>Không có &quot;Quên mật khẩu&quot; tự phục hồi</Td>
+            <Td>Báo Tổng Tư Lệnh cấp lại mật khẩu</Td>
           </tr>
           <tr>
             <Td dam>Không đổi được tiểu đội sau khi tài khoản đã tạo</Td>

@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { emailTuSoDienThoai } from "@/lib/auth/email-ao";
 
 const loginSchema = z.object({
   phone: z.string().trim().min(1, "Phải nhập số điện thoại"),
@@ -16,7 +17,6 @@ const loginSchema = z.object({
 
 export type LoginState = { error?: string } | null;
 
-// Giữ nguyên trick phone-as-email: email = <sđt>@chienbinh.local
 export async function loginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const parsed = loginSchema.safeParse({
     phone: formData.get("phone"),
@@ -28,7 +28,7 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword({
-    email: `${parsed.data.phone}@chienbinh.local`,
+    email: emailTuSoDienThoai(parsed.data.phone),
     password: parsed.data.password,
   });
 
@@ -53,7 +53,8 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
     await supabase.rpc("log_auth_event", { p_event_type: "login_blocked_inactive" });
     await supabase.auth.signOut();
     return {
-      error: "Tài khoản của bạn đã bị ngưng hoạt động. Vui lòng liên hệ Tổng Tư Lệnh để được hỗ trợ.",
+      error:
+        "Tài khoản của bạn đã bị ngưng hoạt động. Vui lòng liên hệ Tổng Tư Lệnh để được hỗ trợ.",
     };
   }
 

@@ -36,7 +36,9 @@ Mật khẩu mặc định khi mới được cấp tài khoản là **`123456`*
 | *"Tài khoản của bạn đã bị ngưng hoạt động..."* | Tài khoản đã bị khoá | Liên hệ Tổng Tư Lệnh |
 | *"Tài khoản của bạn không còn quyền truy cập..."* | Đang dùng thì bị khoá giữa buổi | Liên hệ Tổng Tư Lệnh |
 
-> ⚠️ **Lưu ý quan trọng:** hệ thống **chưa có chức năng tự đổi mật khẩu** và **không có "Quên mật khẩu"**. Nếu quên mật khẩu, bạn phải nhờ người quản trị hệ thống đặt lại giúp.
+> 💡 **Đổi mật khẩu:** vào mục **Mật khẩu** trên thanh menu để tự đổi — phải nhập đúng mật khẩu hiện tại thì mới đổi được.
+>
+> **Quên mật khẩu thì không tự lấy lại được** — báo Tổng Tư Lệnh cấp lại giúp, sau đó nên đổi ngay sang mật khẩu riêng của bạn.
 
 ---
 
@@ -459,7 +461,11 @@ Cơ cấu: **1 đội trưởng + 1 đội phó + không giới hạn thành vi�
 ## 9. Câu hỏi thường gặp
 
 **Tôi quên mật khẩu, làm sao?**
-Hệ thống chưa có "Quên mật khẩu" và bạn không tự đổi được. Liên hệ người quản trị hệ thống để đặt lại.
+Báo Tổng Tư Lệnh cấp lại. Hệ thống không có nút "Quên mật khẩu" tự phục hồi vì tài khoản đăng nhập bằng số điện thoại chứ không gắn với hộp thư nào.
+
+**Tôi muốn đổi mật khẩu mặc định 123456?**
+
+Vào mục **Mật khẩu** trên thanh menu, nhập mật khẩu hiện tại rồi đặt mật khẩu mới (ít nhất 6 ký tự).
 
 **Nhiệm vụ ghi +60 EXP thì tôi nhận đúng 60 chứ?**
 Đúng. Số trên thẻ chính là số bạn nhận, áp dụng cho mọi loại nhiệm vụ. Riêng **điểm mùa** thì chỉ bằng **60%** số EXP đó (làm tròn) — nên +60 EXP sẽ thấy điểm mùa tăng 36, đây không phải lỗi.
@@ -493,7 +499,7 @@ Ghi lại để không mất thời gian đi tìm chức năng không tồn tạ
 
 | Hạn chế | Cách xử lý tạm |
 |---|---|
-| Không tự đổi mật khẩu, không có "Quên mật khẩu" | Nhờ quản trị đặt lại |
+| Không có "Quên mật khẩu" tự phục hồi | Báo Tổng Tư Lệnh cấp lại mật khẩu |
 | Không đổi được tiểu đội sau khi tài khoản đã tạo | Nhờ quản trị sửa trong cơ sở dữ liệu |
 | Không sửa tay được con số hiện tại của KPI | Luôn chọn "khóa đo lường tự động" khi giao KPI |
 | Không xoá / hoàn tác được án phạt | Cân nhắc kỹ trước khi bấm phạt |

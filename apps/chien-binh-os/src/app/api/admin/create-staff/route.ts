@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
+import { emailTuSoDienThoai } from "@/lib/auth/email-ao";
 
 // Thông báo tiếng Việt cho mọi rule: người dùng cuối là Tổng Tư Lệnh không biết
 // kỹ thuật, mặc định zod trả tiếng Anh ("Too small: expected string to have
@@ -44,7 +45,10 @@ export async function POST(request: Request) {
   const json = await request.json().catch(() => null);
   const parsed = bodySchema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Dữ liệu không hợp lệ" }, { status: 400 });
+    return NextResponse.json(
+      { error: parsed.error.issues[0]?.message ?? "Dữ liệu không hợp lệ" },
+      { status: 400 },
+    );
   }
   const { name, phone, password, dept, front, role, squadId } = parsed.data;
 
@@ -64,18 +68,24 @@ export async function POST(request: Request) {
     .eq("id", callerUser.id)
     .single();
   if (!callerProfile || !callerProfile.active || callerProfile.role !== "tong_tu_lenh") {
-    return NextResponse.json({ error: "Chỉ Tổng Tư Lệnh mới được tạo tài khoản nhân sự" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Chỉ Tổng Tư Lệnh mới được tạo tài khoản nhân sự" },
+      { status: 403 },
+    );
   }
 
   let serviceClient;
   try {
     serviceClient = createServiceRoleClient();
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : "Lỗi cấu hình" }, { status: 500 });
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Lỗi cấu hình" },
+      { status: 500 },
+    );
   }
 
   const { data: created, error: createErr } = await serviceClient.auth.admin.createUser({
-    email: `${phone}@chienbinh.local`,
+    email: emailTuSoDienThoai(phone),
     password,
     email_confirm: true,
   });

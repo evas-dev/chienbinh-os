@@ -53,4 +53,5 @@ export const NAV_ITEMS: {
   // hướng dẫn thao tác trong app (nhận việc, nộp, duyệt...) — hai nội dung khác
   // nhau nên tách route riêng thay vì nhồi chung một trang.
   { path: "/huong-dan", icon: "🎓", label: "Hướng dẫn", roles: ALL_ROLES, nhomPhu: true },
+  { path: "/doi-mat-khau", icon: "🔑", label: "Mật khẩu", roles: ALL_ROLES, nhomPhu: true },
 ];

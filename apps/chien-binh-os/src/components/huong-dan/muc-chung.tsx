@@ -109,11 +109,14 @@ export function MucDangNhap() {
         </tbody>
       </Bang>
 
-      <Luu kieu="canh_bao" nhan="Lưu ý quan trọng">
+      <Luu kieu="tin" nhan="Đổi mật khẩu">
         <P>
-          hệ thống <b>chưa có chức năng tự đổi mật khẩu</b> và{" "}
-          <b>không có &quot;Quên mật khẩu&quot;</b>. Nếu quên mật khẩu, bạn phải nhờ người quản trị
-          hệ thống đặt lại giúp.
+          Vào mục <b>Mật khẩu</b> trên thanh menu để tự đổi. Phải nhập đúng mật khẩu hiện tại thì
+          mới đổi được.
+        </P>
+        <P>
+          <b>Quên mật khẩu thì không tự lấy lại được</b> — báo Tổng Tư Lệnh cấp lại giúp, sau đó nên
+          đổi ngay sang mật khẩu riêng của bạn.
         </P>
       </Luu>
     </Muc>

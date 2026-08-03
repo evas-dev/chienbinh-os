@@ -54,6 +54,7 @@ import {
   Rocket,
   Send,
   Undo2,
+  KeyRound,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -118,6 +119,7 @@ const EMOJI_TO_ICON: Record<string, LucideIcon> = {
   "🚀": Rocket,
   "📤": Send,
   "↩": Undo2,
+  "🔑": KeyRound,
 };
 
 // Màu riêng cho huy chương hạng 1/2/3 trên bảng xếp hạng — thay cho 🥇🥈🥉.
