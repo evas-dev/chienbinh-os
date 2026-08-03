@@ -947,6 +947,14 @@ export type Database = {
         Args: { p_squad_id: string; p_squad_role: string; p_warrior_id: string }
         Returns: undefined
       }
+      delete_mission: {
+        Args: { p_mission_id: string }
+        Returns: undefined
+      }
+      remove_squad_member: {
+        Args: { p_squad_id: string; p_warrior_id: string }
+        Returns: undefined
+      }
       cancel_support_request: {
         Args: { p_request_id: string }
         Returns: undefined

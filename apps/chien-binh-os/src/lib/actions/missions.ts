@@ -73,6 +73,23 @@ export async function revertSubmissionAction(
   return { ok: true, data: undefined };
 }
 
+/**
+ * Xoá nhiệm vụ giao nhầm.
+ *
+ * Ba chốt chặn nằm ở hàm SQL (chỉ người giao/CEO, chỉ khi chưa ai nhận, chưa
+ * có kết quả nộp) — quan trọng nhất là chốt cuối: khoá ngoại của submissions
+ * đặt ON DELETE CASCADE nên xoá nhiệm vụ đã có kết quả sẽ cuốn theo cả lịch sử
+ * EXP đã cộng.
+ */
+export async function deleteMissionAction(missionId: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("delete_mission", { p_mission_id: missionId });
+  if (error) return fail(error);
+  revalidatePath("/missions");
+  revalidatePath("/objectives");
+  return { ok: true, data: undefined };
+}
+
 export async function createMissionAction(input: {
   title: string;
   type: Enums<"mission_type">;

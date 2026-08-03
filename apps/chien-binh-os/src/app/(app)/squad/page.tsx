@@ -8,6 +8,10 @@ import { Chip } from "@/components/chung/chip";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import { TieuDeMuc } from "@/components/chung/tieu-de-muc";
+import {
+  QuanLyTieuDoiButton,
+  type NguoiTrongDoi,
+} from "@/components/squads/quan-ly-tieu-doi-button";
 import type { Tables } from "@/types/database";
 
 type Warrior = Tables<"profiles">;
@@ -70,12 +74,27 @@ export default async function SquadPage() {
     return (
       <div className="bg-cb-panel-2 border-cb-line rounded-lg border p-4 text-sm">
         <p className="text-cb-crimson font-medium">Không tải được dữ liệu tổ chức.</p>
-        <p className="text-cb-ink-dim mt-1">Vui lòng thử tải lại trang. Quân số hiển thị có thể sai nếu tiếp tục xem lúc này.</p>
+        <p className="text-cb-ink-dim mt-1">
+          Vui lòng thử tải lại trang. Quân số hiển thị có thể sai nếu tiếp tục xem lúc này.
+        </p>
       </div>
     );
   }
 
   const profileById = new Map((allProfiles ?? []).map((p) => [p.id, p]));
+
+  // Ai đang thuộc một tiểu đội nào đó — gộp cả chức chỉ huy (bảng squads) lẫn
+  // thành viên thường (bảng squad_members), vì hai nguồn này tách rời nhau.
+  const daCoDoi = new Set<string>();
+  for (const s of squads ?? []) {
+    if (s.leader_id) daCoDoi.add(s.leader_id);
+    if (s.deputy_id) daCoDoi.add(s.deputy_id);
+  }
+  for (const m of members ?? []) daCoDoi.add(m.warrior_id);
+  const chuaVaoDoi = (allProfiles ?? []).filter(
+    (p) => p.active && p.role !== "tong_tu_lenh" && !daCoDoi.has(p.id),
+  );
+
   const membersBySquad = new Map<string, Warrior[]>();
   for (const m of members ?? []) {
     const p = profileById.get(m.warrior_id);
@@ -105,48 +124,71 @@ export default async function SquadPage() {
                 Mặt trận này chưa có tiểu đội nào.
               </p>
             ) : (
-            <div className="grid items-start gap-4 md:grid-cols-2">
-              {frontSquads.map((s) => {
-                const leader = s.leader_id ? profileById.get(s.leader_id) : undefined;
-                const deputy = s.deputy_id ? profileById.get(s.deputy_id) : undefined;
-                const rest = membersBySquad.get(s.id) ?? [];
-                const all = [leader, deputy, ...rest].filter((w): w is Warrior => Boolean(w));
-                const totalExp = all.reduce((sum, w) => sum + w.exp, 0);
+              <div className="grid items-start gap-4 md:grid-cols-2">
+                {frontSquads.map((s) => {
+                  const leader = s.leader_id ? profileById.get(s.leader_id) : undefined;
+                  const deputy = s.deputy_id ? profileById.get(s.deputy_id) : undefined;
+                  const rest = membersBySquad.get(s.id) ?? [];
+                  const all = [leader, deputy, ...rest].filter((w): w is Warrior => Boolean(w));
+                  const totalExp = all.reduce((sum, w) => sum + w.exp, 0);
 
-                return (
-                  <Card key={s.id}>
-                    <CardContent>
-                      <TieuDeMuc icon="🛡">{s.name}</TieuDeMuc>
-                      {leader ? (
-                        <WarriorRow warrior={leader} tag="Đội trưởng" ranks={ranks ?? []} />
-                      ) : null}
-                      {deputy ? (
-                        <WarriorRow warrior={deputy} tag="Đội phó" ranks={ranks ?? []} />
-                      ) : null}
-                      {rest.map((m) => (
-                        <WarriorRow key={m.id} warrior={m} ranks={ranks ?? []} />
-                      ))}
-                      <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                        <div className="bg-cb-panel-2 rounded-lg p-2">
-                          <div className="font-bold">{all.length}</div>
-                          <div className="text-cb-ink-faint text-xs">QUÂN SỐ</div>
-                        </div>
-                        <div className="bg-cb-panel-2 rounded-lg p-2">
-                          <div className="font-bold">{fmtNum(totalExp)}</div>
-                          <div className="text-cb-ink-faint text-xs">TỔNG EXP</div>
-                        </div>
-                        <div className="bg-cb-panel-2 rounded-lg p-2">
-                          <div className="font-bold">
-                            {fmtNum(all.length ? Math.round(totalExp / all.length) : 0)}
+                  return (
+                    <Card key={s.id}>
+                      <CardContent>
+                        <TieuDeMuc
+                          icon="🛡"
+                          action={
+                            <QuanLyTieuDoiButton
+                              squadId={s.id}
+                              tenDoi={s.name}
+                              thanhVien={[
+                                ...(leader ? [{ ...leader, chuc: "leader" as const }] : []),
+                                ...(deputy ? [{ ...deputy, chuc: "deputy" as const }] : []),
+                                ...rest.map((m) => ({ ...m, chuc: "member" as const })),
+                              ].map((n): NguoiTrongDoi => ({
+                                id: n.id,
+                                name: n.name,
+                                dept: n.dept,
+                                chuc: n.chuc,
+                              }))}
+                              nguoiChuaVaoDoi={chuaVaoDoi
+                                .filter((p) => p.front === s.front)
+                                .map((p) => ({ id: p.id, name: p.name, dept: p.dept }))}
+                            />
+                          }
+                        >
+                          {s.name}
+                        </TieuDeMuc>
+                        {leader ? (
+                          <WarriorRow warrior={leader} tag="Đội trưởng" ranks={ranks ?? []} />
+                        ) : null}
+                        {deputy ? (
+                          <WarriorRow warrior={deputy} tag="Đội phó" ranks={ranks ?? []} />
+                        ) : null}
+                        {rest.map((m) => (
+                          <WarriorRow key={m.id} warrior={m} ranks={ranks ?? []} />
+                        ))}
+                        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                          <div className="bg-cb-panel-2 rounded-lg p-2">
+                            <div className="font-bold">{all.length}</div>
+                            <div className="text-cb-ink-faint text-xs">QUÂN SỐ</div>
                           </div>
-                          <div className="text-cb-ink-faint text-xs">TB / NGƯỜI</div>
+                          <div className="bg-cb-panel-2 rounded-lg p-2">
+                            <div className="font-bold">{fmtNum(totalExp)}</div>
+                            <div className="text-cb-ink-faint text-xs">TỔNG EXP</div>
+                          </div>
+                          <div className="bg-cb-panel-2 rounded-lg p-2">
+                            <div className="font-bold">
+                              {fmtNum(all.length ? Math.round(totalExp / all.length) : 0)}
+                            </div>
+                            <div className="text-cb-ink-faint text-xs">TB / NGƯỜI</div>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             )}
           </section>
         );

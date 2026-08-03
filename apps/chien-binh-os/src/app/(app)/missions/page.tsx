@@ -15,29 +15,33 @@ export default async function MissionsPage() {
   const supabase = await createClient();
 
   if (profile.role === "chien_sy") {
-    const [{ data: missions }, { data: leaderboard }, { data: rejectedSubs }, { data: completedSubs }] =
-      await Promise.all([
-        supabase.from("missions").select("*").eq("assignee_id", profile.id),
-        supabase
-          .from("profiles")
-          .select("id, name, season_points")
-          .neq("role", "tong_tu_lenh")
-          .order("season_points", { ascending: false })
-          .limit(10),
-        supabase
-          .from("submissions")
-          .select("mission_ref, reject_reason, reviewed_at")
-          .eq("submitter_id", profile.id)
-          .eq("status", "tu_choi")
-          .order("reviewed_at", { ascending: false }),
-        supabase
-          .from("submissions")
-          .select("*")
-          .eq("submitter_id", profile.id)
-          .eq("status", "da_duyet")
-          .order("reviewed_at", { ascending: false })
-          .limit(20),
-      ]);
+    const [
+      { data: missions },
+      { data: leaderboard },
+      { data: rejectedSubs },
+      { data: completedSubs },
+    ] = await Promise.all([
+      supabase.from("missions").select("*").eq("assignee_id", profile.id),
+      supabase
+        .from("profiles")
+        .select("id, name, season_points")
+        .neq("role", "tong_tu_lenh")
+        .order("season_points", { ascending: false })
+        .limit(10),
+      supabase
+        .from("submissions")
+        .select("mission_ref, reject_reason, reviewed_at")
+        .eq("submitter_id", profile.id)
+        .eq("status", "tu_choi")
+        .order("reviewed_at", { ascending: false }),
+      supabase
+        .from("submissions")
+        .select("*")
+        .eq("submitter_id", profile.id)
+        .eq("status", "da_duyet")
+        .order("reviewed_at", { ascending: false })
+        .limit(20),
+    ]);
 
     // Với mỗi nhiệm vụ, chỉ giữ lý do từ chối MỚI NHẤT (dòng đầu tiên vì đã order desc)
     const rejectReasonByMission = new Map<string, string>();
@@ -72,39 +76,39 @@ export default async function MissionsPage() {
     { data: targets },
     { data: campaigns },
   ] = await Promise.all([
-      supabase.from("missions").select("*").eq("assignee_id", profile.id),
-      // Việc MÌNH ĐÃ GIAO cho người khác. Trước đây không có chỗ nào xem lại:
-      // giao xong là nhiệm vụ biến mất khỏi tầm mắt cho tới khi có người nộp
-      // kết quả, nên giao nhầm người hay nhầm chỉ tiêu thì không cách nào biết.
-      supabase
-        .from("missions")
-        .select("*")
-        .eq("assigner_id", profile.id)
-        .neq("assignee_id", profile.id)
-        .order("created_at", { ascending: false })
-        .limit(50),
-      supabase
-        .from("submissions")
-        .select("*")
-        .eq("assigner_id", profile.id)
-        .eq("status", "cho_duyet")
-        .order("created_at", { ascending: false }),
-      supabase
-        .from("submissions")
-        .select("*")
-        .eq("assigner_id", profile.id)
-        .neq("status", "cho_duyet")
-        .order("reviewed_at", { ascending: false })
-        .limit(15),
-      isCeo
-        ? supabase.from("profiles").select("id, name, role, dept").eq("role", "tu_lenh")
-        : supabase
-            .from("profiles")
-            .select("id, name, role, dept")
-            .eq("role", "chien_sy")
-            .eq("front", profile.front ?? "tien_tuyen"),
-      campaignsQuery,
-    ]);
+    supabase.from("missions").select("*").eq("assignee_id", profile.id),
+    // Việc MÌNH ĐÃ GIAO cho người khác. Trước đây không có chỗ nào xem lại:
+    // giao xong là nhiệm vụ biến mất khỏi tầm mắt cho tới khi có người nộp
+    // kết quả, nên giao nhầm người hay nhầm chỉ tiêu thì không cách nào biết.
+    supabase
+      .from("missions")
+      .select("*")
+      .eq("assigner_id", profile.id)
+      .neq("assignee_id", profile.id)
+      .order("created_at", { ascending: false })
+      .limit(50),
+    supabase
+      .from("submissions")
+      .select("*")
+      .eq("assigner_id", profile.id)
+      .eq("status", "cho_duyet")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("submissions")
+      .select("*")
+      .eq("assigner_id", profile.id)
+      .neq("status", "cho_duyet")
+      .order("reviewed_at", { ascending: false })
+      .limit(15),
+    isCeo
+      ? supabase.from("profiles").select("id, name, role, dept").eq("role", "tu_lenh")
+      : supabase
+          .from("profiles")
+          .select("id, name, role, dept")
+          .eq("role", "chien_sy")
+          .eq("front", profile.front ?? "tien_tuyen"),
+    campaignsQuery,
+  ]);
 
   // Tên người: join thủ công qua MỘT query cho cả người nộp lẫn người được
   // giao việc — gộp id lại để không phải gọi hai lần.
@@ -130,14 +134,17 @@ export default async function MissionsPage() {
   };
 
   const withNames = (subs: typeof pendingSubs) =>
-    (subs ?? []).map((s) => ({ ...s, submitter_name: s.submitter_id ? nameById.get(s.submitter_id) : undefined }));
+    (subs ?? []).map((s) => ({
+      ...s,
+      submitter_name: s.submitter_id ? nameById.get(s.submitter_id) : undefined,
+    }));
 
   return (
     <div>
       <div className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="bg-cb-panel-2 border-cb-line sm:flex-1 rounded-lg border p-3.5 text-sm leading-relaxed">
-          <EmojiIcon glyph="💡" /> Luồng: <b>Tổng Tư Lệnh</b> mở chiến dịch → giao <b>Tư Lệnh</b> → Tư Lệnh chia nhỏ cho{" "}
-          <b>Chiến Sỹ</b> → Chiến Sỹ nộp → Tư Lệnh duyệt.
+          <EmojiIcon glyph="💡" /> Luồng: <b>Tổng Tư Lệnh</b> mở chiến dịch → giao <b>Tư Lệnh</b> →
+          Tư Lệnh chia nhỏ cho <b>Chiến Sỹ</b> → Chiến Sỹ nộp → Tư Lệnh duyệt.
         </p>
         <CreateMissionButton
           label={
@@ -153,7 +160,12 @@ export default async function MissionsPage() {
           }
           dialogTitle={isCeo ? "Mở chiến dịch" : "Tạo nhiệm vụ cho lính"}
           isCampaign={isCeo}
-          targets={(targets ?? []).map((t) => ({ id: t.id, name: t.name, role: t.role, dept: t.dept }))}
+          targets={(targets ?? []).map((t) => ({
+            id: t.id,
+            name: t.name,
+            role: t.role,
+            dept: t.dept,
+          }))}
           campaigns={campaigns ?? []}
         />
       </div>
@@ -200,6 +212,7 @@ export default async function MissionsPage() {
                 mission={m}
                 assigneeName={(m.assignee_id ? nameById.get(m.assignee_id) : undefined) ?? "—"}
                 chiXem
+                choPhepXoa
               />
             ))
           )}

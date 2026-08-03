@@ -10,6 +10,7 @@ import { Chip } from "@/components/chung/chip";
 import { dinhDangNgay } from "@/lib/tuan";
 import { acceptMissionAction } from "@/lib/actions/missions";
 import { SubmitReportDialog } from "./submit-report-dialog";
+import { XoaNhiemVuButton } from "./xoa-nhiem-vu-button";
 import { EmojiIcon } from "@/components/chung/emoji-icon";
 import type { Tables } from "@/types/database";
 
@@ -21,6 +22,7 @@ export function MissionCard({
   assignerName,
   rejectReason,
   chiXem = false,
+  choPhepXoa = false,
 }: {
   mission: Mission;
   assigneeName?: string;
@@ -35,6 +37,8 @@ export function MissionCard({
    * bấm vào chỉ nhận về thông báo lỗi.
    */
   chiXem?: boolean;
+  /** Hiện nút xoá (chỉ dùng ở danh sách "Việc tôi đã giao"). */
+  choPhepXoa?: boolean;
 }) {
   const [submitOpen, setSubmitOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -96,6 +100,17 @@ export function MissionCard({
           "Hoàn thành" đã có nhãn màu ở hàng trên rồi, lặp lại lần nữa chỉ làm
           rối. Nút cũng không cần đè `bg-cb-gold`: biến thể mặc định đã là nút
           vàng vát nổi, đè màu phẳng lên sẽ giết mất lớp gradient. */}
+      {/* Chỉ nhiệm vụ chưa ai nhận mới xoá được — hàm SQL cũng chặn đúng như
+          vậy, ẩn nút để người dùng không bấm rồi mới biết. */}
+      {chiXem && choPhepXoa && mission.status === "todo" ? (
+        <div className="shrink-0">
+          <XoaNhiemVuButton
+            missionId={mission.id}
+            tenNhiemVu={mission.title}
+            tenNguoiNhan={assigneeName}
+          />
+        </div>
+      ) : null}
       {chiXem ? null : mission.status === "todo" ? (
         <div className="shrink-0">
           <Button size="sm" variant="success" disabled={isPending} onClick={accept}>

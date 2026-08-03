@@ -52,16 +52,40 @@ export function CreateMissionDialog({
   // đúng form trắng. Trước đây chỉ xoá mỗi tên nhiệm vụ, nên chỉ tiêu / đơn vị
   // / EXP / hạn của lần trước còn nguyên ở lần mở sau — người dùng tưởng hệ
   // thống tự điền lung tung.
+  // Loại nhiệm vụ gộp cả `type` lẫn cờ `fixed` vào MỘT lựa chọn.
+  //
+  // Trước đây hộp thoại này luôn gửi fixed:false nên mọi việc tạo ở đây đều ra
+  // "Bonus", còn bấm nút mẫu ở trang Mục tiêu mới ra "Daily" — cùng một việc
+  // quay video giao bằng hai đường lại thành hai loại khác nhau. Giờ người
+  // giao chọn thẳng, nhãn phản ánh đúng ý định.
+  const LOAI = {
+    tuan: {
+      nhan: "Nhiệm vụ tuần (KPI khối lượng)",
+      type: "tuan" as const,
+      fixed: false,
+      exp: "300",
+    },
+    daily: {
+      nhan: "Nhiệm vụ Daily (việc lặp hằng ngày)",
+      type: "ngay" as const,
+      fixed: true,
+      exp: "40",
+    },
+    bonus: { nhan: "Nhiệm vụ Bonus (giao thêm)", type: "ngay" as const, fixed: false, exp: "80" },
+  };
+  type MaLoai = keyof typeof LOAI;
+
   const macDinh = {
-    type: (isCampaign ? "chien_dich" : "tuan") as Enums<"mission_type">,
+    loai: "tuan" as MaLoai,
     target: "10",
     unit: isCampaign ? "khách hàng" : "đơn vị",
-    exp: isCampaign ? "2000" : "300",
+    // Chiến dịch là việc lớn cấp công ty nên thang điểm khác hẳn nhiệm vụ thường.
+    exp: isCampaign ? "2000" : LOAI.tuan.exp,
     deadline: ngayCuoiTuan(),
   };
 
   const [missionTitle, setMissionTitle] = useState("");
-  const [type, setType] = useState<Enums<"mission_type">>(macDinh.type);
+  const [loai, setLoai] = useState<MaLoai>(macDinh.loai);
   const [parentId, setParentId] = useState<string>("");
   const [assigneeIds, setAssigneeIds] = useState<string[]>([]);
   const [target, setTarget] = useState(macDinh.target);
@@ -72,7 +96,7 @@ export function CreateMissionDialog({
 
   function xoaForm() {
     setMissionTitle("");
-    setType(macDinh.type);
+    setLoai(macDinh.loai);
     setParentId("");
     setAssigneeIds([]);
     setTarget(macDinh.target);
@@ -97,14 +121,14 @@ export function CreateMissionDialog({
     startTransition(async () => {
       const res = await createMissionAction({
         title: missionTitle.trim(),
-        type,
+        type: isCampaign ? "chien_dich" : LOAI[loai].type,
         parentId: parentId || null,
         assigneeIds,
         target: Number(target) || 1,
         unit: unit.trim() || "đơn vị",
         exp: Number(exp) || 100,
         deadline,
-        fixed: false,
+        fixed: isCampaign ? false : LOAI[loai].fixed,
       });
       if (!res.ok) {
         toast.error("Lỗi", { description: res.error });
@@ -142,15 +166,26 @@ export function CreateMissionDialog({
 
           {!isCampaign ? (
             <TruongNhap nhan="Loại">
-              <Select value={type} onValueChange={(v) => setType(v as Enums<"mission_type">)}>
+              <Select
+                value={loai}
+                onValueChange={(v) => {
+                  const m = v as MaLoai;
+                  setLoai(m);
+                  // Kéo EXP về mức chuẩn của loại vừa chọn. Trước đây mọi loại
+                  // đều mặc định 300 — cao hơn hẳn mẫu Daily (30–80), ai không
+                  // để ý là phát điểm rộng tay gấp mấy lần.
+                  setExp(LOAI[m].exp);
+                }}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="tuan">Nhiệm vụ tuần (KPI khối lượng)</SelectItem>
-                  {/* Hộp thoại này luôn gửi fixed:false nên nhiệm vụ tạo ra là
-                      loại Bonus — nhãn phải nói đúng thứ người dùng sẽ thấy. */}
-                  <SelectItem value="ngay">Nhiệm vụ Bonus</SelectItem>
+                  {(Object.keys(LOAI) as MaLoai[]).map((k) => (
+                    <SelectItem key={k} value={k}>
+                      {LOAI[k].nhan}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </TruongNhap>
@@ -176,11 +211,7 @@ export function CreateMissionDialog({
           <TruongNhap
             nhan={`Giao cho${assigneeIds.length > 0 ? ` (${assigneeIds.length} người)` : ""}`}
           >
-            <ChonNhieuNguoi
-              danhSach={targets}
-              daChon={assigneeIds}
-              onDoiChon={setAssigneeIds}
-            />
+            <ChonNhieuNguoi danhSach={targets} daChon={assigneeIds} onDoiChon={setAssigneeIds} />
           </TruongNhap>
 
           <div className="grid grid-cols-3 gap-4">
@@ -210,11 +241,7 @@ export function CreateMissionDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Hủy
           </Button>
-          <Button
-            onClick={submit}
-            disabled={isPending}
-           
-          >
+          <Button onClick={submit} disabled={isPending}>
             {isPending ? (
               "Đang gửi…"
             ) : (
